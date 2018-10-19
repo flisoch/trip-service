@@ -1,4 +1,4 @@
-package main.java.ru.itis.trip.servlets;
+package ru.itis.trip.servlets;
 
 import java.io.IOException;
 import javax.servlet.http.*;
