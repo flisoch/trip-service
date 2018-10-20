@@ -5,6 +5,6 @@ import ru.itis.trip.entities.UserComment;
 
 import java.util.List;
 
-public interface UserCommentDao {
+public interface UserCommentDao extends Dao<UserComment>{
     List<UserComment> getUserComments(User user);
 }
