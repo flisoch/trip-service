@@ -14,6 +14,7 @@ import lombok.NoArgsConstructor;
 ФИО, адрес проживания, место работы, возраст, фото, дополнительная информация.
  */
 public class User {
+    Long id;
     String email;
     String hashedPassword;
     String name;

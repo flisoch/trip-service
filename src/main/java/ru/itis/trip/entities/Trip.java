@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 public class Trip {
+    Long id;
     User iniciator;
     String departurePoint;
     String arrivalPoint;

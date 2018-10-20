@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 public class TripComment {
+    Long id;
     User commentator;
     Trip trip;
     String text;
