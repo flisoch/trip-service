@@ -18,5 +18,6 @@ public class Trip {
     String time;
     int seatsNumber;
     boolean hasEmptySeats;
+    boolean expired;
 
 }
