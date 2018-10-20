@@ -101,16 +101,17 @@
                     <form method="POST">
                         <div class="form-group">
                             <label for="username">Имя пользователя</label>
-                            <input type="text" class="form-control" id="username" onchange="validUsername('username');" placeholder="vasya1234" required>
+                            <input type="text" name="username" class="form-control" id="username" onchange="validUsername('username');"
+                                placeholder="vasya1234" required>
                         </div>
                         <div class="form-group">
                             <label for="useremail">Электронная почта</label>
-                            <input type="email" class="form-control" id="useremail" placeholder="user@example.com"
+                            <input type="email" name="email" class="form-control" id="useremail" placeholder="user@example.com"
                                 required>
                         </div>
                         <div class="form-group">
                             <label for="password">Пароль</label>
-                            <input type="password" class="form-control" id="password" onchange="validatePassword();"
+                            <input type="password" name="password" class="form-control" id="password" onchange="validatePassword();"
                                 placeholder="qwerty" required>
 
                             <label for="password2">Повторите пароль</label>
