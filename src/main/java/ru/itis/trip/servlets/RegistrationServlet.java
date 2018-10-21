@@ -1,5 +1,6 @@
 package ru.itis.trip.servlets;
 
+import ru.itis.trip.entities.User;
 import ru.itis.trip.forms.ProfileForm;
 import ru.itis.trip.helpers.RenderHelper;
 import ru.itis.trip.services.UserService;
@@ -20,21 +21,25 @@ public class RegistrationServlet extends javax.servlet.http.HttpServlet {
         super.init(config);
         ServletContext context = config.getServletContext();
         userService = (UserService) context.getAttribute("userService");
-        System.out.println(userService);
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String email = request.getParameter("email");
         String password = request.getParameter("password");
-        String firstName = request.getParameter("username");
+        String username = request.getParameter("username");
         ProfileForm form = ProfileForm.builder()
                 .email(email)
                 .password(password)
-                .name(firstName)
+                .username(username)
                 .build();
 
-        userService.signUp(form);
-        response.sendRedirect("/auth");
+        User user = userService.signUp(form);
+        if(user != null){
+            userService.authorize(request,user);
+            response.sendRedirect("/profile");
+            return;
+        }
+        response.sendRedirect("/registration");
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
