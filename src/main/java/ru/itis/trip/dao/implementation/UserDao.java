@@ -13,14 +13,14 @@ import java.util.Optional;
 public class UserDao implements ru.itis.trip.dao.UserDao {
 
     private static final String SQL_CREATE_QUERY = "INSERT INTO service_user(email, hash_password, " +
-            "first_name, surname, working_place, age, additional_info, photo, address) VALUES (?,?,?,?,?,?,?,?,?,?)";
+            "first_name) VALUES (?,?,?)";
     private static final String SQL_UPDATE_QUERY = "UPDATE service_user SET VALUES (email = ?, hash_password = ?, " +
             "first_name = ?, surname = ?, working_place = ?, age = ?, additional_info = ?, photo = ?, address = ?)";
     private static final String SQL_DELETE_QUERY = "DELETE FROM service_user WHERE id = ?";
     private static final String SQL_SELECT_BY_ID_QUERY = "SELECT * from service_user where id = ?";
     private static final String SQL_SELECT_BY_NAME_QUERY = "SELECT * from service_user where name = ?";
 
-    Connection connection;
+    private Connection connection;
 
     private RowMapper<User> userMapper = new RowMapper<User>() {
         @Override
@@ -63,21 +63,16 @@ public class UserDao implements ru.itis.trip.dao.UserDao {
     @Override
     public void create(User model) {
         try {
-
+            System.out.println(connection);
             PreparedStatement preparedStatement =
                     connection.prepareStatement(SQL_CREATE_QUERY, PreparedStatement.RETURN_GENERATED_KEYS);
 
             preparedStatement.setString(1,model.getEmail());
             preparedStatement.setString(2,model.getHashedPassword());
             preparedStatement.setString(3,model.getName());
-            preparedStatement.setString(4,model.getSurname());
-            preparedStatement.setString(5,model.getJob());
-            preparedStatement.setInt(6,model.getAge());
-            preparedStatement.setString(7,model.getAdditionalInfo());
-            preparedStatement.setString(8,model.getPhoto());
-            preparedStatement.setString(9,model.getAddress());
             preparedStatement.execute();
             ResultSet resultSet = preparedStatement.getGeneratedKeys();
+            resultSet.next();
             model.setId(resultSet.getLong("id"));
         } catch (SQLException e) {
             e.printStackTrace();
