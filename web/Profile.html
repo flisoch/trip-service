@@ -28,172 +28,172 @@
 
 <body>
 
-    <!-- NAVBAR -->
-    <div class="container fixed-top">
-        <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark">
-            <div class="container">
-                <a class="navbar-brand" href="#">TripService</a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+<!-- NAVBAR -->
+<div class="container fixed-top">
+    <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href="#">TripService</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
                     aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
+                <span class="navbar-toggler-icon"></span>
+            </button>
 
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul class="navbar-nav mr-auto">
-                        <li class="nav-item active">
-                            <a class="nav-link" href="#">
-                                Домой
-                                <!-- <span class="sr-only">(current)</span> -->
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Link</a>
-                        </li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
-                                aria-haspopup="true" aria-expanded="false">
-                                Меню
-                            </a>
-                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <a class="dropdown-item" href="#">Раз</a>
-                                <a class="dropdown-item" href="#">Два</a>
-                                <a class="dropdown-item" href="#">Три</a>
-                                <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="#">Просто магия какаяя-то!</a>
-                            </div>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link disabled" href="#">Только для авторизованных</a>
-                        </li>
-                    </ul>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="#">
+                            Домой
+                            <!-- <span class="sr-only">(current)</span> -->
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Link</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+                           aria-haspopup="true" aria-expanded="false">
+                            Меню
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="#">Раз</a>
+                            <a class="dropdown-item" href="#">Два</a>
+                            <a class="dropdown-item" href="#">Три</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="#">Просто магия какаяя-то!</a>
+                        </div>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link disabled" href="#">Только для авторизованных</a>
+                    </li>
+                </ul>
 
-                    <form class="form-inline my-2 my-lg-0 mr-auto">
-                        <input class="form-control mr-sm-2" type="search" placeholder="например, Казань" aria-label="Search">
-                        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Поиск</button>
-                    </form>
+                <form class="form-inline my-2 my-lg-0 mr-auto">
+                    <input class="form-control mr-sm-2" type="search" placeholder="например, Казань" aria-label="Search">
+                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Поиск</button>
+                </form>
 
-                    <ul class="navbar-nav ">
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Войти</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Зарегистрироваться</a>
-                        </li>
-                    </ul>
-                </div>
+                <ul class="navbar-nav ">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Войти</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Зарегистрироваться</a>
+                    </li>
+                </ul>
             </div>
-        </nav>
-    </div>
-    <!-- /NAVBAR -->
+        </div>
+    </nav>
+</div>
+<!-- /NAVBAR -->
 
-    <div class="container">
-        <div class="row">
+<div class="container">
+    <div class="row">
 
-            <!-- CONTENT -->
+        <!-- CONTENT -->
 
-            <div class="col"></div>
-            <div class="card">
+        <div class="col"></div>
+        <div class="card">
 
-                <div class="card-header">
-                    Профиль
-                </div>
+            <div class="card-header">
+                Профиль
+            </div>
 
-                <div class="card-body">
-                    <form action="/profile" method="POST">
+            <div class="card-body">
+                <form action="/profile" method="POST">
 
-                        <div class="form-row">
-                            <div class="form-group col-auto">
-                                <label for="profile-pic">Фото профиля</label>
-                                <input class="disabled" type="file" name="profile_picture">
-                            </div>
+                    <div class="form-row">
+                        <div class="form-group col-auto">
+                            <label for="profile_picture">Фото профиля</label>
+                            <input class="disabled" type="file" name="profile_picture" id="profile_picture"><!--не былоid-->
                         </div>
+                    </div>
 
 
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label for="username">Имя пользователя</label>
-                                <input type="text" class="form-control disabled" id="username" placeholder="vasya1234"
-                                    disabled>
-                            </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="username">Имя пользователя</label>
+                            <input type="text" class="form-control disabled" id="username" placeholder="vasya1234"
+                                   disabled>
                         </div>
+                    </div>
 
-                        <div class="form-row">
-                            <div class="form-group col-auto">
-                                <label for="firstname">Имя</label>
-                                <input type="text" class="form-control disabled" id="firstname" value="Виталий"
-                                    disabled>
-                            </div>
-                            <div class="form-group col-auto">
-                                <label for="middlename">Отчество</label>
-                                <input type="text" class="form-control disabled" id="middlename" value="Компьютер"
-                                    disabled>
-                            </div>
-                            <div class="form-group col-auto">
-                                <label for="lastname">Фамилия</label>
-                                <input type="text" class="form-control disabled" id="lastname" value="Компьютер"
-                                    disabled>
-                            </div>
+                    <div class="form-row">
+                        <div class="form-group col-auto">
+                            <label for="firstname">Имя</label>
+                            <input type="text" class="form-control disabled" id="firstname" value="Виталий"
+                                   disabled>
                         </div>
-
-                        <div class="form-row">
-                            <div class="form-group col-auto">
-                                <label for="password">Пароль</label>
-                                <input type="password" name="password" class="form-control disabled" id="password"
-                                    placeholder="qwerty" disabled>
-                            </div>
-                            <div class="form-group col-auto">
-                                <label for="confirm-password">Повторите пароль</label>
-                                <input type="confirm-password" class="form-control disabled" id="password" value="qwerty"
-                                    disabled>
-                            </div>
+                        <div class="form-group col-auto">
+                            <label for="middlename">Отчество</label>
+                            <input type="text" class="form-control disabled" id="middlename" value="Компьютер"
+                                   disabled>
                         </div>
-
-                        <div class="form-row">
-                            <div class="form-group col-auto">
-                                <label for="age">Возраст</label>
-                                <input type="number" name="age" min="10" max="137" class="form-control disabled" id="age"
-                                    value="38" disabled>
-                            </div>
-
-                            <div class="form-group col-auto">
-                                <label for="working-place">Место работы</label>
-                                <input type="text" class="form-control disabled" id="working-place" value="McDonalds"
-                                    disabled>
-                            </div>
+                        <div class="form-group col-auto">
+                            <label for="lastname">Фамилия</label>
+                            <input type="text" class="form-control disabled" id="lastname" value="Компьютер"
+                                   disabled>
                         </div>
+                    </div>
 
-                        <div class="form-row">
-                            <div class="form-group col-auto">
-                                <label for="inputAddress">Адрес</label>
-                                <input type="text" name="address" class="form-control disabled" id="inputAddress" value="ул. Пушкина, д. Колотушкина"
-                                    disabled>
-                            </div>
+                    <div class="form-row">
+                        <div class="form-group col-auto">
+                            <label for="password">Пароль</label>
+                            <input type="password" name="password" class="form-control disabled" id="password"
+                                   placeholder="qwerty" disabled>
+                        </div>
+                        <div class="form-group col-auto">
+                            <label for="confirm-password">Повторите пароль</label><!--//было не так: тип, айди-->
+                            <input type="password" class="form-control disabled" id="confirm-password" value="qwerty"
+                                   disabled>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group col-auto">
+                            <label for="age">Возраст</label>
+                            <input type="number" name="age" min="10" max="137" class="form-control disabled" id="age"
+                                   value="38" disabled>
                         </div>
 
                         <div class="form-group col-auto">
-                            <label for="bio">О себе</label>
-                            <textarea class="form-control disabled" id="bio" rows="3" disabled>У меня есть родинка на ухе</textarea>
+                            <label for="working-place">Место работы</label>
+                            <input type="text" class="form-control disabled" id="working-place" value="McDonalds"
+                                   disabled>
                         </div>
+                    </div>
 
-                        <div class="form-group">
-
-                            <input type="submit" class="btn btn-primary disabled" value="Сохранить изменения" disabled>
-                            <input type="reset" class="btn btn-warning disabled" value="Вернуть, как было" disabled>
+                    <div class="form-row">
+                        <div class="form-group col-auto">
+                            <label for="inputAddress">Адрес</label>
+                            <input type="text" name="address" class="form-control disabled" id="inputAddress" value="ул. Пушкина, д. Колотушкина"
+                                   disabled>
                         </div>
+                    </div>
 
-                        <button type="button" class="btn btn-primary" onclick="enable();">Изменить</button>
-                    </form>
-                </div>
+                    <div class="form-group col-auto">
+                        <label for="bio">О себе</label>
+                        <textarea class="form-control disabled" id="bio" rows="3" disabled>У меня есть родинка на ухе</textarea>
+                    </div>
 
+                    <div class="form-group">
 
+                        <input type="submit" class="btn btn-primary disabled" value="Сохранить изменения" disabled>
+                        <input type="reset" class="btn btn-warning disabled" value="Вернуть, как было" disabled>
+                    </div>
+
+                    <button type="button" class="btn btn-primary" onclick="enable();">Изменить</button>
+                </form>
             </div>
-            <div class="col"></div>
-
-            <!-- /CONTENT -->
 
 
         </div>
+        <div class="col"></div>
+
+        <!-- /CONTENT -->
+
+
     </div>
+</div>
 
 
 </body>
