@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 public class Trip {
+    Long id;
     User iniciator;
     String departurePoint;
     String arrivalPoint;
@@ -18,5 +19,6 @@ public class Trip {
     String time;
     int seatsNumber;
     boolean hasEmptySeats;
+    boolean expired;
 
 }

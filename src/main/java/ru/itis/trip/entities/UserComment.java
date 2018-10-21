@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 public class UserComment {
+    Long id;
     User commentator;
     User commentatee;
     String text;
