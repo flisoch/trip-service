@@ -19,6 +19,8 @@ public class UserDao implements ru.itis.trip.dao.UserDao {
     private static final String SQL_SELECT_BY_ID_QUERY = "SELECT * from service_user where id = ?";
     private static final String SQL_SELECT_BY_USERNAME_QUERY = "SELECT * from service_user where username = ?";
     private static final String SQL_SELECT_BY_EMAIL_QUERY = "SELECT * from service_user where email = ?";
+    private static final String INSERT_TOKEN = "UPDATE service_user SET token = ? WHERE id = ?";
+    private static final String SQL_SELECT_BY_TOKEN_QUERY = "SELECT * from service_user where token = ?";
 
     private Connection connection;
 
@@ -135,7 +137,6 @@ public class UserDao implements ru.itis.trip.dao.UserDao {
     @Override
     public Optional<User> getByUsername(String username) {
         try {
-            System.out.println(username);
             PreparedStatement statement = connection.prepareStatement(SQL_SELECT_BY_USERNAME_QUERY);
             statement.setString(1,username);
             ResultSet resultSet = statement.executeQuery();
@@ -146,5 +147,38 @@ public class UserDao implements ru.itis.trip.dao.UserDao {
             e.printStackTrace();
         }
         return Optional.empty();
+    }
+
+
+    @Override
+    public Optional<User> getByToken(String token) {
+        try {
+            PreparedStatement statement = connection.prepareStatement(SQL_SELECT_BY_TOKEN_QUERY);
+            statement.setString(1,token);
+            ResultSet resultSet = statement.executeQuery();
+            resultSet.next();
+            User user = userMapper.rowMap(resultSet);
+            return Optional.of(user);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return Optional.empty();
+    }
+
+
+    @Override
+    public boolean addToken(User user, String token) {
+        try {
+            PreparedStatement preparedStatement =
+                    connection.prepareStatement(INSERT_TOKEN);
+
+            preparedStatement.setString(1,token);
+            preparedStatement.setLong(2,user.getId());
+            preparedStatement.execute();
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 }
