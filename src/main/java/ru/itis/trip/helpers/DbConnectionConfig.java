@@ -12,10 +12,8 @@ public class DbConnectionConfig {
     private static Connection connection;
 
     public static Connection getConnection() {
-        System.out.println("in connection");
         if(connection == null){
             try {
-                System.out.println("in connection1");
                 Class.forName("org.postgresql.Driver");
                 connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
             } catch (SQLException e) {
@@ -24,7 +22,6 @@ public class DbConnectionConfig {
                 e.printStackTrace();
             }
         }
-        System.out.println(connection);
         return connection;
     }
 }
