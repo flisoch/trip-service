@@ -31,7 +31,7 @@
 
                     <form method="POST">
                         <div class="form-group">
-                            <label for="username">User's name <!--Имя пользователя--></label>
+                            <label for="username">Username <!--Имя пользователя--></label>
                             <input type="text" name="username" class="form-control" id="username" onchange="validUsername('username');"
                                    placeholder="vasya1234" required>
                         </div>

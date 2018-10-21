@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 public class LoginForm {
+    private String username;
     private String email;
     private String password;
 }
