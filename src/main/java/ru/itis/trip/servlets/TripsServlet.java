@@ -11,7 +11,6 @@ PATCH /trips{id}   -edit the trip
 DELETE /trips/{id}
 GET /trips/{id} -get the trip
  */
-@WebServlet("/trips/*")
 public class TripsServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 

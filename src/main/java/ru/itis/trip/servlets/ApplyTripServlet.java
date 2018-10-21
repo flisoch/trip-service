@@ -6,7 +6,6 @@ import javax.servlet.http.*;
 import javax.servlet.ServletException;
 
 //POST /trips/{id}/apply
-@WebServlet("/trips/*")
 public class ApplyTripServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
