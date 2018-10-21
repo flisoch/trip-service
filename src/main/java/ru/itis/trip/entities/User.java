@@ -15,6 +15,7 @@ import lombok.NoArgsConstructor;
  */
 public class User {
     Long id;
+    String username;
     String email;
     String hashedPassword;
     String name;

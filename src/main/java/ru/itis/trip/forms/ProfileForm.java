@@ -13,6 +13,7 @@ import lombok.NoArgsConstructor;
 public class ProfileForm {
     String email;
     String password;
+    String username;
 
     String name;
     String surname;
