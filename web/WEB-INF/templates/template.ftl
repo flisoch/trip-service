@@ -50,7 +50,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">Ссылка</a>
+                            <a class="nav-link" href="#">nav-link</a>
                         </li>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
@@ -59,11 +59,11 @@
                                 Menu
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <a class="dropdown-item" href="#">Раз</a>
-                                <a class="dropdown-item" href="#">Два</a>
-                                <a class="dropdown-item" href="#">Три</a>
+                                <a class="dropdown-item" href="#">One</a>
+                                <a class="dropdown-item" href="#">Two</a>
+                                <a class="dropdown-item" href="#">Three</a>
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="#">Просто магия какаяя-то!</a>
+                                <a class="dropdown-item" href="#">Just some kind of magic!</a>
                             </div>
                         </li>
                         <li class="nav-item">
@@ -83,11 +83,11 @@
                     <ul class="navbar-nav ">
                         <li class="nav-item">
                             <#--<a class="nav-link" href="#">Войти</a>-->
-                            <a class="nav-link" href="#">Log in</a>
+                            <a class="nav-link" href="/auth">Log in</a>
 
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">Registration</a>
+                            <a class="nav-link" href="/registration">Registration</a>
 
                             <#--<a class="nav-link" href="#">Зарегистрироваться</a>-->
                         </li>
