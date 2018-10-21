@@ -60,7 +60,7 @@ public class UserCommentDao implements ru.itis.trip.dao.UserCommentDao {
     }
 
     @Override
-    public void create(UserComment model) {
+    public boolean create(UserComment model) {
         try {
             PreparedStatement preparedStatement =
                     connection.prepareStatement(CREATE_QUERY, PreparedStatement.RETURN_GENERATED_KEYS);
@@ -72,9 +72,11 @@ public class UserCommentDao implements ru.itis.trip.dao.UserCommentDao {
             preparedStatement.execute();
             ResultSet resultSet = preparedStatement.getGeneratedKeys();
             model.setId(resultSet.getLong("id"));
+            return true;
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return false;
     }
 
     @Override

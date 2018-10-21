@@ -12,13 +12,13 @@ import java.util.Optional;
 
 public class UserDao implements ru.itis.trip.dao.UserDao {
 
-    private static final String SQL_CREATE_QUERY = "INSERT INTO service_user(email, hash_password, " +
-            "first_name) VALUES (?,?,?)";
-    private static final String SQL_UPDATE_QUERY = "UPDATE service_user SET VALUES (email = ?, hash_password = ?, " +
-            "first_name = ?, surname = ?, working_place = ?, age = ?, additional_info = ?, photo = ?, address = ?)";
+    private static final String SQL_CREATE_QUERY = "INSERT INTO service_user(email, hash_password, username) VALUES (?,?,?)";
+    private static final String SQL_UPDATE_QUERY = "UPDATE service_user SET VALUES (username = ?, email = ?, hash_password = ?, " +
+            "name = ?, surname = ?, working_place = ?, age = ?, additional_info = ?, photo = ?, address = ?)";
     private static final String SQL_DELETE_QUERY = "DELETE FROM service_user WHERE id = ?";
     private static final String SQL_SELECT_BY_ID_QUERY = "SELECT * from service_user where id = ?";
-    private static final String SQL_SELECT_BY_NAME_QUERY = "SELECT * from service_user where name = ?";
+    private static final String SQL_SELECT_BY_USERNAME_QUERY = "SELECT * from service_user where username = ?";
+    private static final String SQL_SELECT_BY_EMAIL_QUERY = "SELECT * from service_user where email = ?";
 
     private Connection connection;
 
@@ -28,10 +28,11 @@ public class UserDao implements ru.itis.trip.dao.UserDao {
         public User rowMap(ResultSet resultSet) {
             return User.builder()
                     .id(resultSet.getLong("id"))
+                    .username(resultSet.getString("username"))
                     .email(resultSet.getString("email"))
                     .hashedPassword(resultSet.getString("hash_password"))
-                    .name(resultSet.getString("first_name"))
-                    .surname(resultSet.getString("last_name"))
+                    .name(resultSet.getString("name"))
+                    .surname(resultSet.getString("surname"))
                     .job(resultSet.getString("working_place"))
                     .photo(resultSet.getString("photo"))
                     .age(resultSet.getInt("age"))
@@ -61,21 +62,24 @@ public class UserDao implements ru.itis.trip.dao.UserDao {
     }*/
 
     @Override
-    public void create(User model) {
+    public boolean create(User model) {
+
         try {
-            System.out.println(connection);
             PreparedStatement preparedStatement =
                     connection.prepareStatement(SQL_CREATE_QUERY, PreparedStatement.RETURN_GENERATED_KEYS);
 
             preparedStatement.setString(1,model.getEmail());
             preparedStatement.setString(2,model.getHashedPassword());
-            preparedStatement.setString(3,model.getName());
+            preparedStatement.setString(3,model.getUsername());
             preparedStatement.execute();
+
             ResultSet resultSet = preparedStatement.getGeneratedKeys();
             resultSet.next();
             model.setId(resultSet.getLong("id"));
+            return true;
         } catch (SQLException e) {
             e.printStackTrace();
+            return false;
         }
     }
 
@@ -85,6 +89,7 @@ public class UserDao implements ru.itis.trip.dao.UserDao {
             PreparedStatement statement = connection.prepareStatement(SQL_SELECT_BY_ID_QUERY);
             statement.setLong(1,id);
             ResultSet resultSet = statement.executeQuery();
+            resultSet.next();
             User user = userMapper.rowMap(resultSet);
             return Optional.of(user);
         } catch (SQLException e) {
@@ -125,5 +130,21 @@ public class UserDao implements ru.itis.trip.dao.UserDao {
             e.printStackTrace();
         }
 
+    }
+
+    @Override
+    public Optional<User> getByUsername(String username) {
+        try {
+            System.out.println(username);
+            PreparedStatement statement = connection.prepareStatement(SQL_SELECT_BY_USERNAME_QUERY);
+            statement.setString(1,username);
+            ResultSet resultSet = statement.executeQuery();
+            resultSet.next();
+            User user = userMapper.rowMap(resultSet);
+            return Optional.of(user);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return Optional.empty();
     }
 }

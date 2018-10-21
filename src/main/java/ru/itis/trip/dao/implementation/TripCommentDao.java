@@ -63,7 +63,7 @@ public class TripCommentDao implements ru.itis.trip.dao.TripCommentDao {
     }
 
     @Override
-    public void create(TripComment model) {
+    public boolean create(TripComment model) {
         try {
             PreparedStatement preparedStatement =
                     connection.prepareStatement(CREATE_QUERY, PreparedStatement.RETURN_GENERATED_KEYS);
@@ -75,8 +75,10 @@ public class TripCommentDao implements ru.itis.trip.dao.TripCommentDao {
             preparedStatement.execute();
             ResultSet resultSet = preparedStatement.getGeneratedKeys();
             model.setId(resultSet.getLong("id"));
+            return true;
         } catch (SQLException e) {
             e.printStackTrace();
+            return false;
         }
     }
 

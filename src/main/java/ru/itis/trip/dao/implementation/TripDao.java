@@ -127,7 +127,7 @@ public class TripDao implements ru.itis.trip.dao.TripDao {
     }
 
     @Override
-    public void create(Trip model) {
+    public boolean create(Trip model) {
         try {
             PreparedStatement preparedStatement =
                     connection.prepareStatement(CREATE_QUERY, PreparedStatement.RETURN_GENERATED_KEYS);
@@ -141,8 +141,10 @@ public class TripDao implements ru.itis.trip.dao.TripDao {
             preparedStatement.execute();
             ResultSet resultSet = preparedStatement.getGeneratedKeys();
             model.setId(resultSet.getLong("id"));
+            return true;
         } catch (SQLException e) {
             e.printStackTrace();
+            return false;
         }
     }
 
