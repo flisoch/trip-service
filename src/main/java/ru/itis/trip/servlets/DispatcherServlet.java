@@ -50,7 +50,7 @@ public class DispatcherServlet extends HttpServlet {
 
         for (Pair<Pattern, HttpServlet> pair : map) {
             if (pair.getKey().matcher(uri).matches()) {
-                pair.getValue().init();
+                pair.getValue().init(getServletConfig());
                 pair.getValue().service(req, resp);
                 return;
             }
