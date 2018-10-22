@@ -32,10 +32,10 @@ public class RegistrationServlet extends javax.servlet.http.HttpServlet {
                 .password(password)
                 .username(username)
                 .build();
-
+        //Todo:form validation
         User user = userService.signUp(form);
         if(user != null){
-            userService.authorize(request,user);
+            userService.authorize(user, request, response);
             response.sendRedirect("/profile");
             return;
         }

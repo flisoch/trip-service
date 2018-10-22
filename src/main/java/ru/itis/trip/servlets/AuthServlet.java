@@ -34,9 +34,10 @@ public class AuthServlet extends HttpServlet {
                 .username(username)
                 .password(password)
                 .build();
+        //validate form somewhere
         User current_user = userService.signIn(loginForm);
-        userService.authorize(request,current_user);
         if(current_user != null){
+            userService.authorize(current_user, request, response);
             response.sendRedirect("/profile");
             return;
         }
