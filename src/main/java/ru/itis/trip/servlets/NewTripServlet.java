@@ -6,13 +6,12 @@ import javax.servlet.http.*;
 import javax.servlet.ServletException;
 
 
-//GET /trips/{id}/edit
-public class EditTripFormServlet extends HttpServlet {
+public class NewTripServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        response.getWriter().write("edit Trip form");
+        response.getWriter().write("newTripForm");
     }
 }

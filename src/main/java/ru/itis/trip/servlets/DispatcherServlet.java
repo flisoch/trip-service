@@ -20,8 +20,8 @@ public class DispatcherServlet extends HttpServlet {
     public void init() {
         
         map = new LinkedList<>();
-        addPattern("/trips/new", new NewTripFormServlet());
-        addPattern("/trips/([1-9][0-9]*)/edit", new EditTripFormServlet());
+        addPattern("/trips/new", new NewTripServlet());
+        addPattern("/trips/([1-9][0-9]*)/edit", new EditTripServlet());
         addPattern("/trips/([1-9][0-9]*)", new TripsServlet());
         addPattern("/trips", new TripsServlet());
         addPattern("/trips/([1-9][0-9]*)/apply", new ApplyTripServlet());
@@ -30,7 +30,7 @@ public class DispatcherServlet extends HttpServlet {
         addPattern("/profile/([1-9][0-9]*)/comments", new ProfileCommentServlet());
         addPattern("/trips/search*",new TripSearchServlet());
 
-        addPattern("/profile/([1-9][0-9]*)/edit", new EditProfileForm());
+        addPattern("/profile/edit", new EditProfileServlet());
         addPattern("/profile/([1-9][0-9]*)", new ProfileServlet());
         addPattern("/profile", new ProfileServlet());
 
