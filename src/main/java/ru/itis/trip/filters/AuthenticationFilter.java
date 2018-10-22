@@ -1,5 +1,6 @@
 package ru.itis.trip.filters;
 
+import ru.itis.trip.services.UserService;
 import ru.itis.trip.util.Pair;
 
 import javax.servlet.*;
@@ -26,10 +27,11 @@ public class AuthenticationFilter implements Filter {
         String loginURI = request.getContextPath() + "/auth";
         String regURI = request.getContextPath() + "/registration";
 
+        UserService userService = (UserService)req.getServletContext().getAttribute("userService");
+
         Pattern staticFilePattern = Pattern.compile("/static/.*(css|js)");
         boolean isStaticFile = staticFilePattern.matcher(requestURI).matches();
-
-        boolean loggedIn = session != null && session.getAttribute("current_user") != null;
+        boolean loggedIn = userService.getCurrentUser(request) != null;
         boolean regRequest = requestURI.equals(regURI);
         boolean loginRequest = requestURI.equals(loginURI);
 
