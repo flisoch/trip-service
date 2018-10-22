@@ -15,6 +15,7 @@ import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Date;
+import java.util.Optional;
 
 public class UserServiceImpl implements UserService {
 
@@ -44,7 +45,11 @@ public class UserServiceImpl implements UserService {
             Cookie[] cookies = request.getCookies();
             for (Cookie cookie: cookies){
                 if(cookie.getName().equals("remember_me")){
-                    user = userDao.getByToken((String)cookie.getValue()).get();
+                    Optional<User> userDb = userDao.getByToken(cookie.getValue());
+                    if(userDb.isPresent()){
+                        user = userDb.get();
+                        request.getSession().setAttribute("current_user", user);
+                    }
                 }
             }
         }
@@ -71,6 +76,23 @@ public class UserServiceImpl implements UserService {
         if(request.getParameter("remember_me") != null) {
             addToken(current_user, response);
         }
+    }
+
+    @Override
+    public void updateUser(User user, ProfileForm profileForm) {
+        String password = profileForm.getPassword();
+        if(!password.equals("")){
+            user.setHashedPassword(hash(password));
+        }
+        user.setAddress(profileForm.getAddress());
+        user.setUsername(profileForm.getUsername());
+        user.setAge(profileForm.getAge());
+        user.setLastname(profileForm.getSurname());
+        user.setMiddlename(profileForm.getMiddlename());
+        user.setJob(profileForm.getJob());
+        user.setAdditionalInfo(profileForm.getAdditionalInfo());
+        user.setName(profileForm.getName());
+        userDao.update(user);
     }
 
     private String createToken(String username) {

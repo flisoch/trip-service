@@ -13,4 +13,6 @@ public interface UserService {
     User signIn(LoginForm loginForm);
 
     void authorize(User current_user, HttpServletRequest request, HttpServletResponse response);
+
+    void updateUser(User user, ProfileForm profileForm);
 }
