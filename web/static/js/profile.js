@@ -1,3 +1,4 @@
 const enable = () => {
-    $('.disabled').prop('disabled', false);
+    $('.disable').prop('disabled', false);
 }
+$('.disable').prop('disabled', true);

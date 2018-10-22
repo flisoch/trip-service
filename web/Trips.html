@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
-    <title>Авторизация</title>
+    <title>Поездки</title>
 
     <!-- web -->
     <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
@@ -20,7 +20,18 @@
     <script src="./static/js/bootstrap.bundle.min.js" defer></script>
     <script src="./static/js/bootstrap.min.js" defer></script>
 
+    <script src="./static/js/trip.js"></script>
+
     <link rel="stylesheet" href="./static/css/style.css">
+
+    <style>
+        .card {
+            display: inline-block;
+            max-width: 32%;
+        }
+    </style>
+
+
 
 </head>
 
@@ -38,7 +49,7 @@
 
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav mr-auto">
-                        <li class="nav-item">
+                        <li class="nav-item active">
                             <a class="nav-link" href="#">
                                 Поездки
                                 <!-- <span class="sr-only">(current)</span> -->
@@ -71,7 +82,7 @@
                     </form>
 
                     <ul class="navbar-nav ">
-                        <li class="nav-item active">
+                        <li class="nav-item">
                             <a class="nav-link" href="#">Войти</a>
                         </li>
                         <li class="nav-item">
@@ -88,43 +99,68 @@
         <div class="row">
 
             <!-- CONTENT -->
-            <div class="col"></div>
 
-            <div class="card text-center" style="width: 20rem;">
-                <div class="card-header h4">
-                    Авторизация
+            <div class="container" style="display: block;">
+                <div class="card">
+                    <h5 class="card-header">
+                        Казань
+                    </h5>
+                    <div class="card-body">
+                        <h5 class="card-title">Special title treatment</h5>
+                        <p class="card-text">
+                            Откуда: магазин пятёрочка возле вокзала<br>
+                            Докуда: центр города, где тц<br>
+                            Свободные места: 1<br>
+                        </p>
+                        <a href="#" class="btn btn-primary" onclick="apply(1);">Записаться</a>
+                    </div>
                 </div>
 
-                <div class="card-body">
-                    <form action="fill_this" method="POST">
-                        <div class="form-group">
-                            <label for="username">Имя пользователя</label>
-                            <input type="text" name="username" class="form-control" id="username" placeholder="vasya1234"
-                                required>
-                        </div>
-                        <div class="form-group">
-                            <label for="password">Пароль</label>
-                            <input type="password" name="password" class="form-control" id="password" placeholder="qwerty"
-                                required>
-                        </div>
-
-                        <div class="form-group">
-                            <div class="form-check">
-                                <input class="form-check-input" name="remember_me" type="checkbox" id="remember-me">
-                                <label class="form-check-label" for="remember-me">
-                                    Запомнить меня
-                                </label>
-                            </div>
-                        </div>
-                        <input type="submit" class="btn btn-primary col" value="Войти">
-                    </form>
+                <div class="card">
+                    <h5 class="card-header">
+                        Казань
+                    </h5>
+                    <div class="card-body">
+                        <h5 class="card-title">Special title treatment</h5>
+                        <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+                        <a href="#" class="btn btn-primary">Записаться</a>
+                    </div>
+                </div>
+                <div class="card">
+                    <h5 class="card-header">
+                        Казань
+                    </h5>
+                    <div class="card-body">
+                        <h5 class="card-title">Special title treatment</h5>
+                        <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+                        <a href="#" class="btn btn-primary">Записаться</a>
+                    </div>
+                </div>
+                <div class="card">
+                    <h5 class="card-header">
+                        Казань
+                    </h5>
+                    <div class="card-body">
+                        <h5 class="card-title">Special title treatment</h5>
+                        <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+                        <a href="#" class="btn btn-primary">Записаться</a>
+                    </div>
+                </div>
+                <div class="card">
+                    <h5 class="card-header">
+                        Казань
+                    </h5>
+                    <div class="card-body">
+                        <h5 class="card-title">Special title treatment</h5>
+                        <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+                        <a href="#" class="btn btn-primary">Записаться</a>
+                    </div>
                 </div>
 
 
             </div>
-
-            <div class="col"></div>
             <!-- /CONTENT -->
+
 
         </div>
     </div>
