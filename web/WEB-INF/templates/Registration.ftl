@@ -10,7 +10,7 @@
 
 <#macro import>
     <link rel="stylesheet" href="./static/css/style.css">
-    <script src="./static/js/registration.js"></script>
+    <script src="/static/js/registration.js"></script>
 </#macro>
 
 
