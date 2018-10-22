@@ -13,8 +13,8 @@ import java.util.Optional;
 public class UserDao implements ru.itis.trip.dao.UserDao {
 
     private static final String SQL_CREATE_QUERY = "INSERT INTO service_user(email, hash_password, username) VALUES (?,?,?)";
-    private static final String SQL_UPDATE_QUERY = "UPDATE service_user SET VALUES (username = ?, email = ?, hash_password = ?, " +
-            "name = ?, surname = ?, working_place = ?, age = ?, additional_info = ?, photo = ?, address = ?)";
+    private static final String SQL_UPDATE_QUERY = "UPDATE service_user SET email = ?, hash_password = ?," +
+            " name = ?, lastname = ?, working_place = ?, age = ?, additional_info = ?, photo = ?, address = ?, username = ? WHERE id = ?";
     private static final String SQL_DELETE_QUERY = "DELETE FROM service_user WHERE id = ?";
     private static final String SQL_SELECT_BY_ID_QUERY = "SELECT * from service_user where id = ?";
     private static final String SQL_SELECT_BY_USERNAME_QUERY = "SELECT * from service_user where username = ?";
@@ -34,7 +34,7 @@ public class UserDao implements ru.itis.trip.dao.UserDao {
                     .email(resultSet.getString("email"))
                     .hashedPassword(resultSet.getString("hash_password"))
                     .name(resultSet.getString("name"))
-                    .surname(resultSet.getString("surname"))
+                    .lastname(resultSet.getString("lastname"))
                     .job(resultSet.getString("working_place"))
                     .photo(resultSet.getString("photo"))
                     .age(resultSet.getInt("age"))
@@ -109,12 +109,14 @@ public class UserDao implements ru.itis.trip.dao.UserDao {
             preparedStatement.setString(1,model.getEmail());
             preparedStatement.setString(2,model.getHashedPassword());
             preparedStatement.setString(3,model.getName());
-            preparedStatement.setString(4,model.getSurname());
+            preparedStatement.setString(4,model.getLastname());
             preparedStatement.setString(5,model.getJob());
             preparedStatement.setInt(6,model.getAge());
             preparedStatement.setString(7,model.getAdditionalInfo());
             preparedStatement.setString(8,model.getPhoto());
             preparedStatement.setString(9,model.getAddress());
+            preparedStatement.setString(10,model.getUsername());
+            preparedStatement.setLong(11,model.getId());
             preparedStatement.execute();
 
         } catch (SQLException e) {

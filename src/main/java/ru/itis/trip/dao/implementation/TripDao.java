@@ -51,7 +51,7 @@ public class TripDao implements ru.itis.trip.dao.TripDao {
                     .email(resultSet.getString("email"))
                     .hashedPassword(resultSet.getString("hash_password"))
                     .name(resultSet.getString("first_name"))
-                    .surname(resultSet.getString("last_name"))
+                    .lastname(resultSet.getString("last_name"))
                     .job(resultSet.getString("working_place"))
                     .photo(resultSet.getString("photo"))
                     .age(resultSet.getInt("age"))

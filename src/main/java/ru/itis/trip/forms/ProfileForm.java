@@ -17,7 +17,7 @@ public class ProfileForm {
 
     String name;
     String surname;
-    String middleName;
+    String middlename;
     String address;
     String job;
     Integer age;

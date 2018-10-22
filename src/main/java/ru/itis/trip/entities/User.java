@@ -19,8 +19,8 @@ public class User {
     String email;
     String hashedPassword;
     String name;
-    String surname;
-    String middleName;
+    String lastname;
+    String middlename;
     String address;
     String job;
     Integer age;
