@@ -39,6 +39,8 @@ public class EditProfileServlet extends HttpServlet {
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        RenderHelper.render(getServletContext(),response,"EditProfile.ftl",new HashMap<>());
+        HashMap<String,Object> root = new HashMap<>();
+        root.put("user",request.getSession().getAttribute("current_user"));
+        RenderHelper.render(getServletContext(),response,"EditProfile.ftl",root);
     }
 }
