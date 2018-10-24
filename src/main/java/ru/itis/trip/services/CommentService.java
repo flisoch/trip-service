@@ -8,5 +8,5 @@ import java.util.List;
 public interface CommentService {
     List<TripComment> getComments(Trip trip);
 
-    void addComment(TripComment tripComment);
+    void saveComment(TripComment tripComment);
 }

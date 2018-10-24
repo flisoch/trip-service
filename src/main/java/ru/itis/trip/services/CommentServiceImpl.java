@@ -19,7 +19,7 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public void addComment(TripComment tripComment) {
+    public void saveComment(TripComment tripComment) {
         tripCommentDao.create(tripComment);
     }
 }

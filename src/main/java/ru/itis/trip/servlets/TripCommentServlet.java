@@ -1,5 +1,6 @@
 package ru.itis.trip.servlets;
 
+import com.google.gson.Gson;
 import ru.itis.trip.entities.Trip;
 import ru.itis.trip.entities.TripComment;
 import ru.itis.trip.entities.User;
@@ -11,7 +12,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletContext;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
 import javax.servlet.ServletException;
 
@@ -39,7 +39,10 @@ public class TripCommentServlet extends HttpServlet {
                 .trip(Trip.builder().id(getId(request)).build())
                 .commentator(user)
                 .build();
-        commentService.addComment(tripComment);
+        commentService.saveComment(tripComment);
+        response.setContentType("text/json");
+        response.getWriter().write((new Gson()).toJson(tripComment));
+
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -52,4 +55,5 @@ public class TripCommentServlet extends HttpServlet {
         matcher.find();
         return Long.parseLong(matcher.group(1));
     }
+
 }

@@ -9,7 +9,6 @@ const apply = (tripId) => {
 };
 
 const sendComment = (tripId) => {
-    //todo: get from data comment info
     let text = $("#comment-text").val();
 
     $.ajax({
@@ -22,12 +21,14 @@ const sendComment = (tripId) => {
             let list = $('#comments-container');
             list.append(
                 `<div class="card border-secondary mb-3">
-                    <div class="card-header">NIna</div>
+                    <div class="card-header">
+                        <a href="/profile/${tripId}">${data.commentator.username}</a>
+                    </div>
                     <div class="card-body text-secondary">
-                        <h5 class="card-title">Bolshe ya s etim ne poedu...</h5>
+                        <h5 class="card-title">${data.text}</h5>
                         <p class="card-text">
-                            ${text}
-                        </p>
+                            ${new Date(data.date).toString()}
+                        </p
                     </div>
                 </div>`
             );
@@ -35,7 +36,7 @@ const sendComment = (tripId) => {
 
     });
     $("#comment-text").val('');
-    $('html, body').scrollTop($(document).height());
+    // $('html, body').scrollTop($(document).height());
 
 
 };
