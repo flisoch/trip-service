@@ -29,7 +29,7 @@ public class AuthenticationFilter implements Filter {
 
         UserService userService = (UserService)req.getServletContext().getAttribute("userService");
 
-        Pattern staticFilePattern = Pattern.compile("/static/.*(css|js)");
+        Pattern staticFilePattern = Pattern.compile("/static/");
         boolean isStaticFile = staticFilePattern.matcher(requestURI).matches();
         boolean loggedIn = userService.getCurrentUser(request) != null;
         boolean regRequest = requestURI.equals(regURI);

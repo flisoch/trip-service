@@ -4,7 +4,7 @@ const enable = () => {
 const disable = () => {
     $('.disable').prop('disabled', true);
 }
-$('.disable').prop('disabled', true);
+// $('.disable').prop('disabled', true);
 
 function f() {
     $.ajax({
@@ -29,7 +29,7 @@ function f() {
 function submitChanges() {
 
     $.ajax({
-        url: "/profile",
+        url: "/profile/edit",
         type:'POST',
         data: {
                 "username": $("#username").val(),
