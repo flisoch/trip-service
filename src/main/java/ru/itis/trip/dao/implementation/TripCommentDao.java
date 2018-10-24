@@ -79,7 +79,6 @@ public class TripCommentDao implements ru.itis.trip.dao.TripCommentDao {
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()){
                 TripComment comment = tripWithUserCommentMapper.rowMap(resultSet);
-                System.out.println(comment);
                 tripComments.add(comment);
             }
 

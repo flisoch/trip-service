@@ -15,6 +15,7 @@ public class Trip {
     User iniciator;
     String departurePoint;
     String arrivalPoint;
+    String info;
     Long date;
     String time;
     int freeSeats;

@@ -12,8 +12,8 @@ import java.util.Optional;
 
 public class TripDao implements ru.itis.trip.dao.TripDao {
 
-    private static final String CREATE_QUERY = "INSERT INTO trip(arrival_point, departure_point, dateTime, free_seats, initiator_id) VALUES (?,?,?,?,?)";
-    private static final String UPDATE_QUERY = "UPDATE trip SET VALUES (arrival_point = ?, departure_point = ?, dateTime = ?, free_seats = ?, initiator_id = ?)";
+    private static final String CREATE_QUERY = "INSERT INTO trip(arrival_point, departure_point, dateTime, free_seats, initiator_id,info) VALUES (?,?,?,?,?,?)";
+    private static final String UPDATE_QUERY = "UPDATE trip SET VALUES (arrival_point = ?, departure_point = ?, dateTime = ?, free_seats = ?, initiator_id = ?, info = ?)";
     private static final String DELETE_QUERY = "DELETE FROM trip WHERE id = ?";
     private static final String SELECT_BY_ID = "SELECT * from trip where id = ?";
     private static final String SELECT_BY_ID_WITH_USER = "SELECT * from trip t join service_user s on t.initiator_id = s.id where t.id = ?";
@@ -36,8 +36,9 @@ public class TripDao implements ru.itis.trip.dao.TripDao {
                     .arrivalPoint(resultSet.getString("arrival_point"))
                     .departurePoint(resultSet.getString("departure_point"))
                     .date(resultSet.getTimestamp("dateTime").getTime())
+                    .info(resultSet.getString("info"))
                     .freeSeats(resultSet.getInt("free_seats"))
-                    .expired(resultSet.getTimestamp("dateTime").getTime() > new Timestamp(System.currentTimeMillis()).getTime())
+                    .expired(resultSet.getTimestamp("dateTime").getTime() < new Timestamp(System.currentTimeMillis()).getTime())
                     .build();
         }
     };
@@ -64,8 +65,9 @@ public class TripDao implements ru.itis.trip.dao.TripDao {
                     .arrivalPoint(resultSet.getString("arrival_point"))
                     .departurePoint(resultSet.getString("departure_point"))
                     .date(resultSet.getTimestamp("dateTime").getTime())
+                    .info(resultSet.getString("info"))
                     .freeSeats(resultSet.getInt("free_seats"))
-                    .expired(resultSet.getTimestamp("dateTime").getTime() > new Timestamp(System.currentTimeMillis()).getTime())
+                    .expired(resultSet.getTimestamp("dateTime").getTime() < new Timestamp(System.currentTimeMillis()).getTime())
                     .iniciator(user)
                     .build();
         }
@@ -160,6 +162,7 @@ public class TripDao implements ru.itis.trip.dao.TripDao {
             preparedStatement.setTimestamp(3,new Timestamp(model.getDate()));
             preparedStatement.setInt(4,model.getFreeSeats());
             preparedStatement.setLong(5,model.getIniciator().getId());
+            preparedStatement.setString(6,model.getInfo());
             preparedStatement.execute();
             ResultSet resultSet = preparedStatement.getGeneratedKeys();
             model.setId(resultSet.getLong("id"));
@@ -197,6 +200,7 @@ public class TripDao implements ru.itis.trip.dao.TripDao {
             preparedStatement.setTimestamp(3,new Timestamp(model.getDate()));
             preparedStatement.setInt(4,model.getFreeSeats());
             preparedStatement.setLong(5,model.getIniciator().getId());
+            preparedStatement.setString(6,model.getInfo());
             preparedStatement.execute();
         } catch (SQLException e) {
             e.printStackTrace();
