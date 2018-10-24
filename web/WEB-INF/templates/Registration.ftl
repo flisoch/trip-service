@@ -14,6 +14,23 @@
 </#macro>
 
 
+<#macro navbar_auth_panel>
+
+    <ul class="navbar-nav ">
+        <li class="nav-item">
+        <#--<a class="nav-link" href="#">Войти</a>-->
+            <a class="nav-link" href="/auth">Log in</a>
+
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="/registration">Registration</a>
+
+        <#--<a class="nav-link" href="#">Зарегистрироваться</a>-->
+        </li>
+    </ul>
+</#macro>
+
+
 <#macro content>
     <div class="container">
         <div class="row">

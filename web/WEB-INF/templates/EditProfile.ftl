@@ -9,7 +9,12 @@
 
 
 <#macro title>
-    <title>${user.username}</title>
+    <title>
+        <#if user.username??>
+            ${user.username}
+        <#else > asd
+        </#if>
+    </title>
 </#macro>
 
 
@@ -32,6 +37,9 @@
                         <div class="form-row">
                             <div class="form-group col-auto">
                                 <label for="profile_picture">profile picture</label>
+                                <#if user.photo??>
+                                    <img src="${user.photo}" style="width: 200px; height: 200px"><br>
+                                </#if>
                                 <input class="disabled" type="file" name="profile_picture" id="profile_picture"><!--не былоid-->
                             </div>
                         </div>
@@ -40,7 +48,10 @@
                         <div class="form-row">
                             <div class="form-group">
                                 <label for="username">username</label>
-                                <input type="text" class="form-control disable" id="username" value="${user.username}"
+                                <input type="text" name = "username" class="form-control disable" id="username"
+                                       value="<#if user.username??>
+                                                   ${user.username}
+                                               </#if>"
                                        disabled>
                             </div>
                         </div>
@@ -48,20 +59,20 @@
                         <div class="form-row">
                             <div class="form-group col-auto">
                                 <label for="firstname">Name</label>
-                                <input type="text" class="form-control disable" id="firstname"
+                                <input type="text" name = "firstname" class="form-control disable" id="firstname"
                                         value=<#if user.name??>${user.name}<#else>name</#if>
                                        disabled>
                             </div>
                             <div class="form-group col-auto">
                                 <label for="middlename">Middlename</label>
-                                <input type="text" class="form-control disable" id="middlename"
-                                       value=<#if user.middleName??>${user.middleName}<#else>middlename</#if>
+                                <input type="text" name = "middlename" class="form-control disable" id="middlename"
+                                        value=<#if user.middleName??>${user.middleName}<#else>middlename</#if>
                                        disabled>
                             </div>
                             <div class="form-group col-auto">
                                 <label for="lastname">Lastname</label>
-                                <input type="text" class="form-control disable" id="lastname"
-                                       value=<#if user.lastname??>${user.lastname}<#else>lastname</#if>
+                                <input type="text" name = "lastname" class="form-control disable" id="lastname"
+                                        value=<#if user.lastname??>${user.lastname}<#else>lastname</#if>
                                        disabled>
                             </div>
                         </div>
@@ -83,13 +94,13 @@
                             <div class="form-group col-auto">
                                 <label for="age">Age</label>
                                 <input type="number" name="age" min="10" max="137" class="form-control disable" id="age"
-                                       value=<#if user.age??>${user.age}<#else>0</#if> disabled>
+                                        value=<#if user.age??>${user.age}<#else>0</#if> disabled>
                             </div>
 
                             <div class="form-group col-auto">
                                 <label for="working-place">Working place</label>
-                                <input type="text" class="form-control disable" id="working-place"
-                                       value=<#if user.job??>${user.job}<#else>name</#if>
+                                <input type="text" name = "working-place" class="form-control disable" id="working-place"
+                                        value=<#if user.job??>${user.job}<#else>name</#if>
                                        disabled>
                             </div>
                         </div>
@@ -98,14 +109,14 @@
                             <div class="form-group col-auto">
                                 <label for="inputAddress">Address</label>
                                 <input type="text" name="address" class="form-control disable" id="inputAddress"
-                                       value=<#if user.address??>${user.address}<#else>"pushkina,kolotushkina"</#if>
+                                        value=<#if user.address??>${user.address}<#else>"pushkina,kolotushkina"</#if>
                                        disabled>
                             </div>
                         </div>
 
                         <div class="form-group col-auto">
                             <label for="bio">About me</label>
-                            <textarea class="form-control disable" id="bio" rows="3" disabled>
+                            <textarea name = "bio" class="form-control disable" id="bio" rows="3" disabled>
                                 <#if user.additionalInfo??>${user.additionalInfo}<#else>I have a rodinka on my ear</#if>
                             </textarea>
                         </div>

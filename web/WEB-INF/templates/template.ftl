@@ -28,6 +28,20 @@
         <link rel="stylesheet" href="./static/css/style.css">
 </#macro>
 
+<#macro navbar_auth_panel>
+    <ul class="navbar-nav ">
+    <#--<a class="nav-link" href="#">Выйти</a>-->
+        <li class="nav-item">
+            <a class="nav-link" href="/logout" type="">Log out</a>
+
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="/registration">Registration</a>
+
+        <#--<a class="nav-link" href="#">Зарегистрироваться</a>-->
+        </li>
+    </ul>
+</#macro>
 
 <#macro navbar>
 <!-- NAVBAR -->
@@ -80,18 +94,7 @@
 
                     </form>
 
-                    <ul class="navbar-nav ">
-                        <li class="nav-item">
-                            <#--<a class="nav-link" href="#">Войти</a>-->
-                            <a class="nav-link" href="/auth">Log in</a>
-
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="/registration">Registration</a>
-
-                            <#--<a class="nav-link" href="#">Зарегистрироваться</a>-->
-                        </li>
-                    </ul>
+                    <@navbar_auth_panel/>
                 </div>
             </div>
         </nav>
