@@ -15,10 +15,8 @@ public class Trip {
     User iniciator;
     String departurePoint;
     String arrivalPoint;
-    String date;
+    Long date;
     String time;
-    int seatsNumber;
-    boolean hasEmptySeats;
+    int freeSeats;
     boolean expired;
-
 }
