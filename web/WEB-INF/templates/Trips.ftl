@@ -35,8 +35,12 @@
                             </h5>
 
                               <div class="card-body">
-                                  <h5 class="card-title">${trip.departurePoint}</h5>
-                                  <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+                                  <h5 class="card-title">${trip.departurePoint} - ${trip.arrivalPoint}</h5>
+                                  <p class="card-text">
+                                      <#if trip.info??>
+                                          ${trip.info}
+                                      </#if>
+                                  </p>
                                   <button onclick="apply(${trip.id})" class="btn btn-primary">Apply</button>
                               </div>
                         </div>
