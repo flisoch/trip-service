@@ -49,9 +49,10 @@
                             <div class="form-group">
                                 <label for="username">username</label>
                                 <input type="text" name = "username" class="form-control disable" id="username"
-                                       value="<#if user.username??>
-                                                   ${user.username}
-                                               </#if>"
+                                       <#if user.username??>
+                                            value="${user.username}"
+                                        <#else>value=""
+                                        </#if>
                                        disabled>
                             </div>
                         </div>
@@ -60,19 +61,26 @@
                             <div class="form-group col-auto">
                                 <label for="firstname">Name</label>
                                 <input type="text" name = "firstname" class="form-control disable" id="firstname"
-                                        value=<#if user.name??>${user.name}<#else>name</#if>
+                                        <#if user.name??>
+                                            value="${user.name}"
+                                        <#else>value=""
+                                        </#if>
                                        disabled>
                             </div>
                             <div class="form-group col-auto">
                                 <label for="middlename">Middlename</label>
                                 <input type="text" name = "middlename" class="form-control disable" id="middlename"
-                                        value=<#if user.middleName??>${user.middleName}<#else>middlename</#if>
+                                        <#if user.middleName??>
+                                            value="${user.middleName}"
+                                        <#else>value="middlename"</#if>
                                        disabled>
                             </div>
                             <div class="form-group col-auto">
                                 <label for="lastname">Lastname</label>
                                 <input type="text" name = "lastname" class="form-control disable" id="lastname"
-                                        value=<#if user.lastname??>${user.lastname}<#else>lastname</#if>
+                                        <#if user.lastname??>
+                                            value="${user.lastname}"
+                                        <#else>value="lastname"</#if>
                                        disabled>
                             </div>
                         </div>
@@ -94,7 +102,10 @@
                             <div class="form-group col-auto">
                                 <label for="age">Age</label>
                                 <input type="number" name="age" min="10" max="137" class="form-control disable" id="age"
-                                        value=<#if user.age??>${user.age}<#else>0</#if> disabled>
+                                        <#if user.age??>
+                                            value=${user.age}
+                                        <#else>value=0
+                                        </#if> disabled>
                             </div>
 
                             <div class="form-group col-auto">
