@@ -21,17 +21,53 @@
 
 <#macro content>
      <div class="container">
-         <div class="row">
 
              <!-- CONTENT -->
+    
+        <div class="row">
+            <div class="card">
 
+              <div class="card-body">
+                  <form class="form-row align-items-center" action="/trips/search" method="GET">
+
+                      <div class="col-sm-3 my-1">
+                          <label for="departure">From</label>
+                          <input type="text" class="form-control" id="departure" name="departure" placeholder="point A">
+                      </div>
+                      <div class="col-sm-3 my-1">
+                          <label for="destination">Where</label>
+                          <input type="text" class="form-control" id="destination" name="destination" placeholder="point B">
+                      </div>
+                      <div class="col-sm-4 my-1">
+                          <label for="timeToInputField">Date and time</label>
+                          <input name="time_to" type="datetime-local" class="form-control" value="1970-01-01T23:00"
+                              id="timeToInputField" required>
+                      </div>
+                      <div class="col-auto my-1" style="margin-top: 5rem;">
+                          <div style="color: white;">
+                              search
+                          </div>
+                          <div>
+                              <button type="submit" class="btn btn-primary">search</button>
+
+                          </div>
+                      </div>
+
+                  </form>
+              </div>
+          </div>
+        </div>
+
+      
+          
+        <div class="row">
              <div class="container" style="display: block;">
 
                  <#if trips?has_content>
                      <#list trips as trip>
                         <div class="card">
                             <h5 class="card-header">
-                                <a href="/trips/${trip.id}">Kazan</a>
+                                <a href="/trips/${trip.id}">Trip N${trip.id}</a>
                             </h5>
 
                               <div class="card-body">
