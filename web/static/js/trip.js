@@ -22,7 +22,7 @@ const sendComment = (tripId) => {
             list.append(
                 `<div class="card border-secondary mb-3">
                     <div class="card-header">
-                        <a href="/profile/${tripId}">${data.commentator.username}</a>
+                        <a href="/profile/${data.commentator.id}">${data.commentator.username}</a>
                     </div>
                     <div class="card-body text-secondary">
                         <h5 class="card-title">${data.text}</h5>
