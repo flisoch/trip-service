@@ -43,15 +43,18 @@ public class UserServiceImpl implements UserService {
         User user = (User)request.getSession().getAttribute("current_user");
         if(user == null){
             Cookie[] cookies = request.getCookies();
-            for (Cookie cookie: cookies){
-                if(cookie.getName().equals("remember_me")){
-                    Optional<User> userDb = userDao.getByToken(cookie.getValue());
-                    if(userDb.isPresent()){
-                        user = userDb.get();
-                        request.getSession().setAttribute("current_user", user);
+            if(cookies.length > 0){
+                for (Cookie cookie: cookies){
+                    if(cookie.getName().equals("remember_me")){
+                        Optional<User> userDb = userDao.getByToken(cookie.getValue());
+                        if(userDb.isPresent()){
+                            user = userDb.get();
+                            request.getSession().setAttribute("current_user", user);
+                        }
                     }
                 }
             }
+
         }
         return user;
     }
@@ -93,6 +96,11 @@ public class UserServiceImpl implements UserService {
         user.setAdditionalInfo(profileForm.getAdditionalInfo());
         user.setName(profileForm.getName());
         userDao.update(user);
+    }
+
+    @Override
+    public User getUserById(Long id) {
+        return userDao.read(id).get();
     }
 
     private String createToken(String username) {

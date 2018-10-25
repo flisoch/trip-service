@@ -15,4 +15,6 @@ public interface UserService {
     void authorize(User current_user, HttpServletRequest request, HttpServletResponse response);
 
     void updateUser(User user, ProfileForm profileForm);
+
+    User getUserById(Long id);
 }
