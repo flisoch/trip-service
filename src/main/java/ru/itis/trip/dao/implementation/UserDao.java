@@ -144,9 +144,11 @@ public class UserDao implements ru.itis.trip.dao.UserDao {
             PreparedStatement statement = connection.prepareStatement(SQL_SELECT_BY_USERNAME_QUERY);
             statement.setString(1,username);
             ResultSet resultSet = statement.executeQuery();
-            resultSet.next();
-            User user = userMapper.rowMap(resultSet);
-            return Optional.of(user);
+            User user = null;
+            if(resultSet.next()){
+                user = userMapper.rowMap(resultSet);
+            }
+            return Optional.ofNullable(user);
         } catch (SQLException e) {
             e.printStackTrace();
         }

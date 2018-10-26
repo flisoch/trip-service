@@ -7,7 +7,7 @@ const validatePassword = () => {
 
 const passwordMatch = (password) => {
     let passwordConfirmation = $('#confirm-password').get(0);
-    if (password.value != passwordConfirmation.value) {
+    if (password.value !== passwordConfirmation.value) {
         passwordConfirmation.setCustomValidity('Пароли не совпадают!');
     } else {
         passwordConfirmation.setCustomValidity('');
@@ -20,6 +20,12 @@ const validUsername = (id) => {
         username.setCustomValidity(`Имя пользователя должно удовлетворять ${identifierRegex}`);
     } else {
         username.setCustomValidity('');
+        $.post('/check',{'username':username.value},function (data) {
+            if($.isEmptyObject(data)){
+                username.setCustomValidity('username is already exists');
+            }
+        },'JSON');
     }
-}
+
+};
 

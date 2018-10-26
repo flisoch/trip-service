@@ -37,6 +37,7 @@ public class DispatcherServlet extends HttpServlet {
         addPattern("/registration",new RegistrationServlet());
         addPattern("/auth", new AuthServlet());
         addPattern("/logout", new LogOutServlet());
+        addPattern("/check",new CheckServlet());
 
     }
 

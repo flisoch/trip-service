@@ -99,6 +99,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public User getUserByUsername(String username) {
+        return userDao.getByUsername(username).orElse(null);
+    }
+
+    @Override
     public User getUserById(Long id) {
         Optional<User> user = userDao.read(id);
         return user.orElse(null);
