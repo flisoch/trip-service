@@ -15,8 +15,7 @@ public class TripForm {
     String departurePoint;
     String arrivalPoint;
     String date;
-    String time;
+    String info;
     int seatsNumber;
-    boolean hasEmptySeats;
 
 }

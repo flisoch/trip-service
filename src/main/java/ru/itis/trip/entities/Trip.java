@@ -17,7 +17,6 @@ public class Trip {
     String arrivalPoint;
     String info;
     Long date;
-    String time;
     int freeSeats;
     boolean expired;
 }
