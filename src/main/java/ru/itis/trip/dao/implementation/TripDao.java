@@ -13,7 +13,7 @@ import java.util.Optional;
 public class TripDao implements ru.itis.trip.dao.TripDao {
 
     private static final String CREATE_QUERY = "INSERT INTO trip(arrival_point, departure_point, dateTime, free_seats, initiator_id,info) VALUES (?,?,?,?,?,?)";
-    private static final String UPDATE_QUERY = "UPDATE trip SET VALUES (arrival_point = ?, departure_point = ?, dateTime = ?, free_seats = ?, initiator_id = ?, info = ?)";
+    private static final String UPDATE_QUERY = "UPDATE trip SET arrival_point = ?, departure_point = ?, dateTime = ?, free_seats = ?, initiator_id = ?, info = ? WHERE id = ?";
     private static final String DELETE_QUERY = "DELETE FROM trip WHERE id = ?";
     private static final String SELECT_BY_ID = "SELECT * from trip where id = ?";
     private static final String SELECT_BY_ID_WITH_USER = "SELECT * from trip t join service_user s on t.initiator_id = s.id where t.id = ?";
@@ -23,6 +23,7 @@ public class TripDao implements ru.itis.trip.dao.TripDao {
     private static final String SELECT_BY_DIRECTION_DATE = "SELECT * from trip where departure_point = ? AND arrival_point = ? AND dateTime = ?";
     private static final String SELECT_BY_DIRECTION_DATE_WITH_USER = "SELECT * from trip t join service_user s on t.initiator_id = s.idervice_user s on t.initiator_id = s.id " +
             "where departure_point = ? AND arrival_point = ? AND dateTime = ?";
+    private static final String SELECT_BY_ID_WITH_EMPTY_USER = "SELECT t.id,arrival_point,departure_point,datetime,free_seats,initiator_id,info,username from trip t join service_user s on t.initiator_id = s.id WHERE t.id = ?";;
 
 
     Connection connection;
@@ -39,6 +40,29 @@ public class TripDao implements ru.itis.trip.dao.TripDao {
                     .info(resultSet.getString("info"))
                     .freeSeats(resultSet.getInt("free_seats"))
                     .expired(resultSet.getTimestamp("dateTime").getTime() < new Timestamp(System.currentTimeMillis()).getTime())
+                    .build();
+        }
+    };
+
+
+    private RowMapper<Trip> tripMapperWithEmptyUser = new RowMapper<Trip>() {
+        @Override
+        @SneakyThrows
+        public Trip rowMap(ResultSet resultSet) {
+            User user = User.builder()
+                    .id(resultSet.getLong("initiator_id"))
+                    .username(resultSet.getString("username"))
+                    .build();
+
+            return Trip.builder()
+                    .id(resultSet.getLong("id"))
+                    .arrivalPoint(resultSet.getString("arrival_point"))
+                    .departurePoint(resultSet.getString("departure_point"))
+                    .date(resultSet.getTimestamp("dateTime").getTime())
+                    .info(resultSet.getString("info"))
+                    .freeSeats(resultSet.getInt("free_seats"))
+                    .expired(resultSet.getTimestamp("dateTime").getTime() < new Timestamp(System.currentTimeMillis()).getTime())
+                    .iniciator(user)
                     .build();
         }
     };
@@ -85,7 +109,7 @@ public class TripDao implements ru.itis.trip.dao.TripDao {
             statement.setLong(1,user.getId());
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
-                Trip trip = tripMapperWithoutUser.rowMap(resultSet);
+                Trip trip = tripMapperWithEmptyUser.rowMap(resultSet);
                 trip.setIniciator(user);
                 trips.add(trip);
             }
@@ -165,6 +189,7 @@ public class TripDao implements ru.itis.trip.dao.TripDao {
             preparedStatement.setString(6,model.getInfo());
             preparedStatement.execute();
             ResultSet resultSet = preparedStatement.getGeneratedKeys();
+            resultSet.next();
             model.setId(resultSet.getLong("id"));
             return true;
         } catch (SQLException e) {
@@ -176,11 +201,11 @@ public class TripDao implements ru.itis.trip.dao.TripDao {
     @Override
     public Optional<Trip> read(Long id) {
         try {
-            PreparedStatement statement = connection.prepareStatement(SELECT_BY_ID);
+            PreparedStatement statement = connection.prepareStatement(SELECT_BY_ID_WITH_EMPTY_USER);
             statement.setLong(1,id);
             ResultSet resultSet = statement.executeQuery();
             resultSet.next();
-            Trip trip = tripMapperWithoutUser.rowMap(resultSet);
+            Trip trip = tripMapperWithEmptyUser.rowMap(resultSet);
             return Optional.of(trip);
         } catch (SQLException e) {
             e.printStackTrace();
@@ -201,6 +226,7 @@ public class TripDao implements ru.itis.trip.dao.TripDao {
             preparedStatement.setInt(4,model.getFreeSeats());
             preparedStatement.setLong(5,model.getIniciator().getId());
             preparedStatement.setString(6,model.getInfo());
+            preparedStatement.setLong(7,model.getId());
             preparedStatement.execute();
         } catch (SQLException e) {
             e.printStackTrace();

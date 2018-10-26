@@ -2,9 +2,16 @@ package ru.itis.trip.services;
 
 import ru.itis.trip.dao.TripDao;
 import ru.itis.trip.entities.Trip;
+import ru.itis.trip.entities.User;
+import ru.itis.trip.forms.TripForm;
 
 import javax.servlet.http.HttpServletRequest;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class TripServiceImpl implements TripService {
     TripDao tripDao;
@@ -28,5 +35,44 @@ public class TripServiceImpl implements TripService {
         String departure = request.getParameter("departure");
         String destination = request.getParameter("destination");
         return tripDao.getByDirection(departure, destination);
+    }
+
+    @Override
+    public void createTrip(Trip trip) {
+        tripDao.create(trip);
+    }
+
+    @Override
+    public void updateTrip(HttpServletRequest request, TripForm tripForm) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");//"yyyy-MM-dd'T'HH:mm:ss.SSSZ"
+        Date date;
+        Long epoch = 0L;
+        try {
+            date = dateFormat.parse(tripForm.getDate());
+            epoch = date.getTime();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        Trip trip = Trip.builder()
+                .iniciator((User)request.getSession().getAttribute("current_user"))
+                .info(tripForm.getInfo())
+                .date(epoch)
+                .freeSeats(tripForm.getSeatsNumber())
+                .departurePoint(tripForm.getDeparturePoint())
+                .arrivalPoint(tripForm.getArrivalPoint())
+                .id(getId(request))
+                .build();
+        tripDao.update(trip);
+    }
+
+    private Long getId(HttpServletRequest request) {
+        Pattern compile = Pattern.compile("/trips/([1-9][0-9]*)");
+        Matcher matcher = compile.matcher(request.getRequestURI());
+        Long id = null;
+        if(matcher.find()){
+            id = Long.valueOf(matcher.group(1));
+        }
+
+        return id;
     }
 }

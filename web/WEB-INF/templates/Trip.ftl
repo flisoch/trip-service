@@ -22,7 +22,7 @@
                     <div class="container">
                         <div class="card text-center">
                             <div class="card-header">
-                                Featured
+                                <a href="/profile/${trip.iniciator.id}">${trip.iniciator.username}</a>
                             </div>
                             <div class="card-body">
                                 <h5 class="card-title">${trip.departurePoint} - ${trip.arrivalPoint}</h5>

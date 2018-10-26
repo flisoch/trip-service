@@ -37,6 +37,31 @@ const sendComment = (tripId) => {
     });
     $("#comment-text").val('');
     // $('html, body').scrollTop($(document).height());
-
-
 };
+
+
+function submitTripChanges(id) {
+    let info = $("#info").val();
+    let departure = $("#departure").val();
+    let destination = $("#destination").val();
+    let seats = $("#seats").val();
+    let date = $("#timeToInputField").val();
+
+    $.ajax({
+        url: `/trips/${id}/edit`,
+        type:"POST",
+        data: {
+            "info": info,
+            "departure": departure,
+            "destination": destination,
+            "seats":seats,
+            "date":date,
+        },
+        success: function (msg) {
+            alert("successfully updated");
+        },
+        error: function (msg) {
+            alert(2);
+        }
+    });
+}
