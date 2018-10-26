@@ -4,6 +4,7 @@ import ru.itis.trip.entities.User;
 import ru.itis.trip.forms.ProfileForm;
 import ru.itis.trip.helpers.RenderHelper;
 import ru.itis.trip.services.UserService;
+import ru.itis.trip.services.ValidationService;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -15,12 +16,15 @@ import javax.servlet.ServletException;
 public class RegistrationServlet extends javax.servlet.http.HttpServlet {
 
     private UserService userService;
+    private ValidationService validationService;
 
     @Override
     public void init(ServletConfig config) throws ServletException {
         super.init(config);
         ServletContext context = config.getServletContext();
         userService = (UserService) context.getAttribute("userService");
+        validationService = (ValidationService) context.getAttribute("validationService");
+        System.out.println(validationService);
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -32,7 +36,7 @@ public class RegistrationServlet extends javax.servlet.http.HttpServlet {
                 .password(password)
                 .username(username)
                 .build();
-        //Todo:form validation
+        validationService.validateRegForm(form,response);
         User user = userService.signUp(form);
         if(user != null){
             userService.authorize(user, request, response);
