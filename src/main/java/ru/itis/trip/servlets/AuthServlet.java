@@ -5,6 +5,7 @@ import ru.itis.trip.forms.LoginForm;
 import ru.itis.trip.forms.ProfileForm;
 import ru.itis.trip.helpers.RenderHelper;
 import ru.itis.trip.services.UserService;
+import ru.itis.trip.services.ValidationService;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -18,12 +19,14 @@ import javax.servlet.ServletException;
 public class AuthServlet extends HttpServlet {
 
     UserService userService;
+    ValidationService validationService;
 
     @Override
     public void init(ServletConfig config) throws ServletException {
         super.init(config);
         ServletContext context = config.getServletContext();
         userService = (UserService) context.getAttribute("userService");
+        validationService = (ValidationService) context.getAttribute("validationService");
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -34,7 +37,7 @@ public class AuthServlet extends HttpServlet {
                 .username(username)
                 .password(password)
                 .build();
-        //validate form somewhere
+        validationService.validateLoginForm(loginForm,response);
         User current_user = userService.signIn(loginForm);
         if(current_user != null){
             userService.authorize(current_user, request, response);

@@ -1,5 +1,6 @@
 package ru.itis.trip.services;
 
+import ru.itis.trip.forms.LoginForm;
 import ru.itis.trip.forms.ProfileForm;
 
 import javax.servlet.http.HttpServletResponse;
@@ -39,5 +40,11 @@ public class ValidationServiceImpl implements ValidationService {
             }
         }
 
+    }
+
+    @Override
+    public void validateLoginForm(LoginForm loginForm, HttpServletResponse response) {
+        validateUsername(loginForm.getUsername(), response);
+        validatePassword(loginForm.getPassword(), response);
     }
 }

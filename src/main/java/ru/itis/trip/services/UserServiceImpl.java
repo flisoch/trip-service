@@ -43,7 +43,7 @@ public class UserServiceImpl implements UserService {
         User user = (User)request.getSession().getAttribute("current_user");
         if(user == null){
             Cookie[] cookies = request.getCookies();
-            if(cookies.length > 0){
+            if(cookies != null){
                 for (Cookie cookie: cookies){
                     if(cookie.getName().equals("remember_me")){
                         Optional<User> userDb = userDao.getByToken(cookie.getValue());
@@ -62,9 +62,9 @@ public class UserServiceImpl implements UserService {
     @Override
     public User signIn(LoginForm loginForm) {
 
-        User user = userDao.getByUsername(loginForm.getUsername()).get();
+        User user = userDao.getByUsername(loginForm.getUsername()).orElse(null);
 
-        if (user.getHashedPassword().equals(hash(loginForm.getPassword()))) {
+        if (user != null && user.getHashedPassword().equals(hash(loginForm.getPassword()))) {
             return user;
         }
 
@@ -135,7 +135,7 @@ public class UserServiceImpl implements UserService {
         }
     }
 
-    public void addToken(User user, HttpServletResponse response) {
+    private void addToken(User user, HttpServletResponse response) {
         String token = createToken(user.getUsername());
         Cookie cookie = new Cookie("remember_me", token);
         cookie.setMaxAge(24*60*60);
