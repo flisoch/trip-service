@@ -111,7 +111,7 @@
                             <div class="form-group col-auto">
                                 <label for="working-place">Working place</label>
                                 <input type="text" name = "working-place" class="form-control disable" id="working-place"
-                                        value=<#if user.job??>${user.job}<#else>name</#if>
+                                        value=<#if user.job??>${user.job}<#else>oracle</#if>
                                        disabled>
                             </div>
                         </div>

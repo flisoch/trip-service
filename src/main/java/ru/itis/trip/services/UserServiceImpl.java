@@ -100,7 +100,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User getUserById(Long id) {
-        return userDao.read(id).get();
+        Optional<User> user = userDao.read(id);
+        return user.orElse(null);
     }
 
     private String createToken(String username) {

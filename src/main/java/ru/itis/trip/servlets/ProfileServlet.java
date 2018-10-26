@@ -39,16 +39,29 @@ public class ProfileServlet extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HashMap<String, Object> root = new HashMap<>();
-        Long id = getId(request);
-        User user = userService.getUserById(id);
+        User user;
+        String id = getId(request);
+        if(id == null){
+            user = (User)request.getSession().getAttribute("current_user");
+        }
+        else{
+            user = userService.getUserById(Long.parseLong(id));
+        }
+        if(user == null){
+            response.sendRedirect("/trips");
+            return;
+        }
         root.put("user",user);
         RenderHelper.render(getServletContext(),response,"ProfileById.ftl",root);
     }
 
-    private Long getId(HttpServletRequest request) {
+    private String getId(HttpServletRequest request) {
         Pattern compile = Pattern.compile("/profile/([1-9][0-9]*)");
         Matcher matcher = compile.matcher(request.getRequestURI());
-        matcher.find();
-        return Long.parseLong(matcher.group(1));
+        String id = null;
+        if(matcher.find()){
+            id = matcher.group(1);
+        }
+        return id;
     }
 }

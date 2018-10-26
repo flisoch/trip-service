@@ -6,26 +6,7 @@ const disable = () => {
 }
 // $('.disable').prop('disabled', true);
 
-function f() {
-    $.ajax({
-        url: "/trips",
-        type:"POST",
-        data: {
-            "username": "vasya",
-        },
-        success: function (msg) {
-            /*var lst = $("#found-list");
-            lst.html("");
-            for (var i = 0; i < msg.students.length; i++) {
-                lst.append("<li>" + msg.students[i] + "</li>")
-            }*/
 
-        },
-        error: function (msg) {
-            alert(2);
-        }
-    });
-}
 function submitChanges() {
 
     $.ajax({
