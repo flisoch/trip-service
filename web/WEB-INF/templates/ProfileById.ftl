@@ -8,8 +8,8 @@
 
 <#macro title>
     <title>
-        <#if user.username??>
-            ${user.username}
+        <#if profile.username??>
+            ${profile.username}
         <#else > unnamed
         </#if>
     </title>
@@ -29,8 +29,8 @@
                 <div class="card-body">
                     <!-- username -->
                     <h3 class="card-title">
-	                    <#if user.username??>
-							${user.username}
+	                    <#if profile.username??>
+							${profile.username}
 	                    <#else>""
 	                  	</#if>
                   	</h3>
@@ -38,8 +38,8 @@
                     <p class="card-text">
                         <!-- name -->
                         <b>
-                       		<#if user.name??>
-								${user.name}
+                       		<#if profile.name??>
+								${profile.name}
 	                    	<#else>"unnamed"
 	                  		</#if>
                     	</b>
@@ -49,8 +49,8 @@
                         <br>
                         <!-- email -->
                         <i>
-                        	<#if user.email??>
-								${user.email}
+                        	<#if profile.email??>
+								${profile.email}
 	                    	<#else>""
 	                  		</#if>
                     	</i>
@@ -58,18 +58,18 @@
                     <hr>
 
                     <p class="card-text">
-                        <#if user.age??>
-							age: ${user.age}
+                        <#if profile.age??>
+							age: ${profile.age}
 	                    <#else>age:
 	                  	</#if>
                         <br>
-                        	<#if user.job??>
-								working place: ${user.job}
+                        	<#if profile.job??>
+								working place: ${profile.job}
 		                    <#else> working place:
 		                  	</#if> 
                         <br>
-                        <#if user.address??>
-							address: ${user.address}
+                        <#if profile.address??>
+							address: ${profile.address}
 		                <#else> address: 
 		                </#if> 
                     </p>
@@ -77,8 +77,8 @@
                     <hr>
                     <!-- additional info -->
                     <p class="card-text">
-                    	<#if user.additionalInfo??>
-							${user.additionalInfo}
+                    	<#if profile.additionalInfo??>
+							${profile.additionalInfo}
 		                <#else> 
 		                </#if> 
                     </p>

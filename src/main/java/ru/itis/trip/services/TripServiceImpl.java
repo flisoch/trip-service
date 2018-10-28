@@ -1,6 +1,7 @@
 package ru.itis.trip.services;
 
 import ru.itis.trip.dao.TripDao;
+import ru.itis.trip.entities.Request;
 import ru.itis.trip.entities.Trip;
 import ru.itis.trip.entities.User;
 import ru.itis.trip.forms.TripForm;
@@ -32,6 +33,10 @@ public class TripServiceImpl implements TripService {
 
     @Override
     public List<Trip> getTripsWithParameters(HttpServletRequest request) {
+        String userId = request.getParameter("user_id");
+        if(userId != null){
+            return tripDao.getByUserId(Long.parseLong(userId));
+        }
         String departure = request.getParameter("departure");
         String destination = request.getParameter("destination");
         return tripDao.getByDirection(departure, destination);
@@ -63,6 +68,27 @@ public class TripServiceImpl implements TripService {
                 .id(getId(request))
                 .build();
         tripDao.update(trip);
+    }
+
+    @Override
+    public void sendApply(Long tripId, Long userId) {
+        tripDao.sendApply(tripId, userId);
+    }
+
+    @Override
+    public void rejectRequest(Long userId, Long tripId) {
+        tripDao.deleteRequest(userId, tripId);
+    }
+
+    @Override
+    public void acceptRequest(Long userId, Long tripId) {
+        tripDao.addUserToTrip(userId, tripId);
+        tripDao.deleteRequest(userId,tripId);
+    }
+
+    @Override
+    public List<Request> getRequsets(User user) {
+        return tripDao.getRequests(user);
     }
 
     private Long getId(HttpServletRequest request) {

@@ -4,6 +4,7 @@ import ru.itis.trip.entities.Trip;
 import ru.itis.trip.entities.User;
 import ru.itis.trip.helpers.RenderHelper;
 import ru.itis.trip.services.TripService;
+import ru.itis.trip.services.UserService;
 
 import java.io.IOException;
 import java.sql.Timestamp;
@@ -23,12 +24,14 @@ import javax.servlet.ServletException;
 public class NewTripServlet extends HttpServlet {
 
     TripService tripService;
+    UserService userService;
 
     @Override
     public void init(ServletConfig config) throws ServletException {
         super.init(config);
         ServletContext context = config.getServletContext();
         tripService = (TripService) context.getAttribute("tripService");
+        userService = (UserService) context.getAttribute("userService");
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -61,6 +64,7 @@ public class NewTripServlet extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HashMap<String, Object> root = new HashMap<>();
+        root.put("user",userService.getCurrentUser(request));
         RenderHelper.render(getServletContext(),response,"NewTrip.ftl",root);
     }
 }

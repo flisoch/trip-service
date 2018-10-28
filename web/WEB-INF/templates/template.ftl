@@ -57,14 +57,18 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav mr-auto">
                         <li class="nav-item active">
-                            <a class="nav-link" href="#">
+                            <a class="nav-link"
+                               <#if user??>
+                                    href="/trips/search?user_id=${user.id}"
+                               <#else>href="/trips"
+                               </#if>>
                                 <#--Поездки-->
-                                    Trips
+                                    My Trips
                                 <!-- <span class="sr-only">(current)</span> -->
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">nav-link</a>
+                            <a class="nav-link" href="/trips">nav-link</a>
                         </li>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
@@ -73,7 +77,7 @@
                                 Menu
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <a class="dropdown-item" href="#">One</a>
+                                <a class="dropdown-item" href="/profile/requests">requests</a>
                                 <a class="dropdown-item" href="#">Two</a>
                                 <a class="dropdown-item" href="#">Three</a>
                                 <div class="dropdown-divider"></div>

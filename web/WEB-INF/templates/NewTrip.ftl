@@ -9,7 +9,7 @@
 
 
 <#macro import>
-    <link rel="stylesheet" href="./static/css/style.css">
+    <link rel="stylesheet" href="/static/css/style.css">
     <script src="/static/js/trip.js"></script>
 </#macro>
 

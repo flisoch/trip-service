@@ -1,5 +1,6 @@
 package ru.itis.trip.dao;
 
+import ru.itis.trip.entities.Request;
 import ru.itis.trip.entities.Trip;
 import ru.itis.trip.entities.User;
 
@@ -12,4 +13,14 @@ public interface TripDao extends Dao<Trip>{
     List<Trip> getByDirectionAndDate(String departurePoint, String arrivalPoint, Long date);
 
     List<Trip> getAllNotExpired();
+
+    void sendApply(Long tripId, Long userId);
+
+    List<Trip> getByUserId(Long userId);
+
+    List<Request> getRequests(User user);
+
+    void deleteRequest(Long userId, Long tripId);
+
+    void addUserToTrip(Long userId, Long tripId);
 }

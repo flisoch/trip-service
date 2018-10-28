@@ -6,6 +6,7 @@ import ru.itis.trip.forms.ProfileForm;
 import ru.itis.trip.forms.TripForm;
 import ru.itis.trip.helpers.RenderHelper;
 import ru.itis.trip.services.TripService;
+import ru.itis.trip.services.UserService;
 
 import java.io.IOException;
 import java.time.Instant;
@@ -24,7 +25,7 @@ import javax.servlet.ServletException;
 
 //GET /trips/{id}/edit
 public class EditTripServlet extends HttpServlet {
-
+    UserService userService;
     TripService tripService;
 
     @Override
@@ -32,6 +33,7 @@ public class EditTripServlet extends HttpServlet {
         super.init(config);
         ServletContext context = config.getServletContext();
         tripService = (TripService) context.getAttribute("tripService");
+        userService = (UserService) context.getAttribute("userService");
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -54,6 +56,7 @@ public class EditTripServlet extends HttpServlet {
             return;
         }
         Trip trip = tripService.getById(id);
+        root.put("user",userService.getCurrentUser(request));
         root.put("trip",trip);
         RenderHelper.render(getServletContext(),response,"EditTrip.ftl",root);
     }

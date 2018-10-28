@@ -1,24 +1,23 @@
 package ru.itis.trip.servlets;
 
-import ru.itis.trip.entities.Trip;
-import ru.itis.trip.helpers.RenderHelper;
+import ru.itis.trip.entities.User;
 import ru.itis.trip.services.TripService;
 import ru.itis.trip.services.UserService;
 
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletContext;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
 import javax.servlet.ServletException;
 
-//GET trips/search?params
-public class TripSearchServlet extends HttpServlet {
+
+public class AcceptTripServlet extends HttpServlet {
 
     TripService tripService;
     UserService userService;
+
     @Override
     public void init(ServletConfig config) throws ServletException {
         super.init(config);
@@ -27,17 +26,15 @@ public class TripSearchServlet extends HttpServlet {
         userService = (UserService) context.getAttribute("userService");
     }
 
-
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+        Long userId = Long.parseLong(request.getParameter("user_id"));
+        Long tripId = Long.parseLong(request.getParameter("trip_id"));
+        tripService.acceptRequest(userId,tripId);
 
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        
-        HashMap<String, Object> root = new HashMap<>();
-        List<Trip> trips = tripService.getTripsWithParameters(request);
-        root.put("user",userService.getCurrentUser(request));
-        root.put("trips",trips);
-        RenderHelper.render(getServletContext(),response,"Trips.ftl",root);
+        response.getWriter().write("reject trip");
     }
 }

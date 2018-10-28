@@ -51,7 +51,8 @@ public class ProfileServlet extends HttpServlet {
             response.sendRedirect("/trips");
             return;
         }
-        root.put("user",user);
+        root.put("profile",user);
+        root.put("user", userService.getCurrentUser(request));
         RenderHelper.render(getServletContext(),response,"ProfileById.ftl",root);
     }
 

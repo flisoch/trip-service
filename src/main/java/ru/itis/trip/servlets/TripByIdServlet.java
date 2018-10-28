@@ -5,6 +5,7 @@ import ru.itis.trip.entities.TripComment;
 import ru.itis.trip.helpers.RenderHelper;
 import ru.itis.trip.services.CommentService;
 import ru.itis.trip.services.TripService;
+import ru.itis.trip.services.UserService;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletContext;
@@ -21,13 +22,14 @@ import java.util.regex.Pattern;
 public class TripByIdServlet extends HttpServlet {
     TripService tripService;
     CommentService commentService;
-
+    UserService userService;
     @Override
     public void init(ServletConfig config) throws ServletException {
         super.init(config);
         ServletContext context = config.getServletContext();
         tripService = (TripService) context.getAttribute("tripService");
         commentService = (CommentService) context.getAttribute("commentService");
+        userService = (UserService) context.getAttribute("userService");
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -40,6 +42,7 @@ public class TripByIdServlet extends HttpServlet {
         Long id = getId(request);
         Trip trip = tripService.getById(id);
         List<TripComment> comments = commentService.getComments(trip);
+        root.put("user",userService.getCurrentUser(request));
         root.put("trip",trip);
         root.put("comments",comments);
         RenderHelper.render(getServletContext(),response,"Trip.ftl",root);

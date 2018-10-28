@@ -2,6 +2,7 @@ package ru.itis.trip.dao.implementation;
 
 import lombok.SneakyThrows;
 import ru.itis.trip.dao.implementation.mappers.RowMapper;
+import ru.itis.trip.entities.Request;
 import ru.itis.trip.entities.Trip;
 import ru.itis.trip.entities.User;
 
@@ -24,6 +25,12 @@ public class TripDao implements ru.itis.trip.dao.TripDao {
     private static final String SELECT_BY_DIRECTION_DATE_WITH_USER = "SELECT * from trip t join service_user s on t.initiator_id = s.idervice_user s on t.initiator_id = s.id " +
             "where departure_point = ? AND arrival_point = ? AND dateTime = ?";
     private static final String SELECT_BY_ID_WITH_EMPTY_USER = "SELECT t.id,arrival_point,departure_point,datetime,free_seats,initiator_id,info,username from trip t join service_user s on t.initiator_id = s.id WHERE t.id = ?";;
+    private static final String SELECT_BY_USER_WITH_EMPTY_USER = "SELECT * from trip t join service_user s on t.initiator_id = s.id where s.id = ?";
+    private static final String SELECT_REQUEST_BY_USER_ID = "SELECT a.id, a.trip_id, a.user_id, u.username from trip_user_apply a " +
+            "join trip t on a.trip_id = t.id " +
+            "join service_user u on a.user_id = u.id " +
+            "WHERE t.initiator_id = ?";
+    private static final String DELETE_REQUEST_QUERY = "DELETE FROM trip_user_apply WHERE trip_id = ? AND user_id = ?";
 
 
     Connection connection;
@@ -37,6 +44,7 @@ public class TripDao implements ru.itis.trip.dao.TripDao {
                     .arrivalPoint(resultSet.getString("arrival_point"))
                     .departurePoint(resultSet.getString("departure_point"))
                     .date(resultSet.getTimestamp("dateTime").getTime())
+                    .iniciator(User.builder().id(resultSet.getLong("initiator_id")).build())
                     .info(resultSet.getString("info"))
                     .freeSeats(resultSet.getInt("free_seats"))
                     .expired(resultSet.getTimestamp("dateTime").getTime() < new Timestamp(System.currentTimeMillis()).getTime())
@@ -44,6 +52,26 @@ public class TripDao implements ru.itis.trip.dao.TripDao {
         }
     };
 
+    private RowMapper<Request> requestMapper = new RowMapper<Request>() {
+        @Override
+        @SneakyThrows
+        public Request rowMap(ResultSet resultSet) {
+            User user = User.builder()
+                    .id(resultSet.getLong("user_id"))
+                    .username(resultSet.getString("username"))
+                    .build();
+
+            Trip trip = Trip.builder()
+                    .id(resultSet.getLong("trip_id"))
+                    .build();
+
+            return Request.builder()
+                    .id(resultSet.getLong("id"))
+                    .trip(trip)
+                    .user(user)
+                    .build();
+        }
+    };
 
     private RowMapper<Trip> tripMapperWithEmptyUser = new RowMapper<Trip>() {
         @Override
@@ -66,6 +94,17 @@ public class TripDao implements ru.itis.trip.dao.TripDao {
                     .build();
         }
     };
+
+    @SneakyThrows
+    @Override
+    public void deleteRequest(Long userId, Long tripId) {
+
+        PreparedStatement preparedStatement = connection.prepareStatement(DELETE_REQUEST_QUERY);
+        preparedStatement.setLong(1, tripId);
+        preparedStatement.setLong(2, userId);
+        preparedStatement.execute();
+
+    }
 
     private RowMapper<Trip> tripMapperWithUser = new RowMapper<Trip>() {
         @Override
@@ -101,6 +140,69 @@ public class TripDao implements ru.itis.trip.dao.TripDao {
         this.connection = connection;
     }
 
+    @SneakyThrows
+    @Override
+    public void addUserToTrip(Long userId, Long tripId) {
+        PreparedStatement statement = connection.prepareStatement("INSERT INTO trip_user(trip_id, user_id) VALUES (?,?)");
+        statement.setLong(1,tripId);
+        statement.setLong(2,userId);
+        statement.execute();
+
+        statement = connection.prepareStatement("UPDATE trip SET free_seats = free_seats - 1 WHERE id = ?");
+        statement.setLong(1,tripId);
+        statement.execute();
+    }
+
+    @SneakyThrows
+    @Override
+    public void sendApply(Long tripId, Long userId) {
+        PreparedStatement statement = connection.prepareStatement("SELECT * from trip_user WHERE trip_id = ? and user_id = ?");
+        statement.setLong(1,tripId);
+        statement.setLong(2,userId);
+        ResultSet resultSet = statement.executeQuery();
+        if(resultSet.next()){
+            return;
+        }
+        statement = connection.prepareStatement("INSERT INTO trip_user_apply(trip_id, user_id) VALUES (?,?)");
+        statement.setLong(1,tripId);
+        statement.setLong(2,userId);
+        statement.execute();
+    }
+
+    @Override
+    public List<Trip> getByUserId(Long userId) {
+        List<Trip> trips = new ArrayList<>();
+        try {
+            PreparedStatement statement = connection.prepareStatement(SELECT_BY_USER_WITH_EMPTY_USER);
+            statement.setLong(1, userId);
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                Trip trip = tripMapperWithEmptyUser.rowMap(resultSet);
+                trips.add(trip);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return trips;
+    }
+
+    @Override
+    public List<Request> getRequests(User user) {
+        List<Request> requests = new ArrayList<>();
+        try {
+            PreparedStatement statement = connection.prepareStatement(SELECT_REQUEST_BY_USER_ID);
+            statement.setLong(1, user.getId());
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                Request request = requestMapper.rowMap(resultSet);
+                requests.add(request);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return requests;
+    }
+
     @Override
     public List<Trip> getByUser(User user) {
         List<Trip> trips = new ArrayList<>();
@@ -129,6 +231,9 @@ public class TripDao implements ru.itis.trip.dao.TripDao {
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
                 Trip trip = tripMapperWithUser.rowMap(resultSet);
+                if(trip.getFreeSeats() == 0){
+                    continue;
+                }
                 trips.add(trip);
             }
         } catch (SQLException e) {
@@ -148,6 +253,9 @@ public class TripDao implements ru.itis.trip.dao.TripDao {
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
                 Trip trip = tripMapperWithUser.rowMap(resultSet);
+                if(trip.getFreeSeats() == 0){
+                    continue;
+                }
                 trips.add(trip);
             }
         } catch (SQLException e) {
@@ -163,7 +271,10 @@ public class TripDao implements ru.itis.trip.dao.TripDao {
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery("SELECT * FROM trip");
             while (resultSet.next()) {
-                if(resultSet.getTimestamp("dateTime").getTime() < new Timestamp(System.currentTimeMillis()).getTime()){
+                if(resultSet.getTimestamp("dateTime").getTime() < new Timestamp(System.currentTimeMillis()).getTime()) {
+                    continue;
+                }
+                if(resultSet.getLong("free_seats") == 0){
                     continue;
                 }
                 Trip trip = tripMapperWithoutUser.rowMap(resultSet);
@@ -242,6 +353,5 @@ public class TripDao implements ru.itis.trip.dao.TripDao {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
     }
 }

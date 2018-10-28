@@ -4,7 +4,7 @@
 <#macro import>
     <script src="/static/js/trip.js"></script>
 
-    <link rel="stylesheet" href="./static/css/style.css">
+    <link rel="stylesheet" href="/static/css/style.css">
 
     <style>
         .card {
@@ -77,7 +77,12 @@
                                           ${trip.info}
                                       </#if>
                                   </p>
-                                  <button onclick="apply(${trip.id})" class="btn btn-primary">Apply</button>
+                                  <#if trip.iniciator.id != user.id>
+                                    <button onclick="apply(${trip.id})" class="btn btn-primary">Apply</button>
+                                  </#if>
+                                  <#--<#if уже отправлял или уже в поездке>
+
+                                  </#if>-->
                               </div>
                         </div>
                      </#list>

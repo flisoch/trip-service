@@ -25,7 +25,11 @@ public class DispatcherServlet extends HttpServlet {
         addPattern("/trips/([1-9][0-9]*)", new TripByIdServlet());
         addPattern("/trips", new TripsServlet());
         addPattern("/trips/([1-9][0-9]*)/apply", new ApplyTripServlet());
-        addPattern("/trips/([1-9][0-9]*)/reject", new RejectTripServlet());
+
+        //todo:reject&accept
+        addPattern("/requests/reject", new RejectTripServlet());
+        addPattern("/requests/accept", new AcceptTripServlet());
+
         addPattern("/trips/([1-9][0-9]*)/comments", new TripCommentServlet());
         addPattern("/profile/([1-9][0-9]*)/comments", new ProfileCommentServlet());
         addPattern("/trips/search*",new TripSearchServlet());
@@ -33,6 +37,7 @@ public class DispatcherServlet extends HttpServlet {
         addPattern("/profile/edit", new EditProfileServlet());
         addPattern("/profile/([1-9][0-9]*)", new ProfileServlet());
         addPattern("/profile", new ProfileServlet());
+        addPattern("/profile/requests", new TripRequests());
 
         addPattern("/registration",new RegistrationServlet());
         addPattern("/auth", new AuthServlet());

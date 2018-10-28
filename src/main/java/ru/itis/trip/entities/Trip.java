@@ -5,6 +5,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 
 @Data
 @AllArgsConstructor
@@ -19,4 +21,6 @@ public class Trip {
     Long date;
     int freeSeats;
     boolean expired;
+
+    List<User> passangers;
 }

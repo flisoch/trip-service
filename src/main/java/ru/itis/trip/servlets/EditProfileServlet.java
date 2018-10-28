@@ -40,7 +40,7 @@ public class EditProfileServlet extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HashMap<String,Object> root = new HashMap<>();
-        root.put("user",request.getSession().getAttribute("current_user"));
+        root.put("user",userService.getCurrentUser(request));
         RenderHelper.render(getServletContext(),response,"EditProfile.ftl",root);
     }
 }
