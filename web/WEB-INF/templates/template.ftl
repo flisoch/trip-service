@@ -68,7 +68,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="/trips">nav-link</a>
+                            <a class="nav-link" href="/trips">trips</a>
                         </li>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
@@ -78,10 +78,10 @@
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                                 <a class="dropdown-item" href="/profile/requests">requests</a>
-                                <a class="dropdown-item" href="#">Two</a>
-                                <a class="dropdown-item" href="#">Three</a>
+                                <a class="dropdown-item" href="/profile">Profile</a>
+                                <a class="dropdown-item" href="/profile/edit">Edit Profile</a>
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="#">Just some kind of magic!</a>
+                                <a class="dropdown-item" href="/trips/new">Just some kind of magic!</a>
                             </div>
                         </li>
                         <li class="nav-item">

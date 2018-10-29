@@ -77,8 +77,15 @@
                                           ${trip.info}
                                       </#if>
                                   </p>
+                                  <p class="card-text">
+                                      <#if trip.freeSeats??>
+                                          Free seats: ${trip.freeSeats}
+                                      </#if>
+                                  </p>
                                   <#if trip.iniciator.id != user.id>
                                     <button onclick="apply(${trip.id})" class="btn btn-primary">Apply</button>
+                                  <#else>
+                                    <button onclick="location.href='/trips/${trip.id}/edit'"class="btn btn-primary">Edit</button>
                                   </#if>
                                   <#--<#if уже отправлял или уже в поездке>
 

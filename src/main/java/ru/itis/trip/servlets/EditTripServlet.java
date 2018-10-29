@@ -51,11 +51,13 @@ public class EditTripServlet extends HttpServlet {
         HashMap<String, Object> root = new HashMap<>();
         Long id = getId(request);
         User currentUser = (User)request.getSession().getAttribute("current_user");
-        if(!id.equals(currentUser.getId())){
+
+        Trip trip = tripService.getById(id);
+
+        if(!trip.getIniciator().getId().equals(currentUser.getId())){
             response.sendRedirect("/trips");
             return;
         }
-        Trip trip = tripService.getById(id);
         root.put("user",userService.getCurrentUser(request));
         root.put("trip",trip);
         RenderHelper.render(getServletContext(),response,"EditTrip.ftl",root);
