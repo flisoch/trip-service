@@ -94,7 +94,7 @@
                         </div>
                      </#list>
                  <#else>
-                    Poka net postov
+                    no trips for now
                  </#if>
 
              </div>

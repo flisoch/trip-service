@@ -84,19 +84,7 @@
                                 <a class="dropdown-item" href="/trips/new">Just some kind of magic!</a>
                             </div>
                         </li>
-                        <li class="nav-item">
-                            <#--<a class="nav-link disabled" href="#">Только для авторизованных</a>-->
-                                <a class="nav-link disabled" href="#">Only for authorized users</a>
-
-                        </li>
                     </ul>
-
-                    <form class="form-inline my-2 my-lg-0 mr-auto">
-                        <input class="form-control mr-sm-2" type="search" placeholder="for example Kazan" aria-label="Search">
-                        <#--<button class="btn btn-outline-success my-2 my-sm-0" type="submit">Поиск</button>-->
-                        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-
-                    </form>
 
                     <@navbar_auth_panel/>
                 </div>

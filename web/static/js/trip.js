@@ -3,7 +3,7 @@ const apply = (tripId) => {
         url: `/trips/${tripId}/apply`,
         type: 'POST',
         success: (data) => {
-            alert('aplly send!');
+            alert('aplly sent!');
         }
     });
 };
