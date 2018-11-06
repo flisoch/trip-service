@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+        <title>Document</title>
+
+        <link rel="stylesheet" href="../../static/css/bootstrap.min.css">
+        <script src="../../static/js/jquery-3.3.1.min.js" defer></script>
+        <script src="../../static/js/bootstrap.bundle.min.js" defer></script>
+        <script src="../../static/js/bootstrap.min.js"    defer></script>
+
+        <link rel="stylesheet" href="../../static/css/style.css">
+
+    </head>
+
+    <body>
+
+        <!-- NAVBAR -->
+        <div class="container fixed-top">
+            <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark">
+                <div class="container">
+
+                    <!--Logo-->
+                    <a class="navbar-brand" href="#">TripService</a>
+
+                    <!--Button to expand/collapse navbar if screen is too small-->
+                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+
+                    <!--content that would be expanded/collapsed-->
+                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    
+                        <ul class="navbar-nav mr-auto">
+                            <li class="nav-item active">
+                                <a class="nav-link" href="#">Find</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">Create</a>
+                            </li>                            
+                        </ul>
+
+
+                        <ul class="navbar-nav ">
+                            <!-- IF NOT AUTHORIZED-->
+                            <!-- <li class="nav-item">
+                                <a class="nav-link" href="#">Sign in</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">Sign up</a>
+                            </li> -->
+
+                            <!--IF AUTHORIZED-->
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+                                    aria-haspopup="true" aria-expanded="false">
+                                    Anatoly
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    <a class="dropdown-item" href="#">Profile</a>
+                                    <a class="dropdown-item" href="#">My trips</a>
+                                    <a class="dropdown-item" href="#">Booked trips</a>
+                                    <a class="dropdown-item" href="#">Requests</a>
+                                    <a class="dropdown-item" href="#">Messages</a>
+                                    <div class="dropdown-divider"></div>
+                                    <a class="dropdown-item" href="/logout">Log out</a>
+                                </div>
+                            </li>
+                        </ul>
+                        
+
+                    </div>
+                </div>
+            </nav>
+        </div>
+        <!-- /NAVBAR -->
+
+        <div class="container-fluid" id="page">
+            <div class="row">
+                <!--Left SIDE BAR-->
+                <div class="col-2">
+                    <div class="row  " id="sidebar">
+                        <ul class="nav nav-tabs flex-column w-100 pl-3">
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">Profile</a>                      
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">Messages</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">My trips</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">Booked trips</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">Requests</a>                
+                            </li>
+                        </ul> 
+                    </div>
+                </div>
+                <!--/Left SIDE BAR-->
+
+                <!-- CONTENT -->
+                <div class="col-10">
+                    <div class="row w-100 h-100" id="inner-nav">
+                      <!-- Nav tabs -->
+                      <ul class="nav nav-tabs ml-3">
+                        <li class="nav-item">
+                          <a class="nav-link active" data-toggle="tab" href="#home">Edit profile</a>
+                        </li>
+                        <li class="nav-item">
+                          <a class="nav-link" data-toggle="tab" href="#menu1">Otzivi</a>
+                        </li>
+                      </ul>
+                      <!--/Nav tabs-->
+
+                      <!-- Tab panes -->
+                      <div class="tab-content">
+                        <div id="home" class="container tab-pane active"><br>
+                          <h3>HOME</h3>
+                          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                        </div>
+                        <div id="menu1" class="container tab-pane fade"><br>
+                          <h3>Menu 1</h3>
+                          <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+                        </div>
+                      <!--/Tab panes-->
+                    </div>
+                </div>
+                <!-- /CONTENT -->
+            </div>
+
+        </div>
+        
+
+    </body>
+
+</html>    

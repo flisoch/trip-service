@@ -1,4 +1,16 @@
 body {
-    margin-top: 72px;
+	height: 100%;
+    margin-top: 60px;
     background-color: #f5f5f5;
 }
+
+#sidebar {
+	
+	font-size: 20px;
+}
+
+#inner-nav {
+	display: inline-block;
+}
+
+
