@@ -13,6 +13,11 @@
         <script src="../../static/js/bootstrap.bundle.min.js" defer></script>
         <script src="../../static/js/bootstrap.min.js"    defer></script>
 
+        <!-- dateTimePicker -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/css/bootstrap-datepicker.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/js/bootstrap-datepicker.js"></script>
+        <!-- /dateTimePicker -->
+
         <link rel="stylesheet" href="../../static/css/style.css">
 
     </head>
@@ -109,53 +114,54 @@
                 <!-- CONTENT -->
                 <div class="col-8">
                     <div class="row w-100 h-100 pl-3" id="inner-nav">
-                      
-                            <div class="card">
-                                <div class="card-body">
-                                    <p>From: Kazan<span> dateTime: 12/08/2015 13:00</span></p>
-                                    <p>Where: Zeleno</p>
-                                    <p>Free seats: 3</p>
-                                    <button class="btn btn-primary">View Full info</button>
-                                </div>
+                        <div class="card">
+                            <div class="alert alert-info alert-dismissible">
+                                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                                 Choose on or more parameters to find a trip
                             </div>
+                            <div class="card-body">
+                                <form class="form-row align-items-center" action="/search" method="GET">
 
-                            <div class="card">
-                                <div class="card-body">
-                                    <p>From: Kazan<span> dateTime: 12/08/2015 13:00</span></p>
-                                    <p>Where: Zeleno</p>
-                                    <p>Free seats: 3</p>
-                                    <button class="btn btn-primary">View Full info</button>
-                                </div>
-                            </div>
+                                    <div class="col-sm-3 my-1">
+                                        <label for="departure">Откуда</label>
+                                        <input type="text" class="form-control" id="departure" name="departure" placeholder="Пункт А">
+                                    </div>
+                                    <div class="col-sm-3 my-1">
+                                        <label for="destination">Куда</label>
+                                        <input type="text" class="form-control" id="destination" name="destination" placeholder="Пункт Б">
+                                    </div>
+                                    <div class="col-sm-4 my-1">
+                                        <label for="timeToInputField">Дата и время</label>
+                                        <input name="time_to" type="datetime-local" class="form-control" value="1970-01-01T23:00"
+                                            id="timeToInputField" required>
+                                    </div>
+                                    <div class="col-auto my-1" style="margin-top: 5rem;">
+                                        <div style="color: white;">
+                                            search
+                                        </div>
+                                        <div>
+                                            <button type="submit" class="btn btn-primary">Поиск</button>
 
-                            <div class="card">
-                                <div class="card-body">
-                                    <p>From: Kazan<span> dateTime: 12/08/2015 13:00</span></p>
-                                    <p>Where: Zeleno</p>
-                                    <p>Free seats: 3</p>
-                                    <button class="btn btn-primary">View Full info</button>
-                                </div>
+                                        </div>
+                                    </div>
+
+                                </form>
                             </div>
                         </div>
-                        <div id="menu1" class="container tab-pane fade">
-                            <div class="card">
-                                <div class="card-body">
-                                    <p>From: Kazan<span> dateTime: 12/08/2015 13:00</span></p>
-                                    <p>Where: Zeleno</p>
-                                    <p>Free seats: 3</p>
-                                    <button class="btn btn-primary">View Full info</button>
-                                </div>
-                            </div>
 
-                            <div class="card">
-                                <div class="card-body">
-                                    <p>From: Kazan<span> dateTime: 12/08/2015 13:00</span></p>
-                                    <p>Where: Zeleno</p>
-                                    <p>Free seats: 3</p>
-                                    <button class="btn btn-primary">View Full info</button>
-                                </div>
+                        <div class="form-group">
+                            <div class='input-group date' id='datetimepicker1'>
+                                <input type='text' class="form-control" />
+                                <span class="input-group-addon">
+                                    <span class="glyphicon glyphicon-calendar"></span>
+                                </span>
                             </div>
-                      
+                        </div>
+                        <script type="text/javascript">
+                            $(function () {
+                                $('#datetimepicker1').datetimepicker();
+                            });
+                        </script>
                     </div>
                 </div>
                 <!-- /CONTENT -->
