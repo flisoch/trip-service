@@ -63,8 +63,9 @@ public class NewTripServlet extends HttpServlet {
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        HashMap<String, Object> root = new HashMap<>();
+        /*HashMap<String, Object> root = new HashMap<>();
         root.put("user",userService.getCurrentUser(request));
-        RenderHelper.render(getServletContext(),response,"NewTrip.ftl",root);
+        RenderHelper.render(getServletContext(),response,"NewTrip.ftl",root);*/
+        request.getRequestDispatcher("/jsp/newTrip.jsp").forward(request, response);
     }
 }
