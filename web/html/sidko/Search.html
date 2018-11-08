@@ -8,14 +8,13 @@
 
         <title>Document</title>
 
-        <link rel="stylesheet" href="../../static/css/bootstrap.min.css">
-        <script src="../../static/js/jquery-3.3.1.min.js" defer></script>
-        <script src="../../static/js/bootstrap.bundle.min.js" defer></script>
-        <script src="../../static/js/bootstrap.min.js"    defer></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/js/bootstrap.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.7.14/js/bootstrap-datetimepicker.min.js"></script>
 
-        <!-- dateTimePicker -->
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/css/bootstrap-datepicker.css">
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/js/bootstrap-datepicker.js"></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css">
+        
         <!-- /dateTimePicker -->
 
         <link rel="stylesheet" href="../../static/css/style.css">
@@ -130,12 +129,16 @@
                                         <label for="destination">Куда</label>
                                         <input type="text" class="form-control" id="destination" name="destination" placeholder="Пункт Б">
                                     </div>
-                                    <div class="col-sm-4 my-1">
+                                    <div class="col-sm-1 my-1">
+                                        <label for="departure">Seats </label>
+                                        <input type="number" class="form-control" id="seats" name="seats">
+                                    </div>
+                                    <div class="col-sm-3 my-1">
                                         <label for="timeToInputField">Дата и время</label>
                                         <input name="time_to" type="datetime-local" class="form-control" value="1970-01-01T23:00"
                                             id="timeToInputField" required>
                                     </div>
-                                    <div class="col-auto my-1" style="margin-top: 5rem;">
+                                    <div class="col-1 my-1" style="margin-top: 5rem;">
                                         <div style="color: white;">
                                             search
                                         </div>
@@ -144,24 +147,110 @@
 
                                         </div>
                                     </div>
-
                                 </form>
                             </div>
                         </div>
+                        <div class="list-group">
+                                <a href="#" class="list-group-item list-group-item-action">
+                                    <div class="row">
+                                        <div class="col">
+                                            <p>From: kazan</p>
+                                        </div>
+                                        <div class="col">
+                                            <p>Date: 04/03/19 23:00</p>
+                                        </div>
+                                               
+                                    </div>
+                                    <div class="row">
+                                        <div class="col">
+                                            <p>Where: Moscow</p>
+                                        </div>
+                                        <div class="col">
+                                            <p>free seats: 4</p>
+                                        </div>
+                                    </div>
+                                
+                                    <div class="row">
+                                        <div class="col">
+                                            <img src="../../static/pictures/default.png" width="50">
+                                            <span>vasya</span>
+                                        </div>
+                                        <div class="col">
+                                            <button class="btn btn-primary">
+                                                apply
+                                            </button>
+                                        </div>
+                                    </div>
+                                </a>
 
-                        <div class="form-group">
-                            <div class='input-group date' id='datetimepicker1'>
-                                <input type='text' class="form-control" />
-                                <span class="input-group-addon">
-                                    <span class="glyphicon glyphicon-calendar"></span>
-                                </span>
-                            </div>
+                                <a href="#" class="list-group-item list-group-item-action">
+                                    <div class="row">
+                                        <div class="col">
+                                            <p>From: kazan</p>
+                                        </div>
+                                        <div class="col">
+                                            <p>Date: 04/03/19 23:00</p>
+                                        </div>
+                                               
+                                    </div>
+                                    <div class="row">
+                                        <div class="col">
+                                            <p>Where: Moscow</p>
+                                        </div>
+                                        <div class="col">
+                                            <p>free seats: 4</p>
+                                        </div>
+                                    </div>
+                                
+                                    <div class="row">
+                                        <div class="col">
+                                            <img src="../../static/pictures/default.png" width="50">
+                                            <span>vasya</span>
+                                        </div>
+                                        <div class="col">
+                                            <button class="btn btn-primary">
+                                                apply
+                                            </button>
+                                        </div>
+                                    </div>
+                                </a>
+
+                                <a href="#" class="list-group-item list-group-item-action">
+                                    <div class="row">
+                                        <div class="col">
+                                            <p>From: kazan</p>
+                                        </div>
+                                        <div class="col">
+                                            <p>Date: 04/03/19 23:00</p>
+                                        </div>
+                                               
+                                    </div>
+                                    <div class="row">
+                                        <div class="col">
+                                            <p>Where: Moscow</p>
+                                        </div>
+                                        <div class="col">
+                                            <p>free seats: 4</p>
+                                        </div>
+                                    </div>
+                                
+                                    <div class="row">
+                                        <div class="col">
+                                            <img src="../../static/pictures/default.png" width="50">
+                                            <span>vasya</span>
+                                        </div>
+                                        <div class="col">
+                                            <button class="btn btn-primary">
+                                                apply
+                                            </button>
+                                        </div>
+                                    </div>
+                                </a>
+                                
+
+                              </div>
+                        
                         </div>
-                        <script type="text/javascript">
-                            $(function () {
-                                $('#datetimepicker1').datetimepicker();
-                            });
-                        </script>
                     </div>
                 </div>
                 <!-- /CONTENT -->
