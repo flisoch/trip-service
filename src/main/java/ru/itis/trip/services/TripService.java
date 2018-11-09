@@ -6,6 +6,7 @@ import ru.itis.trip.entities.User;
 import ru.itis.trip.forms.TripForm;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.HashMap;
 import java.util.List;
 
 public interface TripService {
@@ -27,5 +28,5 @@ public interface TripService {
 
     void acceptRequest(Long userId, Long tripId);
 
-    List<Trip> getTripsByUser(User id);
+    HashMap<String, List<Trip>> getTripsByUser(User id);
 }

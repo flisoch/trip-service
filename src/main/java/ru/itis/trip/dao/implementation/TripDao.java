@@ -8,6 +8,7 @@ import ru.itis.trip.entities.User;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 
@@ -170,15 +171,22 @@ public class TripDao implements ru.itis.trip.dao.TripDao {
     }
 
     @Override
-    public List<Trip> getByUserId(Long userId) {
-        List<Trip> trips = new ArrayList<>();
+    public HashMap<String, List<Trip>> getByUserId(Long userId) {
+        HashMap<String,List<Trip>> trips = new HashMap<>();
+        trips.put("active",new ArrayList<Trip>());
+        trips.put("expired", new ArrayList<Trip>());
         try {
             PreparedStatement statement = connection.prepareStatement(SELECT_BY_USER_WITH_EMPTY_USER);
             statement.setLong(1, userId);
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
                 Trip trip = tripMapperWithEmptyUser.rowMap(resultSet);
-                trips.add(trip);
+                if(trip.isExpired()){
+                    trips.get("expired").add(trip);
+                }
+                else {
+                    trips.get("active").add(trip);
+                }
             }
         } catch (SQLException e) {
             e.printStackTrace();

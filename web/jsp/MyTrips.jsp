@@ -21,10 +21,10 @@
                 <!-- Tab panes -->
                 <div class="tab-content">
                     <div id="active" class="container tab-pane active">
-                        <c:forEach var="trip" items="${trips}">
+                        <c:forEach var="trip" items="${activeTrips}">
                             <div class="card">
                                 <div class="card-body">
-                                    <p>From: ${trip.departurePoint}<span> dateTime: 12/08/2015 13:00</span></p>
+                                    <p>From: ${trip.departurePoint}<span> dateTime: ${trip.date} 12/08/2015 13:00</span></p>
                                     <p>Where: ${trip.arrivalPoint}</p>
                                     <p>Free seats: ${trip.freeSeats}</p>
                                     <button class="btn btn-primary" onclick="location.href='/trips/${trip.id}'">View</button>
@@ -32,10 +32,22 @@
                                 </div>
                             </div>
                         </c:forEach>
+                        <%--<c:if test="${activeTrips}"></c:if>--%>
                     </div>
 
                     <div id="expired" class="container tab-pane">
-                        <p>You don't have any for now</p>
+                        <c:forEach var="trip" items="${expiredTrips}">
+                            <div class="card">
+                                <div class="card-body">
+                                    <p>From: ${trip.departurePoint}<span> dateTime:${trip.date} 12/08/2015 13:00</span></p>
+                                    <p>Where: ${trip.arrivalPoint}</p>
+                                    <p>Free seats: ${trip.freeSeats}</p>
+                                    <button class="btn btn-primary" onclick="location.href='/trips/${trip.id}'">View</button>
+                                    <button onclick="location.href='/trips/${trip.id}/edit'"class="btn btn-primary">Edit</button>
+                                </div>
+                            </div>
+                        </c:forEach>
+                        <%--<p>You don't have any for now</p>--%>
                     </div>
                     <!--/Tab panes-->
                 </div>

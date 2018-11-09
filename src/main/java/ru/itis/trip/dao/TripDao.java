@@ -4,6 +4,7 @@ import ru.itis.trip.entities.Request;
 import ru.itis.trip.entities.Trip;
 import ru.itis.trip.entities.User;
 
+import java.util.HashMap;
 import java.util.List;
 
 public interface TripDao extends Dao<Trip>{
@@ -16,7 +17,7 @@ public interface TripDao extends Dao<Trip>{
 
     void sendApply(Long tripId, Long userId);
 
-    List<Trip> getByUserId(Long userId);
+    HashMap<String, List<Trip>> getByUserId(Long userId);
 
     List<Request> getRequests(User user);
 

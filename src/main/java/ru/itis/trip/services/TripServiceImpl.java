@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -32,16 +33,16 @@ public class TripServiceImpl implements TripService {
     }
 
     @Override
-    public List<Trip> getTripsByUser(User user) {
+    public HashMap<String, List<Trip>> getTripsByUser(User user) {
         return tripDao.getByUserId(user.getId());
     }
 
     @Override
     public List<Trip> getTripsWithParameters(HttpServletRequest request) {
-        String userId = request.getParameter("user_id");
+        /*String userId = request.getParameter("user_id");
         if(userId != null){
             return tripDao.getByUserId(Long.parseLong(userId));
-        }
+        }*/
         String departure = request.getParameter("departure");
         String destination = request.getParameter("destination");
         return tripDao.getByDirection(departure, destination);
