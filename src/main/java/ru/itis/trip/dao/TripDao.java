@@ -26,4 +26,6 @@ public interface TripDao extends Dao<Trip>{
     void addUserToTrip(Long userId, Long tripId);
 
     List<Trip> getBookedTripByUser(User user);
+
+    List<Trip> getByParameters(String departure, String destination, String freeSeats, String dateTime);
 }

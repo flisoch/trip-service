@@ -1,6 +1,7 @@
 package ru.itis.trip.servlets;
 
 import ru.itis.trip.entities.Trip;
+import ru.itis.trip.entities.User;
 import ru.itis.trip.helpers.RenderHelper;
 import ru.itis.trip.services.TripService;
 import ru.itis.trip.services.UserService;
@@ -33,11 +34,16 @@ public class TripSearchServlet extends HttpServlet {
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        
-        HashMap<String, Object> root = new HashMap<>();
+
         List<Trip> trips = tripService.getTripsWithParameters(request);
+       /* HashMap<String, Object> root = new HashMap<>();
         root.put("user",userService.getCurrentUser(request));
         root.put("trips",trips);
-        RenderHelper.render(getServletContext(),response,"Trips.ftl",root);
+        RenderHelper.render(getServletContext(),response,"Trips.ftl",root);*/
+        User user = userService.getCurrentUser(request);
+        request.setAttribute("user",user);
+        request.setAttribute("trips",trips);
+        System.out.println(trips);
+        request.getRequestDispatcher("/jsp/search.jsp").forward(request, response);
     }
 }

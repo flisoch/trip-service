@@ -48,9 +48,11 @@ public class TripServiceImpl implements TripService {
         if(userId != null){
             return tripDao.getByUserId(Long.parseLong(userId));
         }*/
+        String freeSeats = request.getParameter("seats");
+        String dateTime = request.getParameter("time_to");
         String departure = request.getParameter("departure");
         String destination = request.getParameter("destination");
-        return tripDao.getByDirection(departure, destination);
+        return tripDao.getByParameters(departure, destination,freeSeats,dateTime);
     }
 
     @Override

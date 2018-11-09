@@ -9,7 +9,11 @@ import ru.itis.trip.entities.User;
 
 import javax.sql.DataSource;
 import java.sql.*;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
@@ -136,7 +140,7 @@ public class TripDao implements ru.itis.trip.dao.TripDao {
                 .build();
 
         return Trip.builder()
-                .id(resultSet.getLong("id"))
+                .id(resultSet.getLong("trip_id"))
                 .arrivalPoint(resultSet.getString("arrival_point"))
                 .departurePoint(resultSet.getString("departure_point"))
                 .date(resultSet.getTimestamp("dateTime").getTime())
@@ -258,6 +262,59 @@ public class TripDao implements ru.itis.trip.dao.TripDao {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return trips;
+    }
+
+    @Override
+    public List<Trip> getByParameters(String departure, String destination, String freeSeats, String dateTime) {
+        List<Trip> trips;
+        StringBuilder query = new StringBuilder("SELECT s.id as user_id, t.id as trip_id, arrival_point, departure_point, ");
+        query.append("dateTime, info, free_seats from trip t join service_user s on t.initiator_id = s.id ");
+
+        query.append("WHERE ");
+        boolean hasParameters = false;
+        if(departure != null && !departure.equals("")){
+            query.append("departure_point = \'");
+            query.append(departure);
+            query.append("\' AND ");
+            hasParameters = true;
+        }
+        if(destination != null && !destination.equals("")) {
+            query.append("arrival_point = \'");
+            query.append(destination);
+            query.append("\' AND ");
+            hasParameters = true;
+        }
+        if(freeSeats != null){
+            query.append("free_seats = ");
+            query.append(Long.parseLong(freeSeats));
+            query.append(" AND ");
+            hasParameters = true;
+        }
+        if(dateTime != null && !destination.equals("")) {
+
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");//"yyyy-MM-dd'T'HH:mm:ss.SSSZ"
+            Date date;
+            Long epoch = 0L;
+            try {
+                date = dateFormat.parse(dateTime);
+                epoch = date.getTime();
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            query.append("dateTime = \'");
+            query.append(new Timestamp(epoch));
+            query.append("\' AND ");
+            hasParameters = true;
+        }
+        if(hasParameters){
+            query.setLength(query.length() - 5);
+        }
+        else {
+            query.setLength(query.length() - 6);
+        }
+//        query.append(";");
+        trips = jdbcTemplate.query(query.toString(),mapper);
         return trips;
     }
 
