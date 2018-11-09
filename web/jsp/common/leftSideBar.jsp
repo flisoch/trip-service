@@ -19,7 +19,7 @@
                 <a class="nav-link" href="/profile/trips">My trips</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">Booked trips</a>
+                <a class="nav-link" href="/profile/booked">Booked trips</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="/profile/requests">Requests</a>

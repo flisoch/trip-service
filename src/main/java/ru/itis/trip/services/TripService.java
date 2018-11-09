@@ -29,4 +29,6 @@ public interface TripService {
     void acceptRequest(Long userId, Long tripId);
 
     HashMap<String, List<Trip>> getTripsByUser(User id);
+
+    List<Trip> getBookedByUser(User user);
 }

@@ -33,6 +33,11 @@ public class TripServiceImpl implements TripService {
     }
 
     @Override
+    public List<Trip> getBookedByUser(User user) {
+        return tripDao.getBookedTripByUser(user);
+    }
+
+    @Override
     public HashMap<String, List<Trip>> getTripsByUser(User user) {
         return tripDao.getByUserId(user.getId());
     }

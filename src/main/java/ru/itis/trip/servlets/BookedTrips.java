@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class ProfileTrips extends HttpServlet {
+public class BookedTrips extends HttpServlet {
     TripService tripService;
     UserService userService;
     @Override
@@ -30,11 +30,9 @@ public class ProfileTrips extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         User user = userService.getCurrentUser(request);
-        HashMap<String,List<Trip>> trips = tripService.getTripsByUser(user);
-        request.setAttribute("user", user);
-        request.setAttribute("activeTrips",trips.getOrDefault("active",new ArrayList<>()));
-        request.setAttribute("expiredTrips",trips.getOrDefault("expired",new ArrayList<>()));
-        request.getRequestDispatcher("/jsp/MyTrips.jsp").forward(request, response);
+        List<Trip> bookedTrips = tripService.getBookedByUser(user);
+        request.setAttribute("trips", bookedTrips);
+        request.getRequestDispatcher("/jsp/bookedTrips.jsp").forward(request, response);
     }
 
     @Override

@@ -38,6 +38,7 @@ public class DispatcherServlet extends HttpServlet {
         addPattern("/profile", new ProfileServlet());
         addPattern("/profile/requests", new TripRequests());
         addPattern("/profile/trips", new ProfileTrips());
+        addPattern("/profile/booked", new BookedTrips());
 
         addPattern("/registration",new RegistrationServlet());
         addPattern("/auth", new AuthServlet());

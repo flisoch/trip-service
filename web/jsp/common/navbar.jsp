@@ -50,7 +50,7 @@
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                             <a class="dropdown-item" href="/profile">Profile</a>
                             <a class="dropdown-item" href="/profile/trips">My trips</a>
-                            <a class="dropdown-item" href="#">Booked trips</a>
+                            <a class="dropdown-item" href="/profile/booked">Booked trips</a>
                             <a class="dropdown-item" href="/profile/requests">Requests</a>
                             <a class="dropdown-item" href="#">Messages</a>
                             <div class="dropdown-divider"></div>
