@@ -9,14 +9,14 @@
 <html>
 <head>
     <title>${title}</title>
-    <jsp:include page="/jsp/commonHead.jsp"></jsp:include>
+    <jsp:include page="/jsp/common/commonHead.jsp"></jsp:include>
     <jsp:invoke fragment="head_area"/>
 </head>
 <body>
-    <jsp:include page="/jsp/navbar.jsp"></jsp:include>
+    <jsp:include page="/jsp/common/navbar.jsp"></jsp:include>
     <div class="container-fluid" id="page">
         <div class="row">
-            <jsp:include page="/jsp/leftSideBar.jsp"></jsp:include>
+            <jsp:include page="/jsp/common/leftSideBar.jsp"></jsp:include>
             <jsp:invoke fragment="body_content"/>
         </div>
     </div>

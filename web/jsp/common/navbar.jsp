@@ -24,10 +24,10 @@
 
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item active">
-                        <a class="nav-link" href="#">Find</a>
+                        <a class="nav-link" href="/trips/search">Find</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Create</a>
+                        <a class="nav-link" href="/trips/new">Create</a>
                     </li>
                 </ul>
 
@@ -48,10 +48,10 @@
                             Anatoly
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item" href="#">Profile</a>
-                            <a class="dropdown-item" href="#">My trips</a>
+                            <a class="dropdown-item" href="/profile">Profile</a>
+                            <a class="dropdown-item" href="/profile/trips">My trips</a>
                             <a class="dropdown-item" href="#">Booked trips</a>
-                            <a class="dropdown-item" href="#">Requests</a>
+                            <a class="dropdown-item" href="/profile/requests">Requests</a>
                             <a class="dropdown-item" href="#">Messages</a>
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item" href="/logout">Log out</a>

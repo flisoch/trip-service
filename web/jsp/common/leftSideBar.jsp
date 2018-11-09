@@ -10,19 +10,19 @@
     <div class="row  " id="sidebar">
         <ul class="nav nav-tabs flex-column w-100 pl-3">
             <li class="nav-item">
-                <a class="nav-link" href="#">Profile</a>
+                <a class="nav-link" href="/profile">Profile</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="#">Messages</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">My trips</a>
+                <a class="nav-link" href="/profile/trips">My trips</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="#">Booked trips</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">Requests</a>
+                <a class="nav-link" href="/profile/requests">Requests</a>
             </li>
         </ul>
     </div>
