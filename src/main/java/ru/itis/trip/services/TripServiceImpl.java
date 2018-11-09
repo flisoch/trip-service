@@ -32,6 +32,11 @@ public class TripServiceImpl implements TripService {
     }
 
     @Override
+    public List<Trip> getTripsByUser(User user) {
+        return tripDao.getByUserId(user.getId());
+    }
+
+    @Override
     public List<Trip> getTripsWithParameters(HttpServletRequest request) {
         String userId = request.getParameter("user_id");
         if(userId != null){

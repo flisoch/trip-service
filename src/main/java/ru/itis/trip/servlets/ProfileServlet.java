@@ -51,9 +51,11 @@ public class ProfileServlet extends HttpServlet {
             response.sendRedirect("/trips");
             return;
         }
-        root.put("profile",user);
+        /*root.put("profile",user);
         root.put("user", userService.getCurrentUser(request));
-        RenderHelper.render(getServletContext(),response,"ProfileById.ftl",root);
+        RenderHelper.render(getServletContext(),response,"ProfileById.ftl",root);*/
+        request.setAttribute("user",user);
+        request.getRequestDispatcher("/jsp/MyProfile.jsp").forward(request, response);
     }
 
     private String getId(HttpServletRequest request) {

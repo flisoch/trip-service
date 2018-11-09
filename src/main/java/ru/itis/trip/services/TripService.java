@@ -26,4 +26,6 @@ public interface TripService {
     void rejectRequest(Long userId, Long tripId);
 
     void acceptRequest(Long userId, Long tripId);
+
+    List<Trip> getTripsByUser(User id);
 }
