@@ -24,4 +24,6 @@ public interface TripDao extends Dao<Trip>{
     void deleteRequest(Long userId, Long tripId);
 
     void addUserToTrip(Long userId, Long tripId);
+
+    List<Trip> getBookedTripByUser(User user);
 }

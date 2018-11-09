@@ -5,11 +5,13 @@ import ru.itis.trip.dao.TripCommentDao;
 import ru.itis.trip.dao.TripDao;
 import ru.itis.trip.dao.UserDao;
 import ru.itis.trip.helpers.DbConnectionConfig;
+import ru.itis.trip.helpers.DbDataSource;
 import ru.itis.trip.services.*;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
+import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.DriverManager;
 
@@ -21,8 +23,9 @@ public class TripServiceListener implements ServletContextListener {
 
         Class.forName("org.postgresql.Driver");
         Connection connection = DbConnectionConfig.getConnection();
+        DataSource dataSource = DbDataSource.getDataSource();
 
-        TripDao tripDao = new ru.itis.trip.dao.implementation.TripDao(connection);
+        TripDao tripDao = new ru.itis.trip.dao.implementation.TripDao(dataSource);
         TripService tripService = new TripServiceImpl(tripDao);
 
         TripCommentDao tripCommentDao = new ru.itis.trip.dao.implementation.TripCommentDao(connection);

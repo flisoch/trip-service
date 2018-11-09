@@ -1,11 +1,13 @@
 package ru.itis.trip.dao.implementation;
 
 import lombok.SneakyThrows;
+import org.springframework.jdbc.core.JdbcTemplate;
 import ru.itis.trip.dao.implementation.mappers.RowMapper;
 import ru.itis.trip.entities.Request;
 import ru.itis.trip.entities.Trip;
 import ru.itis.trip.entities.User;
 
+import javax.sql.DataSource;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -32,9 +34,11 @@ public class TripDao implements ru.itis.trip.dao.TripDao {
             "join service_user u on a.user_id = u.id " +
             "WHERE t.initiator_id = ?";
     private static final String DELETE_REQUEST_QUERY = "DELETE FROM trip_user_apply WHERE trip_id = ? AND user_id = ?";
+    private static final String SELECT_BOOKED_BY_USER_ID = "SELECT * from book b inner join trip t on b.trip_id=t.id WHERE user_id = ?";
 
 
     Connection connection;
+    JdbcTemplate jdbcTemplate;
 
     private RowMapper<Trip> tripMapperWithoutUser = new RowMapper<Trip>() {
         @Override
@@ -96,17 +100,6 @@ public class TripDao implements ru.itis.trip.dao.TripDao {
         }
     };
 
-    @SneakyThrows
-    @Override
-    public void deleteRequest(Long userId, Long tripId) {
-
-        PreparedStatement preparedStatement = connection.prepareStatement(DELETE_REQUEST_QUERY);
-        preparedStatement.setLong(1, tripId);
-        preparedStatement.setLong(2, userId);
-        preparedStatement.execute();
-
-    }
-
     private RowMapper<Trip> tripMapperWithUser = new RowMapper<Trip>() {
         @Override
         @SneakyThrows
@@ -137,14 +130,48 @@ public class TripDao implements ru.itis.trip.dao.TripDao {
         }
     };
 
-    public TripDao(Connection connection) {
-        this.connection = connection;
+    private org.springframework.jdbc.core.RowMapper<Trip> mapper = ((resultSet, i) -> {
+        User user = User.builder()
+                .id(resultSet.getLong("user_id"))
+                .build();
+
+        return Trip.builder()
+                .id(resultSet.getLong("id"))
+                .arrivalPoint(resultSet.getString("arrival_point"))
+                .departurePoint(resultSet.getString("departure_point"))
+                .date(resultSet.getTimestamp("dateTime").getTime())
+                .info(resultSet.getString("info"))
+                .freeSeats(resultSet.getInt("free_seats"))
+                .expired(resultSet.getTimestamp("dateTime").getTime() < new Timestamp(System.currentTimeMillis()).getTime())
+                .iniciator(user)
+                .build();
+    });
+
+
+    @SneakyThrows
+    @Override
+    public void deleteRequest(Long userId, Long tripId) {
+
+        PreparedStatement preparedStatement = connection.prepareStatement(DELETE_REQUEST_QUERY);
+        preparedStatement.setLong(1, tripId);
+        preparedStatement.setLong(2, userId);
+        preparedStatement.execute();
+
+    }
+
+    public TripDao(DataSource dataSource) {
+        try {
+            this.connection = dataSource.getConnection();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        this.jdbcTemplate = new JdbcTemplate(dataSource);
     }
 
     @SneakyThrows
     @Override
     public void addUserToTrip(Long userId, Long tripId) {
-        PreparedStatement statement = connection.prepareStatement("INSERT INTO trip_user(trip_id, user_id) VALUES (?,?)");
+        PreparedStatement statement = connection.prepareStatement("INSERT INTO book(trip_id, user_id) VALUES (?,?)");
         statement.setLong(1,tripId);
         statement.setLong(2,userId);
         statement.execute();
@@ -157,7 +184,7 @@ public class TripDao implements ru.itis.trip.dao.TripDao {
     @SneakyThrows
     @Override
     public void sendApply(Long tripId, Long userId) {
-        PreparedStatement statement = connection.prepareStatement("SELECT * from trip_user WHERE trip_id = ? and user_id = ?");
+        PreparedStatement statement = connection.prepareStatement("SELECT * from book WHERE trip_id = ? and user_id = ?");
         statement.setLong(1,tripId);
         statement.setLong(2,userId);
         ResultSet resultSet = statement.executeQuery();
@@ -168,6 +195,11 @@ public class TripDao implements ru.itis.trip.dao.TripDao {
         statement.setLong(1,tripId);
         statement.setLong(2,userId);
         statement.execute();
+    }
+
+    @Override
+    public List<Trip> getBookedTripByUser(User user) {
+        return jdbcTemplate.query(SELECT_BOOKED_BY_USER_ID, mapper, user.getId());
     }
 
     @Override
