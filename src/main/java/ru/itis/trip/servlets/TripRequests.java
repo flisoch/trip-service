@@ -39,7 +39,6 @@ public class TripRequests extends HttpServlet {
         root.put("requests",requests);
         root.put("user",user);
         RenderHelper.render(getServletContext(),response,"Requests.ftl",root);*/
-        request.setAttribute("user",user);
         request.setAttribute("requests",requests);
         request.getRequestDispatcher("/jsp/requests.jsp").forward(request, response);
     }

@@ -40,8 +40,6 @@ public class TripSearchServlet extends HttpServlet {
         root.put("user",userService.getCurrentUser(request));
         root.put("trips",trips);
         RenderHelper.render(getServletContext(),response,"Trips.ftl",root);*/
-        User user = userService.getCurrentUser(request);
-        request.setAttribute("user",user);
         request.setAttribute("trips",trips);
         request.getRequestDispatcher("/jsp/search.jsp").forward(request, response);
     }

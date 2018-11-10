@@ -28,7 +28,7 @@
 
                                     <div class="form-row">
                                         <div class="form-group col-3">
-                                            <label for="profile-picture">Фото профиля</label>
+                                            <label for="profile-picture">Profile photo</label>
                                             <p><img class="img-fluid" src="/static/pictures/default.png"></p>
                                             <input class="disable" type="file" name="profile-picture" id="profile-picture">
                                         </div>
@@ -37,7 +37,7 @@
 
                                     <div class="form-row">
                                         <div class="form-group">
-                                            <label for="username">Имя пользователя</label>
+                                            <label for="username">Username</label>
                                             <input type="text" class="form-control disable" id="username" placeholder="vasya1234"
                                                    disabled>
                                         </div>
@@ -45,17 +45,17 @@
 
                                     <div class="form-row">
                                         <div class="form-group col-3">
-                                            <label for="firstname">Имя</label>
+                                            <label for="firstname">Name</label>
                                             <input type="text" class="form-control disable" id="firstname" value="Виталий"
                                                    disabled>
                                         </div>
                                         <div class="form-group col-3">
-                                            <label for="middlename">Отчество</label>
+                                            <label for="middlename">Middlename</label>
                                             <input type="text" class="form-control disable" id="middlename" value="Компьютер"
                                                    disabled>
                                         </div>
                                         <div class="form-group col-3">
-                                            <label for="lastname">Фамилия</label>
+                                            <label for="lastname">Lastname</label>
                                             <input type="text" class="form-control disable" id="lastname" value="Компьютер"
                                                    disabled>
                                         </div>
@@ -76,7 +76,7 @@
 
                                     <div class="form-row">
                                         <div class="form-group col-3">
-                                            <label for="age">Возраст</label>
+                                            <label for="age">Age</label>
                                             <input type="number" name="age" min="10" max="137" class="form-control disable" id="age"
                                                    value="38" disabled>
                                         </div>
@@ -90,7 +90,7 @@
 
                                     <div class="form-row">
                                         <div class="form-group col">
-                                            <label for="inputAddress">Адрес</label>
+                                            <label for="inputAddress">Address</label>
                                             <input type="text" name="address" class="form-control disable" id="inputAddress" value="ул. Пушкина, д. Колотушкина"
                                                    disabled>
                                         </div>

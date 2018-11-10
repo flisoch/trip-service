@@ -61,7 +61,6 @@ public class EditTripServlet extends HttpServlet {
         /*root.put("user",userService.getCurrentUser(request));
         root.put("trip",trip);
         RenderHelper.render(getServletContext(),response,"EditTrip.ftl",root);*/
-        request.setAttribute("user",currentUser);
         request.setAttribute("trip",trip);
         request.getRequestDispatcher("/jsp/editTrip.jsp").forward(request, response);
     }

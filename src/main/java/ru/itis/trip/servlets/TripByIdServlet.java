@@ -42,7 +42,6 @@ public class TripByIdServlet extends HttpServlet {
         Long id = getId(request);
         Trip trip = tripService.getById(id);
         List<TripComment> comments = commentService.getComments(trip);
-        request.setAttribute("user",userService.getCurrentUser(request));
         request.setAttribute("trip",trip);
         request.setAttribute("comments",comments);
         request.getRequestDispatcher("/jsp/tripById.jsp").forward(request, response);

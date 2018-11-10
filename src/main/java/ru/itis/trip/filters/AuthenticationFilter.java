@@ -35,7 +35,9 @@ public class AuthenticationFilter implements Filter {
         boolean regRequest = requestURI.equals(regURI);
         boolean loginRequest = requestURI.equals(loginURI);
 
-
+        if(loggedIn) {
+            request.setAttribute("user",userService.getCurrentUser(request));
+        }
         if (regRequest||loggedIn || isStaticFile || loginRequest) {
             chain.doFilter(request, response);
         } else {

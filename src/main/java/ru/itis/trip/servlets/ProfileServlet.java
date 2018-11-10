@@ -42,14 +42,12 @@ public class ProfileServlet extends HttpServlet {
         User user;
         String id = getId(request);
         if(id == null){
-            user = (User)request.getSession().getAttribute("current_user");
-            request.setAttribute("user",user);
             request.getRequestDispatcher("/jsp/MyProfile.jsp").forward(request, response);
             return;
         }
         else{
             user = userService.getUserById(Long.parseLong(id));
-            request.setAttribute("user",user);
+            request.setAttribute("profile",user);
             request.getRequestDispatcher("/jsp/profileById.jsp").forward(request, response);
             return;
         }
