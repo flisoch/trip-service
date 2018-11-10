@@ -43,19 +43,21 @@ public class ProfileServlet extends HttpServlet {
         String id = getId(request);
         if(id == null){
             user = (User)request.getSession().getAttribute("current_user");
+            request.setAttribute("user",user);
+            request.getRequestDispatcher("/jsp/MyProfile.jsp").forward(request, response);
+            return;
         }
         else{
             user = userService.getUserById(Long.parseLong(id));
-        }
-        if(user == null){
-            response.sendRedirect("/trips");
+            request.setAttribute("user",user);
+            request.getRequestDispatcher("/jsp/profileById.jsp").forward(request, response);
             return;
         }
+
         /*root.put("profile",user);
         root.put("user", userService.getCurrentUser(request));
         RenderHelper.render(getServletContext(),response,"ProfileById.ftl",root);*/
-        request.setAttribute("user",user);
-        request.getRequestDispatcher("/jsp/MyProfile.jsp").forward(request, response);
+        
     }
 
     private String getId(HttpServletRequest request) {

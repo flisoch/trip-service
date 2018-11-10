@@ -6,7 +6,7 @@
 
     <jsp:attribute name="body_content">
       <!-- CONTENT -->
-        <div class="col-10">
+        <div class="col-8">
             <div class="row w-100 h-100" id="inner-nav">
                 <!-- Nav tabs -->
                 <ul class="nav nav-tabs ml-3">
@@ -68,7 +68,7 @@
                                                    placeholder="qwerty" disabled>
                                         </div>
                                         <div class="form-group col-3">
-                                            <label for="confirm-password">Повторите пароль</label>
+                                            <label for="confirm-password">Repeat password</label>
                                             <input type="confirm-password" class="form-control disable" id="confirm-password" value="qwerty"
                                                    disabled>
                                         </div>
@@ -82,7 +82,7 @@
                                         </div>
 
                                         <div class="form-group col-3">
-                                            <label for="working-place">Место работы</label>
+                                            <label for="working-place">Working place</label>
                                             <input type="text" class="form-control disable" id="working-place" value="McDonalds"
                                                    disabled>
                                         </div>

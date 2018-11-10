@@ -7,7 +7,7 @@
     <jsp:attribute name="body_content">
     	<!-- CONTENT -->
         <div class="col-8">
-            <div class="row w-100 h-100 pl-3" id="inner-nav">
+            <div class="row w-100 h-100 " id="inner-nav">
                 <div class="card">
                     <div class="alert alert-info alert-dismissible">
                         <button type="button" class="close" data-dismiss="alert">&times;</button>

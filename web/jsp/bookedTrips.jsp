@@ -7,9 +7,9 @@
     <jsp:attribute name="body_content">
     	<!-- CONTENT -->
         <div class="col-8">
-            <div class="row w-100 h-100 pl-3" id="inner-nav">
+            <div class="row w-100 h-100 " id="inner-nav">
                 <c:forEach var="trip" items="${trips}">
-                    <div class="card">
+                    <div class="card mx-3">
                         <div class="card-body">
                             <p>From: ${trip.departurePoint}<span> dateTime: ${trip.date} 12/08/2015 13:00</span></p>
                             <p>Where: ${trip.arrivalPoint}</p>
