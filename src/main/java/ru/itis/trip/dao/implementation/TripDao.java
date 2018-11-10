@@ -285,13 +285,13 @@ public class TripDao implements ru.itis.trip.dao.TripDao {
             query.append("\' AND ");
             hasParameters = true;
         }
-        if(freeSeats != null){
+        if(freeSeats != null && !freeSeats.equals("")){
             query.append("free_seats = ");
             query.append(Long.parseLong(freeSeats));
             query.append(" AND ");
             hasParameters = true;
         }
-        if(dateTime != null && !destination.equals("")) {
+        if(dateTime != null && !dateTime.equals("")) {
 
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");//"yyyy-MM-dd'T'HH:mm:ss.SSSZ"
             Date date;

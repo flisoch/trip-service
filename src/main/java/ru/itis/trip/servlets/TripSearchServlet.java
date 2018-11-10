@@ -43,7 +43,6 @@ public class TripSearchServlet extends HttpServlet {
         User user = userService.getCurrentUser(request);
         request.setAttribute("user",user);
         request.setAttribute("trips",trips);
-        System.out.println(trips);
         request.getRequestDispatcher("/jsp/search.jsp").forward(request, response);
     }
 }
