@@ -2,7 +2,9 @@
 <%@taglib prefix="t" tagdir="/WEB-INF/tags" %>
 
 <t:baseTemplate title="Requests">
-
+    <jsp:attribute name="head_area">
+        <script src="/static/js/requests.js"></script>
+    </jsp:attribute>
     <jsp:attribute name="body_content">
       	<!-- CONTENT -->
         <div class="col-8">

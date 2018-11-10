@@ -38,14 +38,16 @@ public class TripByIdServlet extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        HashMap<String, Object> root = new HashMap<>();
+//        HashMap<String, Object> root = new HashMap<>();
         Long id = getId(request);
         Trip trip = tripService.getById(id);
         List<TripComment> comments = commentService.getComments(trip);
-        root.put("user",userService.getCurrentUser(request));
-        root.put("trip",trip);
-        root.put("comments",comments);
-        RenderHelper.render(getServletContext(),response,"Trip.ftl",root);
+        request.setAttribute("user",userService.getCurrentUser(request));
+        request.setAttribute("trip",trip);
+        request.setAttribute("comments",comments);
+        request.getRequestDispatcher("/jsp/tripById.jsp").forward(request, response);
+
+//        RenderHelper.render(getServletContext(),response,"Trip.ftl",root);
     }
 
     private Long getId(HttpServletRequest request) {
