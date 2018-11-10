@@ -47,7 +47,7 @@
                 </div>
                 <div class="list-group">
                     <c:forEach var="trip" items="${trips}">
-                        <a href="#" class="list-group-item list-group-item-action">
+                        <a href="/trips/${trip.id}" class="list-group-item list-group-item-action">
                             <div class="row">
                                 <div class="col">
                                     <p>From: ${trip.departurePoint}</p>

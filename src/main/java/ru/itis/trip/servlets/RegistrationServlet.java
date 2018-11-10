@@ -47,6 +47,7 @@ public class RegistrationServlet extends javax.servlet.http.HttpServlet {
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        RenderHelper.render(getServletContext(),response,"Registration.ftl",new HashMap<>());
+//        RenderHelper.render(getServletContext(),response,"Registration.ftl",new HashMap<>());
+        request.getRequestDispatcher("/jsp/registration.jsp").forward(request,response);
     }
 }
