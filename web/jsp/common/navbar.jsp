@@ -36,6 +36,7 @@
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="/registration">Sign up</a>
+                            <a class="nav-link" href=/registration">Sign up</a>
                         </li>
                     </c:when>
 
