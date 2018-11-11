@@ -28,7 +28,7 @@ public class TripServiceListener implements ServletContextListener {
         TripDao tripDao = new ru.itis.trip.dao.implementation.TripDao(dataSource);
         TripService tripService = new TripServiceImpl(tripDao);
 
-        TripCommentDao tripCommentDao = new ru.itis.trip.dao.implementation.TripCommentDao(connection);
+        TripCommentDao tripCommentDao = new ru.itis.trip.dao.implementation.TripCommentDao(dataSource);
         CommentService commentService = new CommentServiceImpl(tripCommentDao);
 
         ServletContext context = servletContextEvent.getServletContext();

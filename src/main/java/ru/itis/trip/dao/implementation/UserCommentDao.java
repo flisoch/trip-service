@@ -4,6 +4,7 @@ import ru.itis.trip.dao.implementation.mappers.RowMapper;
 import ru.itis.trip.entities.User;
 import ru.itis.trip.entities.UserComment;
 
+import javax.sql.DataSource;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,7 +23,7 @@ public class UserCommentDao implements ru.itis.trip.dao.UserCommentDao {
         try {
 
             UserComment userComment= UserComment.builder()
-                    .id(resultSet.getLong("c.id"))
+                    .id(resultSet.getLong("id"))
                     .commentatee(User.builder().id(resultSet.getLong("commentatee_id")).build())
                     .commentator(User.builder().id(resultSet.getLong("commentator_id")).build())
                     .text(resultSet.getString("text"))
@@ -36,9 +37,15 @@ public class UserCommentDao implements ru.itis.trip.dao.UserCommentDao {
     };
 
     Connection connection;
+    DataSource dataSource;
 
-    public UserCommentDao(Connection connection) {
-        this.connection = connection;
+    public UserCommentDao(DataSource dataSource) {
+        this.dataSource = dataSource;
+        try {
+            this.connection = dataSource.getConnection();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

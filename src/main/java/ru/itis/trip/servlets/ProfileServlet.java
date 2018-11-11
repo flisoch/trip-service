@@ -1,11 +1,15 @@
 package ru.itis.trip.servlets;
 
 import ru.itis.trip.entities.User;
+import ru.itis.trip.entities.UserComment;
 import ru.itis.trip.helpers.RenderHelper;
+import ru.itis.trip.services.CommentService;
+import ru.itis.trip.services.UserCommentService;
 import ru.itis.trip.services.UserService;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.servlet.ServletConfig;
@@ -25,12 +29,15 @@ GET /profile
 public class ProfileServlet extends HttpServlet {
 
     private UserService userService;
+    private UserCommentService userCommentService;
 
     @Override
     public void init(ServletConfig config) throws ServletException {
         super.init(config);
         ServletContext context = config.getServletContext();
         userService = (UserService) context.getAttribute("userService");
+        userCommentService = (UserCommentService) context.getAttribute("userCommentService");
+
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -40,16 +47,20 @@ public class ProfileServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HashMap<String, Object> root = new HashMap<>();
         User user;
+        List<UserComment> comments;
         String id = getId(request);
         if(id == null){
+            comments = userCommentService.getCommentsByUser(userService.getCurrentUser(request));
+            System.out.println(comments);
+            request.setAttribute("comments", comments);
             request.getRequestDispatcher("/jsp/MyProfile.jsp").forward(request, response);
-            return;
         }
         else{
             user = userService.getUserById(Long.parseLong(id));
+            comments = userCommentService.getCommentsByUser(user);
+            request.setAttribute("comments", comments);
             request.setAttribute("profile",user);
             request.getRequestDispatcher("/jsp/profileById.jsp").forward(request, response);
-            return;
         }
 
         /*root.put("profile",user);

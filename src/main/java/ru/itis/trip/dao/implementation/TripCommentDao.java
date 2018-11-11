@@ -6,6 +6,7 @@ import ru.itis.trip.entities.TripComment;
 import ru.itis.trip.entities.User;
 import ru.itis.trip.services.UserService;
 
+import javax.sql.DataSource;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -27,6 +28,7 @@ public class TripCommentDao implements ru.itis.trip.dao.TripCommentDao {
 
 
     Connection connection;
+    DataSource dataSource;
 
     RowMapper<TripComment> tripCommentMapper = resultSet -> {
         try {
@@ -66,8 +68,13 @@ public class TripCommentDao implements ru.itis.trip.dao.TripCommentDao {
         return null;
     };
 
-    public TripCommentDao(Connection connection) {
-        this.connection = connection;
+    public TripCommentDao(DataSource dataSource) {
+        this.dataSource = dataSource;
+        try {
+            this.connection = dataSource.getConnection();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
