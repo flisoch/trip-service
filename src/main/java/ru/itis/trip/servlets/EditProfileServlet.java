@@ -35,6 +35,7 @@ public class EditProfileServlet extends HttpServlet {
                 .surname(request.getParameter("lastname"))
                 .build();
         userService.updateUser(userService.getCurrentUser(request),profileForm);
+        response.sendRedirect("/profile");
 
     }
 
