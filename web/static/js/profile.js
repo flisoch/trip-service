@@ -37,3 +37,34 @@ function submitChanges() {
     });
     disable();
 }
+const sendComment = (userId) => {
+    let text = $("#comment-text").val();
+
+    $.ajax({
+        url: `/profile/${userId}/comments`,
+        data: {
+            "text": text,
+        },
+        type: 'POST',
+        success: (data) => {
+            let list = $('#comments-container');
+            let message = $('#no_comments_card');
+            list.append(
+                `<div class="card border-secondary mb-3">
+                    <div class="card-header">
+                        <a href="/profile/${data.commentator.id}">${data.commentator.username}</a>
+                    </div>
+                    <div class="card-body text-secondary">
+                        <h5 class="card-title">${data.text}</h5>
+                        <p class="card-text">
+                            ${new Date(data.date).toString()}
+                        </p
+                    </div>
+                </div>`
+            );
+            message.remove();
+        }
+
+    });
+    $("#comment-text").val('');
+};

@@ -1,8 +1,11 @@
-
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib prefix="t" tagdir="/WEB-INF/tags" %>
 
 <t:baseTemplate title="">
 
+	<jsp:attribute name="head_area">
+        <script src="/static/js/profile.js"></script>
+    </jsp:attribute>
 
     <jsp:attribute name="body_content">
        <!-- CONTENT -->
@@ -14,7 +17,7 @@
 						<a class="nav-link active" data-toggle="tab" href="#home">profile</a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link" data-toggle="tab" href="#menu1">Otzivi</a>
+						<a class="nav-link" data-toggle="tab" href="#menu1">Comments</a>
 					</li>
 				</ul>
 				<!--/Nav tabs-->
@@ -77,18 +80,46 @@
 							</div>
 						</div>
 					</div>
-					<div id="menu1" class="container tab-pane">
-						<div class="card ml-0" id="request_${request.id}">
-							<h5 class="card-header">
-								<img src="../../static/pictures/default.png" width="50">
-								<a href="/profile/${otziv.Profile.username}">Profile:${otziv.profile.username}</a>
-								<span>17/08/2015</span>
-							</h5>
 
-							<div class="card-body">
-								<h5 class="card-title">
-									<p>Message:${otziv.text}</p>
-								</h5>
+					<div id="menu1" class="container tab-pane fade">
+						<div id="comments-container">
+                            <c:choose>
+                                <c:when test="${empty comments}">
+                                    <div class="card border-secondary mb-3" id="no_comments_card">
+
+										<div class="card-body text-secondary">
+											<p class="card-text">
+												No Comments for now
+											</p>
+										</div>
+									</div>
+                                </c:when>
+                                <c:otherwise>
+
+                                        <c:forEach var="comment" items="${comments}">
+                                            <div class="card border-secondary mb-3">
+												<div class="card-header">
+													<img src="${comment.commentator.photo}" width="50">
+													<a href="/profile/${comment.commentator.id}"> ${comment.commentator.username}</a>
+												</div>
+												<div class="card-body text-secondary">
+													<h5 class="card-title">${comment.text}</h5>
+													<p class="card-text" id="comment_${comment.id}_text">
+															${comment.date}
+													</p>
+												</div>
+											</div>
+                                         </c:forEach>
+
+                                </c:otherwise>
+                            </c:choose>
+						</div>
+
+						<div class="card border-info mb-3">
+							<div class="card-header">Leave a comment</div>
+							<textarea class="card-body text-secondary" id="comment-text"></textarea>
+							<div class="card-footer text-right">
+								<button class="btn btn-sm" onclick="sendComment(${profile.id});">Send</button>
 							</div>
 						</div>
 					</div>

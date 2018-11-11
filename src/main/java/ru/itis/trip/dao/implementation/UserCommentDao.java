@@ -12,7 +12,7 @@ import java.util.Optional;
 
 public class UserCommentDao implements ru.itis.trip.dao.UserCommentDao {
 
-    private static final String CREATE_QUERY = "INSERT INTO comment_user VALUES (commentatee_id,commentator_id,text,dateTime) VALUES (?,?,?,?)";
+    private static final String CREATE_QUERY = "INSERT INTO comment_user (commentatee_id,commentator_id,text,dateTime) VALUES (?,?,?,?)";
     private static final String UPDATE_QUERY = "UPDATE  comment_user SET VALUES (commentatee_id = ?,commentator_id = ?,text = ?,dateTime = ?) WHERE id = ?";
     private static final String DELETE_QUERY = "DELETE FROM comment_user WHERE id = ?";
     private static final String SELECT_BY_ID_WITH_EMPTY_MODELS = "SELECT * FROM  comment_user WHERE id = ?";
@@ -84,6 +84,7 @@ public class UserCommentDao implements ru.itis.trip.dao.UserCommentDao {
             preparedStatement.setTimestamp(4,new Timestamp(model.getDate()));
             preparedStatement.execute();
             ResultSet resultSet = preparedStatement.getGeneratedKeys();
+            resultSet.next();
             model.setId(resultSet.getLong("id"));
             return true;
         } catch (SQLException e) {
