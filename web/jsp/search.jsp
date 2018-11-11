@@ -50,7 +50,7 @@
                 <div class="list-group">
                     <c:forEach var="trip" items="${trips}">
                         <a <%--href="/trips/${trip.id}"--%> class="list-group-item list-group-item-action"
-                                                            onclick="location.href='/profile'">
+                                                            onclick="location.href='/trips/${trip.id}'">
                             <div class="row">
                                 <div class="col">
                                     <p>From: ${trip.departurePoint}</p>
@@ -82,7 +82,7 @@
                             </div>
                         </a>
                     </c:forEach>
-                
+
                 </div>
             </div>
         </div>
