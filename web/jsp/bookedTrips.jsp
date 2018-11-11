@@ -8,16 +8,52 @@
     	<!-- CONTENT -->
         <div class="col-8">
             <div class="row w-100 h-100 " id="inner-nav">
-                <c:forEach var="trip" items="${trips}">
-                    <div class="card mx-3">
-                        <div class="card-body">
-                            <p>From: ${trip.departurePoint}<span> dateTime: ${trip.date} 12/08/2015 13:00</span></p>
-                            <p>Where: ${trip.arrivalPoint}</p>
-                            <p>Free seats: ${trip.freeSeats}</p>
-                            <button class="btn btn-primary" onclick="location.href='/trips/${trip.id}'">View</button>
-                        </div>
-                    </div>
-                </c:forEach>
+                <div class="list-group" id="trips-container">
+
+                    <c:choose>
+                            <c:when test="${empty trips}">
+                                <div class="card mb-3" id="no_requests_from_me_card">
+                                    <div class="card-body text-secondary">
+                                        <p class="card-text">
+                                            No trips yet
+                                        </p>
+                                    </div>
+                                </div>
+                            </c:when>
+                            <c:otherwise>
+                                <c:forEach var="trip" items="${trips}">
+                                    <a href="/trips/${trip.id}" class="list-group-item list-group-item-action">
+                                        <div class="row">
+                                            <div class="col">
+                                                <p>From: ${trip.departurePoint}</p>
+                                            </div>
+                                            <div class="col">
+                                                <p>Date: ${trip.date} 04/03/19 23:00</p>
+                                            </div>
+
+                                        </div>
+                                        <div class="row">
+                                            <div class="col">
+                                                <p>To: ${trip.arrivalPoint}</p>
+                                            </div>
+                                            <div class="col">
+                                                <p>free seats: ${trip.freeSeats}</p>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col">
+                                                <img src="${trip.iniciator.photo}" width="50">
+                                                <span>${trip.iniciator.username}</span>
+                                            </div>
+                                        </div>
+                                    </a>
+
+                                </c:forEach>
+                            </c:otherwise>
+                        </c:choose>
+
+                </div>
             </div>
         </div>
         <!-- /CONTENT -->

@@ -2,6 +2,9 @@
 <%@taglib prefix="t" tagdir="/WEB-INF/tags" %>
 <t:baseTemplate title="My Trips">
 
+    <jsp:attribute name="head_area">
+        <script src="/static/js/trip.js"></script>
+    </jsp:attribute>
 
     <jsp:attribute name="body_content">
     	<!-- CONTENT -->
@@ -21,33 +24,108 @@
                 <!-- Tab panes -->
                 <div class="tab-content">
                     <div id="active" class="container tab-pane active">
-                        <c:forEach var="trip" items="${activeTrips}">
-                            <div class="card">
-                                <div class="card-body">
-                                    <p>From: ${trip.departurePoint}<span> dateTime: ${trip.date} 12/08/2015 13:00</span></p>
-                                    <p>Where: ${trip.arrivalPoint}</p>
-                                    <p>Free seats: ${trip.freeSeats}</p>
-                                    <button class="btn btn-primary" onclick="location.href='/trips/${trip.id}'">View</button>
-                                    <button onclick="location.href='/trips/${trip.id}/edit'"class="btn btn-primary">Edit</button>
+                        <c:choose>
+                            <c:when test="${empty activeTrips}">
+                                <div class="card mb-3" id="no-active-trips-card">
+                                    <div class="card-body text-secondary">
+                                        <p class="card-text">
+                                            No active trips yet
+                                        </p>
+                                    </div>
                                 </div>
-                            </div>
-                        </c:forEach>
+                            </c:when>
+                            <c:otherwise>
+                                <div class="list-group">
+                                    <c:forEach var="trip" items="${activeTrips}">
+                                        <a class="list-group-item list-group-item-action"
+                                           onclick="location.href='/trips/${trip.id}'">
+                                            <div class="row">
+                                                <div class="col">
+                                                    <p>From: ${trip.departurePoint}</p>
+                                                </div>
+                                                <div class="col">
+                                                    <p>Date: ${trip.date} 04/03/19 23:00</p>
+                                                </div>
+
+                                            </div>
+                                            <div class="row">
+                                                <div class="col">
+                                                    <p>Where: ${trip.arrivalPoint}</p>
+                                                </div>
+                                                <div class="col">
+                                                    <p>free seats: ${trip.freeSeats}</p>
+                                                </div>
+                                            </div>
+
+                                            <div class="row">
+
+                                                <div class="col">
+                                                    <span class="btn btn-xs btn-primary" onclick="location.href='/trips/${trip.id}/edit';event.stopPropagation();">
+                                                        Edit
+                                                    </span>
+                                                    <span class="btn btn-xs btn-danger" onclick="alert('asd');event.stopPropagation();">
+                                                        Remove
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </c:forEach>
+                                </div>
+
+                            </c:otherwise>
+                        </c:choose>
+
                         <%--<c:if test="${activeTrips}"></c:if>--%>
                     </div>
 
                     <div id="expired" class="container tab-pane">
-                        <c:forEach var="trip" items="${expiredTrips}">
-                            <div class="card">
-                                <div class="card-body">
-                                    <p>From: ${trip.departurePoint}<span> dateTime:${trip.date} 12/08/2015 13:00</span></p>
-                                    <p>Where: ${trip.arrivalPoint}</p>
-                                    <p>Free seats: ${trip.freeSeats}</p>
-                                    <button class="btn btn-primary" onclick="location.href='/trips/${trip.id}'">View</button>
-                                    <button onclick="location.href='/trips/${trip.id}/edit'"class="btn btn-primary">Edit</button>
+                        <c:choose>
+                            <c:when test="${empty expiredTrips}">
+                                <div class="card mb-3" id="no-active-trips-card">
+                                    <div class="card-body text-secondary">
+                                        <p class="card-text">
+                                            No active trips yet
+                                        </p>
+                                    </div>
                                 </div>
-                            </div>
-                        </c:forEach>
-                        <%--<p>You don't have any for now</p>--%>
+                            </c:when>
+                            <c:otherwise>
+                                <div class="list-group">
+                                    <c:forEach var="trip" items="${expiredTrips}">
+                                        <a class="list-group-item list-group-item-action"
+                                           onclick="location.href='/trips/${trip.id}'">
+                                            <div class="row">
+                                                <div class="col">
+                                                    <p>From: ${trip.departurePoint}</p>
+                                                </div>
+                                                <div class="col">
+                                                    <p>Date: ${trip.date} 04/03/19 23:00</p>
+                                                </div>
+
+                                            </div>
+                                            <div class="row">
+                                                <div class="col">
+                                                    <p>Where: ${trip.arrivalPoint}</p>
+                                                </div>
+                                                <div class="col">
+                                                    <p>free seats: ${trip.freeSeats}</p>
+                                                </div>
+                                            </div>
+
+                                            <div class="row">
+
+                                                <div class="col">
+                                                    <span class="btn btn-xs btn-danger" onclick="alert('asd');event.stopPropagation();">
+                                                        Remove
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </c:forEach>
+                                </div>
+
+                            </c:otherwise>
+                        </c:choose>
                     </div>
                     <!--/Tab panes-->
                 </div>
