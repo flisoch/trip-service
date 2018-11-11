@@ -32,10 +32,10 @@
 
                     <c:when test="${empty user}">
                         <li class="nav-item">
-                            <a class="nav-link" href="#">Sign in</a>
+                            <a class="nav-link" href="/auth">Sign in</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">Sign up</a>
+                            <a class="nav-link" href=/registration">Sign up</a>
                         </li>
                     </c:when>
 
