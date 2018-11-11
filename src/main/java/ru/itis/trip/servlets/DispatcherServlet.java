@@ -23,7 +23,6 @@ public class DispatcherServlet extends HttpServlet {
         addPattern("/trips/new", new NewTripServlet());
         addPattern("/trips/([1-9][0-9]*)/edit", new EditTripServlet());
         addPattern("/trips/([1-9][0-9]*)", new TripByIdServlet());
-        addPattern("/trips", new TripsServlet());
         addPattern("/trips/([1-9][0-9]*)/apply", new ApplyTripServlet());
 
         addPattern("/requests/reject", new RejectTripServlet());
