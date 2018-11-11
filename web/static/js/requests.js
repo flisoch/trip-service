@@ -13,7 +13,7 @@ const accept = (tripId, userId, requestId) => {
             requestCard.remove();
         },
         error:(data) => {
-            alert("error");
+            alert("error, you already sent the request!");
         }
     });
 };
@@ -44,7 +44,7 @@ const cancel = (requestId) => {
         success: (data) => {
             requestCard.remove();
             let list = $(`#requests-container`);
-            if(!list.hasChildNodes()){
+            if(list[0].childElementCount == 0){
                 list.append(`
                     <div class="card mb-3" id="no_requests_from_me_card">
 

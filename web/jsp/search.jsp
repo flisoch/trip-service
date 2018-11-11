@@ -3,7 +3,9 @@
 
 <t:baseTemplate title="Search">
 
-
+    <jsp:attribute name="head_area">
+        <script src="/static/js/trip.js"></script>
+    </jsp:attribute>
     <jsp:attribute name="body_content">
     	<!-- CONTENT -->
         <div class="col-8">
@@ -47,7 +49,8 @@
                 </div>
                 <div class="list-group">
                     <c:forEach var="trip" items="${trips}">
-                        <a href="/trips/${trip.id}" class="list-group-item list-group-item-action">
+                        <a <%--href="/trips/${trip.id}"--%> class="list-group-item list-group-item-action"
+                                                            onclick="location.href='/profile'">
                             <div class="row">
                                 <div class="col">
                                     <p>From: ${trip.departurePoint}</p>
@@ -69,12 +72,12 @@
                             <div class="row">
                                 <div class="col">
                                     <img src="../../static/pictures/default.png" width="50">
-                                    <span>vasya</span>
+                                    <span>${trip.iniciator.username}</span>
                                 </div>
                                 <div class="col">
-                                    <button class="btn btn-primary">
-                                        apply
-                                    </button>
+                                    <span class="btn btn-xs btn-primary" onclick="apply(${trip.id});event.stopPropagation();">
+                                        Apply
+                                    </span>
                                 </div>
                             </div>
                         </a>
