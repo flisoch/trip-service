@@ -49,9 +49,8 @@ public class ProfileServlet extends HttpServlet {
         User user;
         List<UserComment> comments;
         String id = getId(request);
-        if(id == null){
+        if(id == null || Long.parseLong(id) == userService.getCurrentUser(request).getId()){
             comments = userCommentService.getCommentsByUser(userService.getCurrentUser(request));
-            System.out.println(comments);
             request.setAttribute("comments", comments);
             request.getRequestDispatcher("/jsp/MyProfile.jsp").forward(request, response);
         }

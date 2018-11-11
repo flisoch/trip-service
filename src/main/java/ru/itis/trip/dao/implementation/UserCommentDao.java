@@ -16,16 +16,22 @@ public class UserCommentDao implements ru.itis.trip.dao.UserCommentDao {
     private static final String UPDATE_QUERY = "UPDATE  comment_user SET VALUES (commentatee_id = ?,commentator_id = ?,text = ?,dateTime = ?) WHERE id = ?";
     private static final String DELETE_QUERY = "DELETE FROM comment_user WHERE id = ?";
     private static final String SELECT_BY_ID_WITH_EMPTY_MODELS = "SELECT * FROM  comment_user WHERE id = ?";
-    private static final String SELECT_COMMENTS_BY_COMMENTEE_ID = "SELECT * FROM comment_user WHERE commentatee_id = ?";
+    private static final String SELECT_COMMENTS_BY_COMMENTEE_ID = "SELECT c.id as id, c.commentator_id, c.commentatee_id, " +
+            "c.text, c.datetime, u.username as commentator_username, u.photo as commentator_photo " +
+            "FROM comment_user c INNER JOIN service_user u on c.commentator_id = u.id WHERE commentatee_id = ?";
 
 
     RowMapper<UserComment> userCommentMapper = resultSet -> {
         try {
-
+            User commentator = User.builder()
+                    .id(resultSet.getLong("commentator_id"))
+                    .username(resultSet.getString("commentator_username"))
+                    .photo(resultSet.getString("commentator_photo"))
+                    .build();
             UserComment userComment= UserComment.builder()
                     .id(resultSet.getLong("id"))
                     .commentatee(User.builder().id(resultSet.getLong("commentatee_id")).build())
-                    .commentator(User.builder().id(resultSet.getLong("commentator_id")).build())
+                    .commentator(commentator)
                     .text(resultSet.getString("text"))
                     .date(resultSet.getTimestamp("dateTime").getTime())
                     .build();

@@ -199,19 +199,23 @@
                         </div>
                     </div>
                     <div id="menu1" class="container tab-pane fade">
-                        <div class="card ml-0" id="request_${request.id}">
-                            <h5 class="card-header">
-                                <img src="../../static/pictures/default.png" width="50">
-                                <a href="/profile/${otziv.user.username}">User:${otziv.user.username}</a>
-                                <span>17/08/2015</span>
-                            </h5>
 
-                            <div class="card-body">
-                                <h5 class="card-title">
-                                    Message:${otziv.text}
+                        <c:forEach var="comment" items="${comments}">
+                            <div class="card ml-0" id="comment_${comment.id}">
+                                <h5 class="card-header">
+                                    <img src="${comment.commentator.photo}" width="50">
+                                    <a href="/profile/${comment.commentator.id}">User:${comment.commentator.username}</a>
+                                    <span>${comment.date} 17/08/2015</span>
                                 </h5>
+
+                                <div class="card-body">
+                                    <h5 class="card-title">
+                                        Message:${comment.text}
+                                    </h5>
+                                </div>
                             </div>
-                        </div>
+                        </c:forEach>
+
                     </div>
                     <!--/Tab panes-->
                 </div>
