@@ -17,13 +17,13 @@
                         <div class="card-body">
                             <h5 class="card-title">From:${trip.departurePoint} <br> To: ${trip.arrivalPoint}</h5>
                             <p class="card-text">
-                                ${trip.info}
+                                Additional info: ${trip.info}
 
                             </p>
                             <a href="#" class="btn btn-primary">Go somewhere</a>
                         </div>
                         <div class="card-footer text-muted">
-                            ${trip.date}
+                            Date: ${trip.date}
                         </div>
                     </div>
 

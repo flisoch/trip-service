@@ -1,4 +1,4 @@
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+    <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib prefix="t" tagdir="/WEB-INF/tags" %>
 
 <t:baseTemplate title="Requests">
@@ -24,10 +24,10 @@
                 <div class="tab-content">
                     <div id="home" class="container tab-pane active">
                         <%--<c:if test="${requestScope.requests.size() != 0}">--%>
-                            <c:forEach var="request" items="${requests}">
+                            <c:forEach var="request" items="${requests_to_me}">
                                 <div class="card" id="request_${request.id}">
                                     <h5 class="card-header">
-                                        <a href="/trips/${request.trip.id}">Trip uuuuuuuuu${request.trip.id}</a>
+                                        <a href="/trips/${request.trip.id}">Trip #${request.trip.id}</a>
                                     </h5>
 
                                     <div class="card-body">
@@ -48,7 +48,7 @@
                     <div id="menu1" class="container tab-pane fade">
                         <div class="card" id="request_${request.id}">
                             <h5 class="card-header">
-                                <a href="/trips/${request.trip.id}">Trip N${request.trip.id}</a>
+                                <a href="/trips/${request.trip.id}">Trip #${request.trip.id}</a>
                             </h5>
 
                             <div class="card-body">

@@ -22,7 +22,7 @@ public interface TripService {
 
     void sendApply(Long tripId, Long id);
 
-    List<Request> getRequsets(User user);
+    HashMap<String, List<Request>> getRequsets(User user);
 
     void rejectRequest(Long userId, Long tripId);
 

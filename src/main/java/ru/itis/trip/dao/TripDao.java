@@ -19,7 +19,7 @@ public interface TripDao extends Dao<Trip>{
 
     HashMap<String, List<Trip>> getByUserId(Long userId);
 
-    List<Request> getRequests(User user);
+    HashMap<String, List<Request>> getRequests(User user);
 
     void deleteRequest(Long userId, Long tripId);
 

@@ -100,7 +100,7 @@ public class TripServiceImpl implements TripService {
     }
 
     @Override
-    public List<Request> getRequsets(User user) {
+    public HashMap<String, List<Request>> getRequsets(User user) {
         return tripDao.getRequests(user);
     }
 

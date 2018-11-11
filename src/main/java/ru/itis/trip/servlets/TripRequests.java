@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -34,12 +35,13 @@ public class TripRequests extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         User user = userService.getCurrentUser(request);
 
-        List<Request> requests = tripService.getRequsets(user);
+        HashMap<String,List<Request>> requests = tripService.getRequsets(user);
         /*HashMap<String, Object> root = new HashMap<>();
         root.put("requests",requests);
         root.put("user",user);
         RenderHelper.render(getServletContext(),response,"Requests.ftl",root);*/
-        request.setAttribute("requests",requests);
+        request.setAttribute("requests_to_me", requests.getOrDefault("to_me", new ArrayList<>()));
+        request.setAttribute("requests_from_me", requests.getOrDefault("from_me", new ArrayList<>()));
         request.getRequestDispatcher("/jsp/requests.jsp").forward(request, response);
     }
 }

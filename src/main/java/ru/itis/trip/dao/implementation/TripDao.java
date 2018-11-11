@@ -11,7 +11,6 @@ import javax.sql.DataSource;
 import java.sql.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -36,7 +35,7 @@ public class TripDao implements ru.itis.trip.dao.TripDao {
     private static final String SELECT_REQUEST_BY_USER_ID = "SELECT a.id, a.trip_id, a.user_id, u.username from trip_user_apply a " +
             "join trip t on a.trip_id = t.id " +
             "join service_user u on a.user_id = u.id " +
-            "WHERE t.initiator_id = ?";
+            "WHERE t.initiator_id = ? or u.id = ?";
     private static final String DELETE_REQUEST_QUERY = "DELETE FROM trip_user_apply WHERE trip_id = ? AND user_id = ?";
     private static final String SELECT_BOOKED_BY_USER_ID = "SELECT * from book b inner join trip t on b.trip_id=t.id WHERE user_id = ?";
 
@@ -231,15 +230,23 @@ public class TripDao implements ru.itis.trip.dao.TripDao {
     }
 
     @Override
-    public List<Request> getRequests(User user) {
-        List<Request> requests = new ArrayList<>();
+    public HashMap<String, List<Request>> getRequests(User user) {
+        HashMap<String,List<Request>> requests = new HashMap<>();
+        requests.put("from_me", new ArrayList<>());
+        requests.put("to_me",new ArrayList<>());
         try {
             PreparedStatement statement = connection.prepareStatement(SELECT_REQUEST_BY_USER_ID);
             statement.setLong(1, user.getId());
+            statement.setLong(2, user.getId());
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
                 Request request = requestMapper.rowMap(resultSet);
-                requests.add(request);
+                if(request.getUser().getId().equals(user.getId())){
+                    requests.get("from_me").add(request);
+                }
+                else {
+                    requests.get("to_me").add(request);
+                }
             }
         } catch (SQLException e) {
             e.printStackTrace();
