@@ -84,7 +84,7 @@
                                 <div class="card mb-3" id="no-active-trips-card">
                                     <div class="card-body text-secondary">
                                         <p class="card-text">
-                                            No active trips yet
+                                            No expired trips yet
                                         </p>
                                     </div>
                                 </div>

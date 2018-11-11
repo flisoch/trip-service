@@ -41,7 +41,7 @@ public class AuthServlet extends HttpServlet {
         User current_user = userService.signIn(loginForm);
         if(current_user != null){
             userService.authorize(current_user, request, response);
-            response.sendRedirect("/profile/edit");
+            response.sendRedirect("/profile");
             return;
         }
         response.sendRedirect("/auth");

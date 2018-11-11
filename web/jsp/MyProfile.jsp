@@ -189,7 +189,7 @@
 
                                     <div class="form-group">
                                         <input type="submit" class="btn btn-primary disable" value="Save">
-                                        <button type="button" class="btn btn-primary" onclick="enable();">Change
+                                        <button type="button" class="btn btn-warning" onclick="enable();">Change
                                         </button>
                                     </div>
 
@@ -206,7 +206,7 @@
 
                                         <div class="card-body text-secondary">
                                             <p class="card-text" >
-                                                    No Comments for now
+                                                    No Comments yet
                                             </p>
                                         </div>
                                     </div>
