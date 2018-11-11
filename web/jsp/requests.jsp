@@ -23,44 +23,73 @@
                 <!-- Tab panes -->
                 <div class="tab-content">
                     <div id="home" class="container tab-pane active">
-                        <%--<c:if test="${requestScope.requests.size() != 0}">--%>
-                            <c:forEach var="request" items="${requests_to_me}">
-                                <div class="card" id="request_${request.id}">
-                                    <h5 class="card-header">
-                                        <a href="/trips/${request.trip.id}">Trip #${request.trip.id}</a>
-                                    </h5>
 
-                                    <div class="card-body">
-                                        <h5 class="card-title">
-                                            <a href="/profile/${request.user.id}">User:${request.user.username}</a>
-                                        </h5>
+                        <c:choose>
+                            <c:when test="${empty requests_to_me}">
+                                <div class="card mb-3" id="no_requests_to_me_card">
 
-                                        <button onclick="accept(${request.trip.id},${request.user.id}, ${request.id})"
-                                                class="btn btn-success">accept</button>
-                                        <button onclick="reject(${request.trip.id},${request.user.id}, ${request.id})"
-                                                class="btn btn-danger">reject</button>
+                                    <div class="card-body text-secondary">
+                                        <p class="card-text">
+                                            No requests yet
+                                        </p>
                                     </div>
                                 </div>
-                            </c:forEach>
-                        <%--</c:if>--%>
+                            </c:when>
+                            <c:otherwise>
+                                <c:forEach var="request" items="${requests_to_me}">
+                                    <div class="card" id="request_${request.id}">
+                                        <h5 class="card-header">
+                                            <a href="/trips/${request.trip.id}">Trip #${request.trip.id}</a>
+                                        </h5>
 
+                                        <div class="card-body">
+                                            <h5 class="card-title">
+                                                <a href="/profile/${request.user.id}">User:${request.user.username}</a>
+                                            </h5>
+
+                                            <button onclick="accept(${request.trip.id},${request.user.id}, ${request.id})"
+                                                    class="btn btn-success">accept</button>
+                                            <button onclick="reject(${request.trip.id},${request.user.id}, ${request.id})"
+                                                    class="btn btn-danger">reject</button>
+                                        </div>
+                                    </div>
+                                 </c:forEach>
+                            </c:otherwise>
+                            </c:choose>
                     </div>
-                    <div id="menu1" class="container tab-pane fade">
-                        <div class="card" id="request_${request.id}">
-                            <h5 class="card-header">
-                                <a href="/trips/${request.trip.id}">Trip #${request.trip.id}</a>
-                            </h5>
 
-                            <div class="card-body">
-                                <h5 class="card-title">
-                                    <p>From: Kazan<span> dateTime: 12/08/2015 13:00</span></p>
-                                    <p>Where: Zeleno</p>
-                                    <p>Free seats: 3</p>
-                                </h5>
-                    
-                                <button onclick="cancel(${request.trip.id},${request.user.id}, ${request.id})"
-                                class="btn btn-danger">Cancel</button>
-                            </div>
+                    <div id="menu1" class="container tab-pane fade">
+                        <div id="requests-container">
+                        <c:choose>
+                            <c:when test="${empty requests_from_me}">
+                                <div class="card mb-3" id="no_requests_from_me_card">
+
+                                    <div class="card-body text-secondary">
+                                        <p class="card-text">
+                                            No requests yet
+                                        </p>
+                                    </div>
+                                </div>
+                            </c:when>
+                            <c:otherwise>
+                                <c:forEach var="request" items="${requests_from_me}">
+                                    <div class="card" id="request_${request.id}">
+                                        <h5 class="card-header">
+                                            <a href="/trips/${request.trip.id}">Trip #${request.trip.id}</a>
+                                        </h5>
+
+                                        <div class="card-body">
+                                            <h5 class="card-title">
+                                                <a href="/profile/${request.user.id}">User:${request.user.username}</a>
+                                            </h5>
+
+                                            <button onclick="cancel(${request.id})"
+                                                    class="btn btn-danger">Cancel</button>
+                                        </div>
+                                    </div>
+                                 </c:forEach>
+                            </c:otherwise>
+                        </c:choose>
                         </div>
                     </div>
                 </div>

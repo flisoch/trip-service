@@ -104,6 +104,11 @@ public class TripServiceImpl implements TripService {
         return tripDao.getRequests(user);
     }
 
+    @Override
+    public void deleteRequestById(Long id) {
+        tripDao.deleteRequestById(id);
+    }
+
     private Long getId(HttpServletRequest request) {
         Pattern compile = Pattern.compile("/trips/([1-9][0-9]*)");
         Matcher matcher = compile.matcher(request.getRequestURI());

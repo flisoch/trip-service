@@ -28,4 +28,6 @@ public interface TripDao extends Dao<Trip>{
     List<Trip> getBookedTripByUser(User user);
 
     List<Trip> getByParameters(String departure, String destination, String freeSeats, String dateTime);
+
+    void deleteRequestById(Long id);
 }

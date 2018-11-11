@@ -32,6 +32,18 @@ public class TripRequests extends HttpServlet {
     }
 
     @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String requestId = request.getParameter("request_id");
+        if(requestId!= null){
+            Long id = Long.parseLong(requestId);
+            tripService.deleteRequestById(id);
+        }
+        else {
+            response.getWriter().write("Request id is not present");
+        }
+    }
+
+    @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         User user = userService.getCurrentUser(request);
 

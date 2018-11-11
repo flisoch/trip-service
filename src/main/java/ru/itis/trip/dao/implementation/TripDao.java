@@ -38,7 +38,7 @@ public class TripDao implements ru.itis.trip.dao.TripDao {
             "WHERE t.initiator_id = ? or u.id = ?";
     private static final String DELETE_REQUEST_QUERY = "DELETE FROM trip_user_apply WHERE trip_id = ? AND user_id = ?";
     private static final String SELECT_BOOKED_BY_USER_ID = "SELECT * from book b inner join trip t on b.trip_id=t.id WHERE user_id = ?";
-
+    private static final String DELETE_REQUEST_BY_ID = "DELETE FROM trip_user_apply WHERE id = ?";
 
     Connection connection;
     JdbcTemplate jdbcTemplate;
@@ -150,6 +150,13 @@ public class TripDao implements ru.itis.trip.dao.TripDao {
                 .build();
     });
 
+    @SneakyThrows
+    @Override
+    public void deleteRequestById(Long id) {
+        PreparedStatement preparedStatement = connection.prepareStatement(DELETE_REQUEST_BY_ID);
+        preparedStatement.setLong(1, id);
+        preparedStatement.execute();
+    }
 
     @SneakyThrows
     @Override

@@ -85,11 +85,11 @@
 						<div id="comments-container">
                             <c:choose>
                                 <c:when test="${empty comments}">
-                                    <div class="card border-secondary mb-3" id="no_comments_card">
+                                    <div class="card mb-3" id="no_comments_card">
 
 										<div class="card-body text-secondary">
 											<p class="card-text">
-												No Comments for now
+												No Comments yet
 											</p>
 										</div>
 									</div>
