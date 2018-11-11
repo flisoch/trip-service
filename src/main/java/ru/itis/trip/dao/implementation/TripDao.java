@@ -37,7 +37,9 @@ public class TripDao implements ru.itis.trip.dao.TripDao {
             "join service_user u on a.user_id = u.id " +
             "WHERE t.initiator_id = ? or u.id = ?";
     private static final String DELETE_REQUEST_QUERY = "DELETE FROM trip_user_apply WHERE trip_id = ? AND user_id = ?";
-    private static final String SELECT_BOOKED_BY_USER_ID = "SELECT * from book b inner join trip t on b.trip_id=t.id WHERE user_id = ?";
+    private static final String SELECT_BOOKED_BY_USER_ID = "SELECT u.photo as user_photo, u.username, b.trip_id, b.user_id," +
+            "arrival_point, departure_point, t.datetime, t.info,t.free_seats from book b inner join trip t on b.trip_id=t.id join service_user u " +
+            "on t.initiator_id=u.id WHERE user_id = ?";
     private static final String DELETE_REQUEST_BY_ID = "DELETE FROM trip_user_apply WHERE id = ?";
 
     Connection connection;
@@ -136,6 +138,8 @@ public class TripDao implements ru.itis.trip.dao.TripDao {
     private org.springframework.jdbc.core.RowMapper<Trip> mapper = ((resultSet, i) -> {
         User user = User.builder()
                 .id(resultSet.getLong("user_id"))
+                .username(resultSet.getString("username"))
+                .photo(resultSet.getString("user_photo"))
                 .build();
 
         return Trip.builder()
@@ -282,7 +286,7 @@ public class TripDao implements ru.itis.trip.dao.TripDao {
     @Override
     public List<Trip> getByParameters(String departure, String destination, String freeSeats, String dateTime) {
         List<Trip> trips;
-        StringBuilder query = new StringBuilder("SELECT s.id as user_id, t.id as trip_id, arrival_point, departure_point, ");
+        StringBuilder query = new StringBuilder("SELECT s.id as user_id, s.photo as user_photo, s.username, t.id as trip_id, arrival_point, departure_point, ");
         query.append("dateTime, info, free_seats from trip t join service_user s on t.initiator_id = s.id ");
 
         query.append("WHERE ");

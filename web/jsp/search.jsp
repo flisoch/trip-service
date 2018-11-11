@@ -71,7 +71,7 @@
 
                             <div class="row">
                                 <div class="col">
-                                    <img src="../../static/pictures/default.png" width="50">
+                                    <img src="${trip.iniciator.photo}" width="50">
                                     <span>${trip.iniciator.username}</span>
                                 </div>
                                 <div class="col">
