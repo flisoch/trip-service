@@ -50,7 +50,6 @@
                                 <a class="dropdown-item" href="/profile/trips">My trips</a>
                                 <a class="dropdown-item" href="/profile/booked">Booked trips</a>
                                 <a class="dropdown-item" href="/profile/requests">Requests</a>
-                                <a class="dropdown-item" href="#">Messages</a>
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item" href="/logout">Log out</a>
                             </div>
