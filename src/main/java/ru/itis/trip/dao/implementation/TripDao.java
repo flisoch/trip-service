@@ -38,7 +38,7 @@ public class TripDao implements ru.itis.trip.dao.TripDao {
             "WHERE t.initiator_id = ? or u.id = ?";
     private static final String DELETE_REQUEST_QUERY = "DELETE FROM trip_user_apply WHERE trip_id = ? AND user_id = ?";
     private static final String SELECT_BOOKED_BY_USER_ID = "SELECT u.photo as user_photo, u.username, b.trip_id, b.user_id," +
-            "arrival_point, departure_point, t.datetime, t.info,t.free_seats from book b inner join trip t on b.trip_id=t.id join service_user u " +
+            "arrival_point, departure_point, t.datetime, t.info,t.free_seats from booked_trip b inner join trip t on b.trip_id=t.id join service_user u " +
             "on t.initiator_id=u.id WHERE user_id = ?";
     private static final String DELETE_REQUEST_BY_ID = "DELETE FROM trip_user_apply WHERE id = ?";
 
@@ -185,7 +185,7 @@ public class TripDao implements ru.itis.trip.dao.TripDao {
     @SneakyThrows
     @Override
     public void addUserToTrip(Long userId, Long tripId) {
-        PreparedStatement statement = connection.prepareStatement("INSERT INTO book(trip_id, user_id) VALUES (?,?)");
+        PreparedStatement statement = connection.prepareStatement("INSERT INTO booked_trip(trip_id, user_id) VALUES (?,?)");
         statement.setLong(1,tripId);
         statement.setLong(2,userId);
         statement.execute();
@@ -198,7 +198,7 @@ public class TripDao implements ru.itis.trip.dao.TripDao {
     @SneakyThrows
     @Override
     public void sendApply(Long tripId, Long userId) {
-        PreparedStatement statement = connection.prepareStatement("SELECT * from book WHERE trip_id = ? and user_id = ?");
+        PreparedStatement statement = connection.prepareStatement("SELECT * from booked_trip WHERE trip_id = ? and user_id = ?");
         statement.setLong(1,tripId);
         statement.setLong(2,userId);
         ResultSet resultSet = statement.executeQuery();
@@ -325,12 +325,7 @@ public class TripDao implements ru.itis.trip.dao.TripDao {
             query.append("\' AND ");
             hasParameters = true;
         }
-        /*if(hasParameters){
-            query.setLength(query.length() - 5);
-        }
-        else {
-            query.setLength(query.length() - 6);
-        }*/
+
         query.append("dateTime > now() AND free_seats > 0");
         trips = jdbcTemplate.query(query.toString(),mapper);
         return trips;
