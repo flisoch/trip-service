@@ -331,7 +331,7 @@ public class TripDao implements ru.itis.trip.dao.TripDao {
         else {
             query.setLength(query.length() - 6);
         }*/
-        query.append("dateTime > now()");
+        query.append("dateTime > now() AND free_seats > 0");
         trips = jdbcTemplate.query(query.toString(),mapper);
         return trips;
     }

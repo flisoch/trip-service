@@ -79,9 +79,18 @@
                                     <span>${trip.iniciator.username}</span>
                                 </div>
                                 <div class="col">
-                                    <span class="btn btn-xs btn-primary" onclick="apply(${trip.id});event.stopPropagation();">
+                                    <c:choose>
+                                        <c:when test="${trip.iniciator.id == user.id}">
+                                            <span class="btn btn-xs btn-info" onclick="location.href='/trips/${trip.id}/edit';event.stopPropagation();">
+                                        Edit
+                                    </span>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <span class="btn btn-xs btn-primary" onclick="apply(${trip.id});event.stopPropagation();">
                                         Apply
                                     </span>
+                                        </c:otherwise>
+                                    </c:choose>
                                 </div>
                             </div>
                         </a>
