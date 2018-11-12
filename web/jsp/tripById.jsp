@@ -37,8 +37,11 @@
                         <c:otherwise>
                             <div id="comments-container">
                                 <c:forEach var="comment" items="${comments}">
-                                    <div class="card border-secondary mb-3">
+                                    <div class="card border-secondary mb-3" id="comment_${comment.id}">
                                         <div class="card-header">
+                                            <c:if test="${comment.commentator.id == user.id}">
+                                                <button onclick="deleteTripComment(${comment.trip.id},${comment.id})" class="btn-sm btn btn-danger float-right">&times;</button>
+                                            </c:if>
                                             <img src="${comment.commentator.photo}" width="50">
                                             <a href="/profile/${comment.commentator.id}"> ${comment.commentator.username}</a>
                                         </div>

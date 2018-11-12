@@ -82,3 +82,22 @@ const deleteTrip = (tripId) => {
 
     });
 };
+
+const deleteTripComment = (tripId, commentId) => {
+    let comment = $(`#comment_${commentId}`);
+
+    $.ajax({
+        url: `/trips/${tripId}/comments`,
+        type: 'POST',
+        data: {
+            "comment_id": commentId,
+        },
+        success: (data) => {
+            comment.remove();
+        },
+        error: (data) => {
+            alert("error");
+        }
+
+    });
+};

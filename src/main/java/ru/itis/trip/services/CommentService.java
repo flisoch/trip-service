@@ -9,4 +9,6 @@ public interface CommentService {
     List<TripComment> getComments(Trip trip);
 
     void saveComment(TripComment tripComment);
+
+    void deleteComment(Long id);
 }

@@ -31,6 +31,11 @@ public class TripCommentServlet extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String text = request.getParameter("text");
+        String commentId = request.getParameter("comment_id");
+        if (text == null && commentId!= null){
+            commentService.deleteComment(Long.parseLong(commentId));
+            return;
+        }
         User user = (User)request.getAttribute("user");
         Long dateTime = System.currentTimeMillis();
         TripComment tripComment = TripComment.builder()

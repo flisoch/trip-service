@@ -69,3 +69,22 @@ const sendUserComment = (userId) => {
     });
     $("#comment-text").val('');
 };
+
+const deleteUserComment = (userId, commentId) => {
+    let comment = $(`#comment_${commentId}`);
+
+    $.ajax({
+        url: `/profile/${userId}/comments`,
+        type: 'POST',
+        data: {
+            "comment_id": commentId,
+        },
+        success: (data) => {
+            comment.remove();
+        },
+        error: (data) => {
+            alert("error");
+        }
+
+    });
+};

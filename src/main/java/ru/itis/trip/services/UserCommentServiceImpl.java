@@ -22,4 +22,9 @@ public class UserCommentServiceImpl implements UserCommentService {
     public void saveComment(UserComment userComment) {
         commentDao.create(userComment);
     }
+
+    @Override
+    public void deleteComment(Long id) {
+        commentDao.delete(id);
+    }
 }

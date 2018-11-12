@@ -8,4 +8,6 @@ import java.util.List;
 public interface UserCommentService {
     List<UserComment> getCommentsByUser(User currentUser);
     void saveComment(UserComment userComment);
+
+    void deleteComment(Long id);
 }

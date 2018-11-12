@@ -14,6 +14,11 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
+    public void deleteComment(Long id) {
+        tripCommentDao.delete(id);
+    }
+
+    @Override
     public List<TripComment> getComments(Trip trip) {
         return tripCommentDao.getTripComments(trip);
     }
