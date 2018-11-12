@@ -23,7 +23,11 @@
                             <a href="#" class="btn btn-primary">Go somewhere</a>
                         </div>
                         <div class="card-footer text-muted">
-                            Date: ${trip.date}
+                            <p id="trip_${trip.id}_date"></p>
+                            <script>
+                                document.getElementById('trip_${trip.id}_date').innerText
+                                    = "Date: " + formatDate(new Date(${trip.date}));
+                            </script>
                         </div>
                     </div>
 
@@ -35,6 +39,7 @@
                                 <c:forEach var="comment" items="${comments}">
                                     <div class="card border-secondary mb-3">
                                         <div class="card-header">
+                                            <img src="${comment.commentator.photo}" width="50">
                                             <a href="/profile/${comment.commentator.id}"> ${comment.commentator.username}</a>
                                         </div>
                                         <div class="card-body text-secondary">
@@ -42,6 +47,10 @@
                                             <p class="card-text" id="comment_${comment.id}_text">
                                                     ${comment.date}
                                             </p>
+                                            <script>
+                                                document.getElementById('comment_${comment.id}_text').innerText
+                                                    = formatDate(new Date(${comment.date}));
+                                            </script>
                                         </div>
                                     </div>
                                  </c:forEach>

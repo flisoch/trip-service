@@ -325,13 +325,13 @@ public class TripDao implements ru.itis.trip.dao.TripDao {
             query.append("\' AND ");
             hasParameters = true;
         }
-        if(hasParameters){
+        /*if(hasParameters){
             query.setLength(query.length() - 5);
         }
         else {
             query.setLength(query.length() - 6);
-        }
-//        query.append(";");
+        }*/
+        query.append("dateTime > now()");
         trips = jdbcTemplate.query(query.toString(),mapper);
         return trips;
     }

@@ -22,12 +22,13 @@ const sendComment = (tripId) => {
             list.append(
                 `<div class="card border-secondary mb-3">
                     <div class="card-header">
+                        <img src="${data.commentator.photo}" width="50">
                         <a href="/profile/${data.commentator.id}">${data.commentator.username}</a>
                     </div>
                     <div class="card-body text-secondary">
                         <h5 class="card-title">${data.text}</h5>
                         <p class="card-text">
-                            ${new Date(data.date).toString()}
+                            ${formatDate(new Date(data.date))}
                         </p
                     </div>
                 </div>`

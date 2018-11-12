@@ -107,6 +107,10 @@
 													<p class="card-text" id="comment_${comment.id}_text">
 															${comment.date}
 													</p>
+													<script>
+                                                        document.getElementById('comment_${comment.id}_text').innerText
+                                                            = formatDate(new Date(${comment.date}));
+													</script>
 												</div>
 											</div>
                                          </c:forEach>
@@ -119,7 +123,7 @@
 							<div class="card-header">Leave a comment</div>
 							<textarea class="card-body text-secondary" id="comment-text"></textarea>
 							<div class="card-footer text-right">
-								<button class="btn btn-sm" onclick="sendComment(${profile.id});">Send</button>
+								<button class="btn btn-sm" onclick="sendUserComment(${profile.id});">Send</button>
 							</div>
 						</div>
 					</div>

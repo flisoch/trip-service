@@ -18,7 +18,7 @@ public class TripCommentDao implements ru.itis.trip.dao.TripCommentDao {
     private static final String SELECT_BY_ID_WITH_EMPTY_MODELS = "SELECT * FROM  comment_trip WHERE id = ?";
 
     //language=SQL
-    private static final String SELECT_BY_ID_WITH_USER = "SELECT c.id as comment_id,trip_id,commentator_id,text,datetime,username FROM  comment_trip AS c JOIN service_user AS u ON commentator_id = u.id WHERE trip_id = ?";
+    private static final String SELECT_BY_ID_WITH_USER = "SELECT c.id as comment_id,trip_id,commentator_id,text,datetime,username,photo as user_photo FROM  comment_trip AS c JOIN service_user AS u ON commentator_id = u.id WHERE trip_id = ?";
 
     private static final String SELECT_BY_ID_WITH_TRIP = "SELECT * FROM  comment_trip c JOIN trip t ON c.trip_id = t.id WHERE c.id = ?";
     private static final String DELETE_QUERY = "DELETE FROM comment_trip WHERE id = ?";
@@ -51,6 +51,7 @@ public class TripCommentDao implements ru.itis.trip.dao.TripCommentDao {
 
             User user = User.builder()
                     .id(resultSet.getLong("commentator_id"))
+                    .photo(resultSet.getString("user_photo"))
                     .username(resultSet.getString("username"))
                     .build();
             TripComment tripComment = TripComment.builder()

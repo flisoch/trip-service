@@ -16,3 +16,4 @@
 <script src="/static/js/bootstrap.min.js" defer></script>
 
 <link rel="stylesheet" href="/static/css/style.css">
+<script src="/static/js/dateFormatter.js"></script>
