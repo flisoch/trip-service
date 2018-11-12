@@ -50,9 +50,11 @@ const sendUserComment = (userId) => {
             let list = $('#comments-container');
             let message = $('#no_comments_card');
             list.append(
-                `<div class="card border-secondary mb-3">
+                `<div class="card border-secondary mb-3" id="comment_${data.id}">
                     <div class="card-header">
-                    <img src="${data.commentator.photo}" width="50">
+                        <button onclick='deleteUserComment(${userId},${data.id})' 
+                            class="btn-sm btn btn-danger float-right">&times;</button>
+                        <img src="${data.commentator.photo}" width="50">
                         <a href="/profile/${data.commentator.id}">${data.commentator.username}</a>
                     </div>
                     <div class="card-body text-secondary">
@@ -64,7 +66,7 @@ const sendUserComment = (userId) => {
                 </div>`
             );
             message.remove();
-        }
+        },
 
     });
     $("#comment-text").val('');
@@ -81,6 +83,21 @@ const deleteUserComment = (userId, commentId) => {
         },
         success: (data) => {
             comment.remove();
+            let list = $(`#comments-container`);
+            if(list[0].childElementCount == 0){
+                list.append(`
+                    <div id="no_comments_card">
+                        <div class="card mb-3" id="no_requests_from_me_card">
+                            <div class="card-body text-secondary">
+                                <p class="card-text">
+                                    No comments yet
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                `);
+            }
         },
         error: (data) => {
             alert("error");

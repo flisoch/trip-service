@@ -19,9 +19,13 @@ const sendComment = (tripId) => {
         type: 'POST',
         success: (data) => {
             let list = $('#comments-container');
+            let message = $('#no_comments_card');
             list.append(
-                `<div class="card border-secondary mb-3">
+                `<div class="card border-secondary mb-3" id="comment_${data.id}">
                     <div class="card-header">
+                        <button onclick='deleteTripComment(${tripId},${data.id})' 
+                        class="btn-sm btn btn-danger float-right">&times;</button>
+                                            
                         <img src="${data.commentator.photo}" width="50">
                         <a href="/profile/${data.commentator.id}">${data.commentator.username}</a>
                     </div>
@@ -33,7 +37,8 @@ const sendComment = (tripId) => {
                     </div>
                 </div>`
             );
-        }
+            message.remove();
+        },
 
     });
     $("#comment-text").val('');
@@ -94,6 +99,19 @@ const deleteTripComment = (tripId, commentId) => {
         },
         success: (data) => {
             comment.remove();
+            let list = $(`#comments-container`);
+            if(list[0].childElementCount == 0){
+                list.append(`
+                    <div class="card mb-3" id="no_requests_from_me_card">
+
+                        <div class="card-body text-secondary">
+                            <p class="card-text">
+                                No comments yet
+                            </p>
+                        </div>
+                    </div>
+                `);
+            }
         },
         error: (data) => {
             alert("error");
