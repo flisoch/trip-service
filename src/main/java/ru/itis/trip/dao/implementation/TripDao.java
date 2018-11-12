@@ -320,7 +320,7 @@ public class TripDao implements ru.itis.trip.dao.TripDao {
             } catch (ParseException e) {
                 e.printStackTrace();
             }
-            query.append("dateTime = \'");
+            query.append("dateTime > \'");
             query.append(new Timestamp(epoch));
             query.append("\' AND ");
             hasParameters = true;
