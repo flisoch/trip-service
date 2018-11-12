@@ -52,7 +52,7 @@ public class TripServiceImpl implements TripService {
         String dateTime = request.getParameter("time_to");
         String departure = request.getParameter("departure");
         String destination = request.getParameter("destination");
-        return tripDao.getByParameters(departure, destination,freeSeats,dateTime);
+        return tripDao.getByParameters(departure, destination, freeSeats, dateTime);
     }
 
     @Override
@@ -72,7 +72,7 @@ public class TripServiceImpl implements TripService {
             e.printStackTrace();
         }
         Trip trip = Trip.builder()
-                .iniciator((User)request.getSession().getAttribute("current_user"))
+                .iniciator((User) request.getSession().getAttribute("current_user"))
                 .info(tripForm.getInfo())
                 .date(epoch)
                 .freeSeats(tripForm.getSeatsNumber())
@@ -96,7 +96,7 @@ public class TripServiceImpl implements TripService {
     @Override
     public void acceptRequest(Long userId, Long tripId) {
         tripDao.addUserToTrip(userId, tripId);
-        tripDao.deleteRequest(userId,tripId);
+        tripDao.deleteRequest(userId, tripId);
     }
 
     @Override
@@ -109,14 +109,18 @@ public class TripServiceImpl implements TripService {
         tripDao.deleteRequestById(id);
     }
 
+    @Override
+    public void deleteTripById(Long id) {
+        tripDao.delete(id);
+    }
+
     private Long getId(HttpServletRequest request) {
         Pattern compile = Pattern.compile("/trips/([1-9][0-9]*)");
         Matcher matcher = compile.matcher(request.getRequestURI());
         Long id = null;
-        if(matcher.find()){
+        if (matcher.find()) {
             id = Long.valueOf(matcher.group(1));
         }
-
         return id;
     }
 }

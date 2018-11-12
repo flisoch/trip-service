@@ -23,8 +23,8 @@
                 <!-- Tab panes -->
                 <div class="tab-content">
                     <div id="home" class="container tab-pane active">
-
-                        <c:choose>
+                        <div id="requests-to-me-container">
+                            <c:choose>
                             <c:when test="${empty requests_to_me}">
                                 <div class="card mb-3" id="no_requests_to_me_card">
 
@@ -56,6 +56,7 @@
                                  </c:forEach>
                             </c:otherwise>
                             </c:choose>
+                        </div>
                     </div>
 
                     <div id="menu1" class="container tab-pane fade">

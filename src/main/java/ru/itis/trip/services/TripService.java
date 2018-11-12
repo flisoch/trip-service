@@ -33,4 +33,6 @@ public interface TripService {
     List<Trip> getBookedByUser(User user);
 
     void deleteRequestById(Long id);
+
+    void deleteTripById(Long id);
 }

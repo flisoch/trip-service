@@ -33,7 +33,11 @@ public class TripByIdServlet extends HttpServlet {
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+        Pattern compile = Pattern.compile("/trips/([1-9][0-9]*)");
+        Matcher matcher = compile.matcher(request.getRequestURI());
+        matcher.find();
+        Long id = Long.parseLong(matcher.group(1));
+        tripService.deleteTripById(id);
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

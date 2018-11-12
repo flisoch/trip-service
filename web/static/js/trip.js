@@ -66,3 +66,19 @@ function submitTripChanges(id) {
         }
     });
 }
+
+const deleteTrip = (tripId) => {
+    let trip = $(`#trip_${tripId}`);
+
+    $.ajax({
+        url: `/trips/${tripId}`,
+        type: 'POST',
+        success: (data) => {
+            trip.remove();
+        },
+        error: (data) => {
+            alert("error");
+        }
+
+    });
+};
