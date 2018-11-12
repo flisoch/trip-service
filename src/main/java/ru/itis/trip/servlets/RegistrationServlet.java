@@ -40,7 +40,7 @@ public class RegistrationServlet extends javax.servlet.http.HttpServlet {
         User user = userService.signUp(form);
         if(user != null){
             userService.authorize(user, request, response);
-            response.sendRedirect("/profile/edit");
+            response.sendRedirect("/profile");
             return;
         }
         response.sendRedirect("/registration");
