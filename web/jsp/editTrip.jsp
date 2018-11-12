@@ -47,7 +47,11 @@
                                         <label for="timeToInputField">Date and time</label>
                                         <input name="time_to" type="datetime-local" class="form-control disable"
                                                id="timeToInputField" required
-                                               value="1970-01-01T23:00" disabled>
+                                               value="" disabled>
+                                        <script>
+                                            document.getElementById('timeToInputField').value
+                                                = new Date(${trip.date}).toISOString().replace(/\.[0-9a-zA-Z]{4}/, '');
+                                        </script>
                                         <!--LocalDateTime.ofInstant(Instant.ofEpochMilli(trip.date), ZoneId.systemDefault());-->
                                     </div>
                                 </div>
