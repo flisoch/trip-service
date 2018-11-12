@@ -37,14 +37,13 @@
 
                             <div class="form-group">
                                 <label for="timeToInputField">Date and time</label>
-                                <input name="time_to" type="datetime-local" class="form-control" value="1970-01-01T23:00"
+                                <input name="time_to" type="datetime-local" class="form-control" value="2018-01-01T23:00"
                                        id="timeToInputField" required>
                             </div>
 
                             <div class="form-group">
                                 <label for="bio">About Trip</label>
-                                <textarea name="bio" class="form-control" id="bio" rows="3">Morning trip from zelenodolsk to kzan
-                                                </textarea>
+                                <textarea name="bio" class="form-control" id="bio" rows="3"></textarea>
                             </div>
 
                             <div class="form-group">
