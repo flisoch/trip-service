@@ -96,7 +96,7 @@
                             <c:otherwise>
                                 <div class="list-group">
                                     <c:forEach var="trip" items="${expiredTrips}">
-                                        <a class="list-group-item list-group-item-action"
+                                        <a class="list-group-item list-group-item-action" id="trip_${trip.id}"
                                            onclick="location.href='/trips/${trip.id}'">
                                             <div class="row">
                                                 <div class="col">
@@ -123,7 +123,7 @@
                                             <div class="row">
 
                                                 <div class="col">
-                                                    <span class="btn btn-xs btn-danger" onclick="alert('asd');event.stopPropagation();">
+                                                    <span class="btn btn-xs btn-danger" onclick="deleteTrip(${trip.id});event.stopPropagation();">
                                                         Remove
                                                     </span>
                                                 </div>
