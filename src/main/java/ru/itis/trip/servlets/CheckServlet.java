@@ -32,7 +32,6 @@ public class CheckServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         User user = userService.getUserByUsername(req.getParameter("username"));
         if(user != null){
-            System.out.println(new Gson().toJson(false));
             resp.getWriter().write(new Gson().toJson(false));
         }
     }

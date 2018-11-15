@@ -26,7 +26,7 @@
                     <form method="POST">
                         <div class="form-group">
                             <label for="username">Username</label>
-                            <input type="text" name="username" class="form-control" id="username" onchange="validUsername('username');"
+                            <input type="text" name="username" class="form-control" id="username" onkeyup="validUsername('username');"
                                    placeholder="vasya1234" required>
                         </div>
                         <div class="form-group">

@@ -26,6 +26,7 @@ public class AuthenticationFilter implements Filter {
         String requestURI = request.getRequestURI();
         String loginURI = request.getContextPath() + "/auth";
         String regURI = request.getContextPath() + "/registration";
+        String checkURI = request.getContextPath() + "/check";
 
         UserService userService = (UserService)req.getServletContext().getAttribute("userService");
 
@@ -34,11 +35,12 @@ public class AuthenticationFilter implements Filter {
         boolean loggedIn = userService.getCurrentUser(request) != null;
         boolean regRequest = requestURI.equals(regURI);
         boolean loginRequest = requestURI.equals(loginURI);
+        boolean checkrequest = requestURI.equals(checkURI);
 
         if(loggedIn) {
             request.setAttribute("user",userService.getCurrentUser(request));
         }
-        if (regRequest||loggedIn || isStaticFile || loginRequest) {
+        if (regRequest||loggedIn || isStaticFile || loginRequest||checkrequest) {
             chain.doFilter(request, response);
         } else {
             response.sendRedirect("/auth");

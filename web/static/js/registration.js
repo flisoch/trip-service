@@ -8,7 +8,8 @@ const validatePassword = () => {
 const passwordMatch = (password) => {
     let passwordConfirmation = $('#confirm-password').get(0);
     if (password.value !== passwordConfirmation.value) {
-        passwordConfirmation.setCustomValidity('Пароли не совпадают!');
+        passwordConfirmation.setCustomValidity('passwords must match!');
+        passwordConfirmation.reportValidity();
     } else {
         passwordConfirmation.setCustomValidity('');
     }
@@ -17,12 +18,15 @@ const passwordMatch = (password) => {
 const validUsername = (id) => {
     let username = $(`#${id}`).get(0);
     if (!username.value.match(identifierRegex)) {
-        username.setCustomValidity(`Имя пользователя должно удовлетворять ${identifierRegex}`);
+        username.setCustomValidity(`username must comply with regex ${identifierRegex}`);
+        username.reportValidity();
     } else {
         username.setCustomValidity('');
         $.post('/check',{'username':username.value},function (data) {
+            datat = data;
             if($.isEmptyObject(data)){
-                username.setCustomValidity('username is already exists');
+                username.setCustomValidity('username is already taken');
+                username.reportValidity();
             }
         },'JSON');
     }
