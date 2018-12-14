@@ -1,9 +1,14 @@
 package ru.itis.trip.dao.implementation;
 
 import lombok.SneakyThrows;
-import ru.itis.trip.dao.implementation.mappers.RowMapper;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.core.SqlInOutParameter;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import ru.itis.trip.entities.User;
 
+import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -22,12 +27,12 @@ public class UserDao implements ru.itis.trip.dao.UserDao {
     private static final String INSERT_TOKEN = "UPDATE service_user SET token = ? WHERE id = ?";
     private static final String SQL_SELECT_BY_TOKEN_QUERY = "SELECT * from service_user where token = ?";
 
-    private Connection connection;
+    private DataSource dataSource;
+    private JdbcTemplate jdbcTemplate;
 
     private RowMapper<User> userMapper = new RowMapper<User>() {
-        @Override
         @SneakyThrows
-        public User rowMap(ResultSet resultSet) {
+        public User mapRow(ResultSet resultSet, int i) {
             return User.builder()
                     .id(resultSet.getLong("id"))
                     .username(resultSet.getString("username"))
@@ -44,147 +49,70 @@ public class UserDao implements ru.itis.trip.dao.UserDao {
         }
     };
 
-    public UserDao(Connection connection) {
-        this.connection = connection;
+    public UserDao(DataSource dataSource) {
+        this.dataSource = dataSource;
+        this.jdbcTemplate = new JdbcTemplate(dataSource);
     }
-
-    /*@Override
-    public Optional<User> getByUsername(String username) {
-
-        try {
-            PreparedStatement statement = connection.prepareStatement(SQL_SELECT_BY_NAME_QUERY);
-            statement.setString(1,username);
-            ResultSet resultSet = statement.executeQuery();
-            User user = userMapper.rowMap(resultSet);
-            return Optional.of(user);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return Optional.empty();
-    }*/
 
     @Override
     public boolean create(User model) {
 
-        try {
-            PreparedStatement preparedStatement =
-                    connection.prepareStatement(SQL_CREATE_QUERY, PreparedStatement.RETURN_GENERATED_KEYS);
+        KeyHolder keyHolder = new GeneratedKeyHolder();
+        jdbcTemplate.update(
+                connection -> {
+                    PreparedStatement preparedStatement =
+                            connection.prepareStatement(SQL_CREATE_QUERY, new String[]{"id"});
+                    preparedStatement.setString(1, model.getEmail());
+                    preparedStatement.setString(2, model.getHashedPassword());
+                    preparedStatement.setString(3, model.getUsername());
+                    return preparedStatement;
+                }, keyHolder);
 
-            preparedStatement.setString(1,model.getEmail());
-            preparedStatement.setString(2,model.getHashedPassword());
-            preparedStatement.setString(3,model.getUsername());
-            preparedStatement.execute();
+        model.setId(keyHolder.getKey().longValue());
 
-            ResultSet resultSet = preparedStatement.getGeneratedKeys();
-            resultSet.next();
-            model.setId(resultSet.getLong("id"));
-            return true;
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return false;
-        }
+        return true;
     }
 
     @Override
     public Optional<User> read(Long id) {
-        try {
-            PreparedStatement statement = connection.prepareStatement(SQL_SELECT_BY_ID_QUERY);
-            statement.setLong(1,id);
-            ResultSet resultSet = statement.executeQuery();
-            User user = null;
-            if(resultSet.next()){
-                user = userMapper.rowMap(resultSet);
-            }
-            return Optional.ofNullable(user);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return Optional.empty();
+        return Optional.of(jdbcTemplate.queryForObject(SQL_SELECT_BY_ID_QUERY, userMapper, id));
     }
 
     @Override
     public void update(User model) {
-        try {
-
-            PreparedStatement preparedStatement = connection.prepareStatement(SQL_UPDATE_QUERY);
-
-            preparedStatement.setString(1,model.getEmail());
-            preparedStatement.setString(2,model.getHashedPassword());
-            preparedStatement.setString(3,model.getName());
-            preparedStatement.setString(4,model.getLastname());
-            preparedStatement.setString(5,model.getJob());
-            preparedStatement.setInt(6,model.getAge());
-            preparedStatement.setString(7,model.getAdditionalInfo());
-            preparedStatement.setString(8,model.getPhoto());
-            preparedStatement.setString(9,model.getAddress());
-            preparedStatement.setString(10,model.getUsername());
-            preparedStatement.setLong(11,model.getId());
-            preparedStatement.execute();
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        jdbcTemplate.update(SQL_UPDATE_QUERY, model.getEmail(),
+                model.getHashedPassword(),
+                model.getName(),
+                model.getLastname(),
+                model.getJob(),
+                model.getAge(),
+                model.getAdditionalInfo(),
+                model.getPhoto(),
+                model.getAddress(),
+                model.getUsername(),
+                model.getId()
+        );
     }
 
     @Override
     public void delete(Long id) {
-        try {
-            PreparedStatement preparedStatement = connection.prepareStatement(SQL_DELETE_QUERY);
-            preparedStatement.setLong(1, id);
-            preparedStatement.execute();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
+        jdbcTemplate.update(SQL_DELETE_QUERY, id);
     }
 
     @Override
     public Optional<User> getByUsername(String username) {
-        try {
-            PreparedStatement statement = connection.prepareStatement(SQL_SELECT_BY_USERNAME_QUERY);
-            statement.setString(1,username);
-            ResultSet resultSet = statement.executeQuery();
-            User user = null;
-            if(resultSet.next()){
-                user = userMapper.rowMap(resultSet);
-            }
-            return Optional.ofNullable(user);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return Optional.empty();
+        return Optional.of(jdbcTemplate.queryForObject(SQL_SELECT_BY_USERNAME_QUERY, userMapper, username));
     }
 
 
     @Override
     public Optional<User> getByToken(String token) {
-        try {
-            PreparedStatement statement = connection.prepareStatement(SQL_SELECT_BY_TOKEN_QUERY);
-            statement.setString(1,token);
-            ResultSet resultSet = statement.executeQuery();
-            resultSet.next();
-            User user = userMapper.rowMap(resultSet);
-            return Optional.of(user);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return Optional.empty();
+        return Optional.of(jdbcTemplate.queryForObject(SQL_SELECT_BY_TOKEN_QUERY, userMapper, token));
     }
 
 
     @Override
     public boolean addToken(User user, String token) {
-        try {
-            PreparedStatement preparedStatement =
-                    connection.prepareStatement(INSERT_TOKEN);
-
-            preparedStatement.setString(1,token);
-            preparedStatement.setLong(2,user.getId());
-            preparedStatement.execute();
-            return true;
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return false;
-        }
+        return jdbcTemplate.update(INSERT_TOKEN, token, user.getId()) != 0;
     }
 }

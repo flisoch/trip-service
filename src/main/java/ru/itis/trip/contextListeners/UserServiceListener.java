@@ -32,7 +32,7 @@ public class UserServiceListener implements ServletContextListener {
         DataSource dataSource = DbDataSource.getDataSource();
         Connection connection = DbConnectionConfig.getConnection();
 
-        UserDao userDao = new ru.itis.trip.dao.implementation.UserDao(connection);
+        UserDao userDao = new ru.itis.trip.dao.implementation.UserDao(dataSource);
         UserService userService = new UserServiceImpl(userDao);
 
         UserCommentDao userCommentDao = new ru.itis.trip.dao.implementation.UserCommentDao(dataSource);
