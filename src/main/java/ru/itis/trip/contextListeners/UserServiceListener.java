@@ -30,7 +30,6 @@ public class UserServiceListener implements ServletContextListener {
 
         Class.forName("org.postgresql.Driver");
         DataSource dataSource = DbDataSource.getDataSource();
-        Connection connection = DbConnectionConfig.getConnection();
 
         UserDao userDao = new ru.itis.trip.dao.implementation.UserDao(dataSource);
         UserService userService = new UserServiceImpl(userDao);

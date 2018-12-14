@@ -101,7 +101,7 @@ public class UserDao implements ru.itis.trip.dao.UserDao {
 
     @Override
     public Optional<User> getByUsername(String username) {
-        return Optional.of(jdbcTemplate.queryForObject(SQL_SELECT_BY_USERNAME_QUERY, userMapper, username));
+        return Optional.ofNullable(jdbcTemplate.queryForObject(SQL_SELECT_BY_USERNAME_QUERY, userMapper, username));
     }
 
 

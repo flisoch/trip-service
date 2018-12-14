@@ -22,7 +22,6 @@ public class TripServiceListener implements ServletContextListener {
     public void contextInitialized(ServletContextEvent servletContextEvent) {
 
         Class.forName("org.postgresql.Driver");
-        Connection connection = DbConnectionConfig.getConnection();
         DataSource dataSource = DbDataSource.getDataSource();
 
         TripDao tripDao = new ru.itis.trip.dao.implementation.TripDao(dataSource);
