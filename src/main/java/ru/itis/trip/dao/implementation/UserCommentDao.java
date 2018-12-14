@@ -1,6 +1,9 @@
 package ru.itis.trip.dao.implementation;
 
-import ru.itis.trip.dao.implementation.mappers.RowMapper;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import ru.itis.trip.entities.User;
 import ru.itis.trip.entities.UserComment;
 
@@ -21,7 +24,7 @@ public class UserCommentDao implements ru.itis.trip.dao.UserCommentDao {
             "FROM comment_user c INNER JOIN service_user u on c.commentator_id = u.id WHERE commentatee_id = ?";
 
 
-    RowMapper<UserComment> userCommentMapper = resultSet -> {
+    RowMapper<UserComment> userCommentMapper = (resultSet, i) -> {
         try {
             User commentator = User.builder()
                     .id(resultSet.getLong("commentator_id"))
@@ -42,97 +45,54 @@ public class UserCommentDao implements ru.itis.trip.dao.UserCommentDao {
         return null;
     };
 
-    Connection connection;
+    JdbcTemplate jdbcTemplate;
     DataSource dataSource;
 
     public UserCommentDao(DataSource dataSource) {
         this.dataSource = dataSource;
-        try {
-            this.connection = dataSource.getConnection();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        this.jdbcTemplate = new JdbcTemplate(dataSource);
     }
 
     @Override
     public List<UserComment> getUserComments(User user) {
-        List<UserComment> userComment = new ArrayList<>();
-        try {
-            PreparedStatement statement = connection.prepareStatement(SELECT_COMMENTS_BY_COMMENTEE_ID);
-            statement.setLong(1,user.getId());
-            ResultSet resultSet = statement.executeQuery();
-            while (resultSet.next()){
-                UserComment comment = userCommentMapper.rowMap(resultSet);
-                userComment.add(comment);
-            }
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return userComment;
+        return jdbcTemplate.query(SELECT_COMMENTS_BY_COMMENTEE_ID, userCommentMapper, user.getId());
     }
 
     @Override
     public boolean create(UserComment model) {
-        try {
-            PreparedStatement preparedStatement =
-                    connection.prepareStatement(CREATE_QUERY, PreparedStatement.RETURN_GENERATED_KEYS);
+        KeyHolder keyHolder = new GeneratedKeyHolder();
+        jdbcTemplate.update(
+                connection -> {
+                    PreparedStatement preparedStatement =
+                            connection.prepareStatement(CREATE_QUERY, new String[]{"id"});
+                    preparedStatement.setLong(1,model.getCommentatee().getId());
+                    preparedStatement.setLong(2,model.getCommentator().getId());
+                    preparedStatement.setString(3,model.getText());
+                    preparedStatement.setTimestamp(4,new Timestamp(model.getDate()));
+                    return preparedStatement;
+                }, keyHolder);
 
-            preparedStatement.setLong(1,model.getCommentatee().getId());
-            preparedStatement.setLong(2,model.getCommentator().getId());
-            preparedStatement.setString(3,model.getText());
-            preparedStatement.setTimestamp(4,new Timestamp(model.getDate()));
-            preparedStatement.execute();
-            ResultSet resultSet = preparedStatement.getGeneratedKeys();
-            resultSet.next();
-            model.setId(resultSet.getLong("id"));
-            return true;
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return false;
+        model.setId(keyHolder.getKey().longValue());
+        return model.getId() != null;
     }
 
     @Override
     public Optional<UserComment> read(Long id) {
-        try {
-            PreparedStatement statement = connection.prepareStatement(SELECT_BY_ID_WITH_EMPTY_MODELS);
-            statement.setLong(1,id);
-            ResultSet resultSet = statement.executeQuery();
-            resultSet.next();
-            UserComment tripComment = userCommentMapper.rowMap(resultSet);
-            return Optional.of(tripComment);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        return Optional.empty();
+        return Optional.ofNullable(jdbcTemplate.queryForObject(SELECT_BY_ID_WITH_EMPTY_MODELS, userCommentMapper, id));
     }
 
     @Override
     public void update(UserComment model) {
-        try {
-            PreparedStatement preparedStatement =
-                    connection.prepareStatement(UPDATE_QUERY);
-
-            preparedStatement.setLong(1,model.getCommentatee().getId());
-            preparedStatement.setLong(2,model.getCommentator().getId());
-            preparedStatement.setString(3,model.getText());
-            preparedStatement.setTimestamp(4,new Timestamp(model.getDate()));
-            preparedStatement.execute();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        jdbcTemplate.update(UPDATE_QUERY,
+                model.getCommentatee().getId(),
+                model.getCommentator().getId(),
+                model.getText(),
+                new Timestamp(model.getDate())
+        );
     }
 
     @Override
     public void delete(Long id) {
-        try {
-            PreparedStatement preparedStatement = connection.prepareStatement(DELETE_QUERY);
-            preparedStatement.setLong(1, id);
-            preparedStatement.execute();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        jdbcTemplate.update(DELETE_QUERY, id);
     }
 }
