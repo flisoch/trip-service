@@ -33,6 +33,7 @@
 
                     <c:choose>
                         <c:when test="${empty comments}">
+                            <div id="comments-container"></div>it
                         </c:when>
                         <c:otherwise>
                             <div id="comments-container">
