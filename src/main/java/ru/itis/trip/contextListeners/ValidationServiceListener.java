@@ -1,6 +1,8 @@
 package ru.itis.trip.contextListeners;
 
 import lombok.SneakyThrows;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 import ru.itis.trip.dao.TripCommentDao;
 import ru.itis.trip.dao.TripDao;
 import ru.itis.trip.dao.UserDao;
@@ -19,7 +21,8 @@ public class ValidationServiceListener implements ServletContextListener {
     @Override
     public void contextInitialized(ServletContextEvent servletContextEvent) {
 
-        ValidationService validationService = new ValidationServiceImpl();
+        ApplicationContext applicationContext = new ClassPathXmlApplicationContext("context.xml");
+        ValidationService validationService = (ValidationService) applicationContext.getBean("validationService");
 
         ServletContext context = servletContextEvent.getServletContext();
         context.setAttribute("validationService", validationService);

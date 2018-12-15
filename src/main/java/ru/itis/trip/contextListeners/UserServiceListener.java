@@ -1,6 +1,8 @@
 package ru.itis.trip.contextListeners;
 
 import lombok.SneakyThrows;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 import ru.itis.trip.dao.UserCommentDao;
 import ru.itis.trip.dao.UserDao;
 import ru.itis.trip.helpers.DbConnectionConfig;
@@ -28,14 +30,11 @@ public class UserServiceListener implements ServletContextListener {
     @Override
     public void contextInitialized(ServletContextEvent servletContextEvent) {
 
-        Class.forName("org.postgresql.Driver");
-        DataSource dataSource = DbDataSource.getDataSource();
+        ApplicationContext applicationContext = new ClassPathXmlApplicationContext("context.xml");
 
-        UserDao userDao = new ru.itis.trip.dao.implementation.UserDao(dataSource);
-        UserService userService = new UserServiceImpl(userDao);
+        UserService userService = (UserService) applicationContext.getBean("userService");
+        UserCommentService commentService = (UserCommentService) applicationContext.getBean("userCommentService");
 
-        UserCommentDao userCommentDao = new ru.itis.trip.dao.implementation.UserCommentDao(dataSource);
-        UserCommentService commentService = new UserCommentServiceImpl(userCommentDao);
 
         ServletContext context = servletContextEvent.getServletContext();
         context.setAttribute("userCommentService", commentService);

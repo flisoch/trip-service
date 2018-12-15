@@ -1,6 +1,8 @@
 package ru.itis.trip.contextListeners;
 
 import lombok.SneakyThrows;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 import ru.itis.trip.dao.TripCommentDao;
 import ru.itis.trip.dao.TripDao;
 import ru.itis.trip.dao.UserDao;
@@ -21,14 +23,10 @@ public class TripServiceListener implements ServletContextListener {
     @Override
     public void contextInitialized(ServletContextEvent servletContextEvent) {
 
-        Class.forName("org.postgresql.Driver");
-        DataSource dataSource = DbDataSource.getDataSource();
+        ApplicationContext applicationContext = new ClassPathXmlApplicationContext("context.xml");
 
-        TripDao tripDao = new ru.itis.trip.dao.implementation.TripDao(dataSource);
-        TripService tripService = new TripServiceImpl(tripDao);
-
-        TripCommentDao tripCommentDao = new ru.itis.trip.dao.implementation.TripCommentDao(dataSource);
-        CommentService commentService = new CommentServiceImpl(tripCommentDao);
+        TripService tripService = (TripService) applicationContext.getBean("tripService");
+        CommentService commentService = (CommentService) applicationContext.getBean("commentService");
 
         ServletContext context = servletContextEvent.getServletContext();
         context.setAttribute("tripService", tripService);
