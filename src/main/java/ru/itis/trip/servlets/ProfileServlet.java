@@ -49,30 +49,34 @@ public class ProfileServlet extends HttpServlet {
         User user;
         List<UserComment> comments;
         String id = getId(request);
-        if(id == null || Long.parseLong(id) == userService.getCurrentUser(request).getId()){
+        if (id == null || Long.parseLong(id) == userService.getCurrentUser(request).getId()) {
             comments = userCommentService.getCommentsByUser(userService.getCurrentUser(request));
-            request.setAttribute("comments", comments);
-            request.getRequestDispatcher("/jsp/MyProfile.jsp").forward(request, response);
-        }
-        else{
+            root.put("user", userService.getCurrentUser(request));
+            root.put("comments", comments);
+            RenderHelper.render(getServletContext(), response, "MyProfile.ftl", root);
+
+            /*request.setAttribute("comments", comments);
+            request.getRequestDispatcher("/jsp/MyProfile.jsp").forward(request, response);*/
+        } else {
             user = userService.getUserById(Long.parseLong(id));
             comments = userCommentService.getCommentsByUser(user);
-            request.setAttribute("comments", comments);
+
+            root.put("profile", user);
+            root.put("comments", comments);
+            RenderHelper.render(getServletContext(), response, "ProfileById.ftl", root);
+            /*request.setAttribute("comments", comments);
             request.setAttribute("profile",user);
-            request.getRequestDispatcher("/jsp/profileById.jsp").forward(request, response);
+            request.getRequestDispatcher("/jsp/profileById.jsp").forward(request, response);*/
         }
 
-        /*root.put("profile",user);
-        root.put("user", userService.getCurrentUser(request));
-        RenderHelper.render(getServletContext(),response,"ProfileById.ftl",root);*/
-        
+
     }
 
     private String getId(HttpServletRequest request) {
         Pattern compile = Pattern.compile("/profile/([1-9][0-9]*)");
         Matcher matcher = compile.matcher(request.getRequestURI());
         String id = null;
-        if(matcher.find()){
+        if (matcher.find()) {
             id = matcher.group(1);
         }
         return id;

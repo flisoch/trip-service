@@ -2,7 +2,7 @@
 
 
 <#macro import>
-     <link rel="stylesheet" href="/static/css/style.css">
+     <script src="/static/js/registration.js"></script>
 </#macro>
 
 
@@ -27,10 +27,13 @@
     </ul>
 </#macro>
 
+<#macro left_sidebar>
+
+</#macro>
+
 
 <#macro content>
-    <div class="container">
-        <div class="row">
+    
 
             <!-- CONTENT -->
             <div class="col"></div>
@@ -44,14 +47,12 @@
                 <div class="card-body">
                     <form action="/auth" method="POST">
                         <div class="form-group">
-                            <#--<label for="username">Имя пользователя</label>-->
                             <label for="username">Username</label>
 
                             <input type="text" name="username" class="form-control" id="username" placeholder="vasya1234"
                                    required>
                         </div>
                         <div class="form-group">
-                            <#--<label for="password">Пароль</label>-->
                             <label for="password">Password</label>
 
                             <input type="password" name="password" class="form-control" id="password" placeholder="qwerty"
@@ -77,8 +78,7 @@
             <div class="col"></div>
             <!-- /CONTENT -->
 
-        </div>
-    </div>
+       
 </#macro>
 
 

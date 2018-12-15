@@ -49,8 +49,8 @@ public class AuthServlet extends HttpServlet {
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-//        RenderHelper.render(getServletContext(),response,"Auth.ftl",new HashMap<>());
-        request.getRequestDispatcher("/jsp/auth.jsp").forward(request,response);
+        RenderHelper.render(getServletContext(),response,"Auth.ftl",new HashMap<>());
+//        request.getRequestDispatcher("/jsp/auth.jsp").forward(request,response);
 
     }
 }
