@@ -1,6 +1,7 @@
 package ru.itis.trip.services;
 
 import ru.itis.trip.entities.User;
+import ru.itis.trip.entities.dto.UserDto;
 import ru.itis.trip.forms.LoginForm;
 import ru.itis.trip.forms.ProfileForm;
 import ru.itis.trip.forms.RegistrationForm;
@@ -20,7 +21,7 @@ public interface UserService {
 
     void updateUser(User user, ProfileForm profileForm);
 
-    User getUserById(Long id);
+    Optional<UserDto> getUserById(Long id);
 
     User getUserByUsername(String username);
 }

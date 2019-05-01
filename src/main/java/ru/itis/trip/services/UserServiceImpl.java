@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.itis.trip.dao.UserDao;
 import ru.itis.trip.entities.User;
+import ru.itis.trip.entities.dto.UserDto;
 import ru.itis.trip.forms.LoginForm;
 import ru.itis.trip.forms.ProfileForm;
 import ru.itis.trip.forms.RegistrationForm;
@@ -109,9 +110,9 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User getUserById(Long id) {
+    public Optional<UserDto> getUserById(Long id) {
         Optional<User> user = userDao.read(id);
-        return user.orElse(null);
+        return user.map(UserDto::from);
     }
 
     private String createToken(String username) {

@@ -4,16 +4,20 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
-import ru.itis.trip.entities.TripComment;
+import org.springframework.stereotype.Repository;
+import ru.itis.trip.dao.UserCommentDao;
 import ru.itis.trip.entities.User;
 import ru.itis.trip.entities.UserComment;
 
 import javax.sql.DataSource;
-import java.sql.*;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.List;
 import java.util.Optional;
 
-public class UserCommentDao implements ru.itis.trip.dao.UserCommentDao {
+@Repository
+public class UserCommentDaoImpl implements UserCommentDao {
 
     private static final String CREATE_QUERY = "INSERT INTO comment_user (commentatee_id,commentator_id,text,dateTime) VALUES (?,?,?,?)";
     private static final String UPDATE_QUERY = "UPDATE  comment_user SET VALUES (commentatee_id = ?,commentator_id = ?,text = ?,dateTime = ?) WHERE id = ?";
@@ -31,9 +35,8 @@ public class UserCommentDao implements ru.itis.trip.dao.UserCommentDao {
                     .username(resultSet.getString("commentator_username"))
                     .photo(resultSet.getString("commentator_photo"))
                     .build();
-            UserComment userComment= UserComment.builder()
+            UserComment userComment = UserComment.builder()
                     .id(resultSet.getLong("id"))
-                    .commentatee(User.builder().id(resultSet.getLong("commentatee_id")).build())
                     .commentator(commentator)
                     .text(resultSet.getString("text"))
                     .date(resultSet.getTimestamp("dateTime").getTime())
@@ -48,14 +51,14 @@ public class UserCommentDao implements ru.itis.trip.dao.UserCommentDao {
     JdbcTemplate jdbcTemplate;
     DataSource dataSource;
 
-    public UserCommentDao(DataSource dataSource) {
+    public UserCommentDaoImpl(DataSource dataSource) {
         this.dataSource = dataSource;
         this.jdbcTemplate = new JdbcTemplate(dataSource);
     }
 
     @Override
-    public List<UserComment> getUserComments(User user) {
-        return jdbcTemplate.query(SELECT_COMMENTS_BY_COMMENTEE_ID, userCommentMapper, user.getId());
+    public List<UserComment> getUserComments(Long userId) {
+        return jdbcTemplate.query(SELECT_COMMENTS_BY_COMMENTEE_ID, userCommentMapper, userId);
     }
 
     @Override
@@ -65,10 +68,10 @@ public class UserCommentDao implements ru.itis.trip.dao.UserCommentDao {
                 connection -> {
                     PreparedStatement preparedStatement =
                             connection.prepareStatement(CREATE_QUERY, new String[]{"id"});
-                    preparedStatement.setLong(1,model.getCommentatee().getId());
-                    preparedStatement.setLong(2,model.getCommentator().getId());
-                    preparedStatement.setString(3,model.getText());
-                    preparedStatement.setTimestamp(4,new Timestamp(model.getDate()));
+                    preparedStatement.setLong(1, model.getCommentatee().getId());
+                    preparedStatement.setLong(2, model.getCommentator().getId());
+                    preparedStatement.setString(3, model.getText());
+                    preparedStatement.setTimestamp(4, new Timestamp(model.getDate()));
                     return preparedStatement;
                 }, keyHolder);
 
