@@ -98,7 +98,7 @@
                                             <label for="lastname">Lastname</label>
                                             <input type="text" class="form-control disable" name="lastname"
                                                    id="lastname"
-                                                <#if user.photo??>
+                                                <#if user.lastname??>
                                                     value="${user.lastname}"
                                                 <#else>
                                                     value=""
