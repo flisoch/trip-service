@@ -7,6 +7,7 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import ru.itis.trip.entities.Request;
 import ru.itis.trip.entities.Trip;
+import ru.itis.trip.entities.TripComment;
 import ru.itis.trip.entities.User;
 
 import javax.sql.DataSource;
@@ -363,7 +364,7 @@ public class TripDao implements ru.itis.trip.dao.TripDao {
     }
 
     @Override
-    public boolean create(Trip model) {
+    public Optional<Trip> create(Trip model) {
 
         KeyHolder keyHolder = new GeneratedKeyHolder();
         jdbcTemplate.update(
@@ -380,7 +381,7 @@ public class TripDao implements ru.itis.trip.dao.TripDao {
                 }, keyHolder);
 
         model.setId(keyHolder.getKey().longValue());
-        return model.getId() != null;
+        return Optional.of(model);
 
     }
 

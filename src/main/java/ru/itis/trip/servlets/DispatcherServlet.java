@@ -12,7 +12,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.regex.Pattern;
 
-@WebServlet(name = "DispatcherServlet")
+//@WebServlet(name = "DispatcherServlet")
 public class DispatcherServlet extends HttpServlet {
     private List<Pair<Pattern, HttpServlet>> map;
 
@@ -39,8 +39,6 @@ public class DispatcherServlet extends HttpServlet {
         addPattern("/profile/trips", new ProfileTrips());
         addPattern("/profile/booked", new BookedTrips());
 
-        addPattern("/registration",new RegistrationServlet());
-        addPattern("/auth", new AuthServlet());
         addPattern("/logout", new LogOutServlet());
         addPattern("/check",new CheckServlet());
 

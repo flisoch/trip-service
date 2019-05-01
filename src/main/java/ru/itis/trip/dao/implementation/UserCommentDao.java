@@ -4,12 +4,12 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
+import ru.itis.trip.entities.TripComment;
 import ru.itis.trip.entities.User;
 import ru.itis.trip.entities.UserComment;
 
 import javax.sql.DataSource;
 import java.sql.*;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -59,7 +59,7 @@ public class UserCommentDao implements ru.itis.trip.dao.UserCommentDao {
     }
 
     @Override
-    public boolean create(UserComment model) {
+    public Optional<UserComment> create(UserComment model) {
         KeyHolder keyHolder = new GeneratedKeyHolder();
         jdbcTemplate.update(
                 connection -> {
@@ -73,7 +73,7 @@ public class UserCommentDao implements ru.itis.trip.dao.UserCommentDao {
                 }, keyHolder);
 
         model.setId(keyHolder.getKey().longValue());
-        return model.getId() != null;
+        return Optional.of(model);
     }
 
     @Override

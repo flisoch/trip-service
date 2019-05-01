@@ -1,21 +1,22 @@
 package ru.itis.trip.dao.implementation;
 
 import lombok.SneakyThrows;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
-import org.springframework.jdbc.core.SqlInOutParameter;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
+import org.springframework.stereotype.Repository;
+import ru.itis.trip.entities.TripComment;
 import ru.itis.trip.entities.User;
 
 import javax.sql.DataSource;
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.Optional;
 
-public class UserDao implements ru.itis.trip.dao.UserDao {
+@Repository
+public class UserDaoImpl implements ru.itis.trip.dao.UserDao {
 
     private static final String SQL_CREATE_QUERY = "INSERT INTO service_user(email, hash_password, username) VALUES (?,?,?)";
     private static final String SQL_UPDATE_QUERY = "UPDATE service_user SET email = ?, hash_password = ?," +
@@ -49,13 +50,14 @@ public class UserDao implements ru.itis.trip.dao.UserDao {
         }
     };
 
-    public UserDao(DataSource dataSource) {
+    @Autowired
+    public UserDaoImpl(DataSource dataSource) {
         this.dataSource = dataSource;
         this.jdbcTemplate = new JdbcTemplate(dataSource);
     }
 
     @Override
-    public boolean create(User model) {
+    public Optional<User> create(User model) {
 
         KeyHolder keyHolder = new GeneratedKeyHolder();
         jdbcTemplate.update(
@@ -70,7 +72,7 @@ public class UserDao implements ru.itis.trip.dao.UserDao {
 
         model.setId(keyHolder.getKey().longValue());
 
-        return true;
+        return Optional.of(model);
     }
 
     @Override

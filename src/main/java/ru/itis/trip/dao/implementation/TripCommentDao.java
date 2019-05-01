@@ -7,11 +7,9 @@ import org.springframework.jdbc.support.KeyHolder;
 import ru.itis.trip.entities.Trip;
 import ru.itis.trip.entities.TripComment;
 import ru.itis.trip.entities.User;
-import ru.itis.trip.services.UserService;
 
 import javax.sql.DataSource;
 import java.sql.*;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -82,7 +80,7 @@ public class TripCommentDao implements ru.itis.trip.dao.TripCommentDao {
     }
 
     @Override
-    public boolean create(TripComment model) {
+    public Optional<TripComment> create(TripComment model) {
         KeyHolder keyHolder = new GeneratedKeyHolder();
         jdbcTemplate.update(
                 connection -> {
@@ -96,7 +94,7 @@ public class TripCommentDao implements ru.itis.trip.dao.TripCommentDao {
                 }, keyHolder);
 
         model.setId(keyHolder.getKey().longValue());
-        return model.getId() != null;
+        return Optional.of(model);
     }
 
     @Override
