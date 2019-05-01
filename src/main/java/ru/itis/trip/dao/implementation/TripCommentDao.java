@@ -103,13 +103,14 @@ public class TripCommentDao implements ru.itis.trip.dao.TripCommentDao {
     }
 
     @Override
-    public void update(TripComment model) {
+    public TripComment update(TripComment model) {
         jdbcTemplate.update(UPDATE_QUERY,
                 model.getTrip().getId(),
                 model.getCommentator().getId(),
                 model.getText(),
                 new Timestamp(model.getDate())
         );
+        return model;
     }
 
     @Override

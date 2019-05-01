@@ -26,7 +26,7 @@
                     <div id="home" class="container tab-pane active">
                         <div class="card">
                             <div class="card-body">
-                                <form action="/profile/edit" method="POST">
+                                <form action="/profile" method="POST">
 
                                     <div class="form-row">
                                         <div class="form-group col-3">

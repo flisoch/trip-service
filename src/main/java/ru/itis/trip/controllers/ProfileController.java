@@ -5,8 +5,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import ru.itis.trip.entities.dto.UserCommentDto;
 import ru.itis.trip.entities.dto.UserDto;
+import ru.itis.trip.forms.ProfileForm;
 import ru.itis.trip.services.UserCommentService;
 import ru.itis.trip.services.UserService;
 
@@ -51,5 +53,11 @@ public class ProfileController {
         modelMap.put("user", user);
         modelMap.put("comments", comments);
         return "MyProfile";
+    }
+
+    @PostMapping("/profile")
+    public String updateProfile(ProfileForm profileForm, HttpServletRequest request){
+        userService.updateUser(userService.getCurrentUser(request), profileForm);
+        return "redirect:/profile";
     }
 }

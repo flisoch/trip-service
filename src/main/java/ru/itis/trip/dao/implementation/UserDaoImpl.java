@@ -7,7 +7,6 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
-import ru.itis.trip.entities.TripComment;
 import ru.itis.trip.entities.User;
 
 import javax.sql.DataSource;
@@ -81,7 +80,7 @@ public class UserDaoImpl implements ru.itis.trip.dao.UserDao {
     }
 
     @Override
-    public void update(User model) {
+    public User update(User model) {
         jdbcTemplate.update(SQL_UPDATE_QUERY, model.getEmail(),
                 model.getHashedPassword(),
                 model.getName(),
@@ -94,6 +93,7 @@ public class UserDaoImpl implements ru.itis.trip.dao.UserDao {
                 model.getUsername(),
                 model.getId()
         );
+        return model;
     }
 
     @Override

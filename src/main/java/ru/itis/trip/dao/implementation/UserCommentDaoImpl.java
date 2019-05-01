@@ -1,5 +1,6 @@
 package ru.itis.trip.dao.implementation;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
@@ -14,6 +15,7 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Repository
@@ -28,31 +30,29 @@ public class UserCommentDaoImpl implements UserCommentDao {
             "FROM comment_user c INNER JOIN service_user u on c.commentator_id = u.id WHERE commentatee_id = ?";
 
 
-    RowMapper<UserComment> userCommentMapper = (resultSet, i) -> {
+    private RowMapper<UserComment> userCommentMapper = (resultSet, i) -> {
         try {
             User commentator = User.builder()
                     .id(resultSet.getLong("commentator_id"))
                     .username(resultSet.getString("commentator_username"))
                     .photo(resultSet.getString("commentator_photo"))
                     .build();
-            UserComment userComment = UserComment.builder()
+            return UserComment.builder()
                     .id(resultSet.getLong("id"))
                     .commentator(commentator)
                     .text(resultSet.getString("text"))
                     .date(resultSet.getTimestamp("dateTime").getTime())
                     .build();
-            return userComment;
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return null;
     };
 
-    JdbcTemplate jdbcTemplate;
-    DataSource dataSource;
+    private JdbcTemplate jdbcTemplate;
 
+    @Autowired
     public UserCommentDaoImpl(DataSource dataSource) {
-        this.dataSource = dataSource;
         this.jdbcTemplate = new JdbcTemplate(dataSource);
     }
 
@@ -75,7 +75,7 @@ public class UserCommentDaoImpl implements UserCommentDao {
                     return preparedStatement;
                 }, keyHolder);
 
-        model.setId(keyHolder.getKey().longValue());
+        model.setId(Objects.requireNonNull(keyHolder.getKey()).longValue());
         return Optional.of(model);
     }
 
@@ -85,13 +85,14 @@ public class UserCommentDaoImpl implements UserCommentDao {
     }
 
     @Override
-    public void update(UserComment model) {
+    public UserComment update(UserComment model) {
         jdbcTemplate.update(UPDATE_QUERY,
                 model.getCommentatee().getId(),
                 model.getCommentator().getId(),
                 model.getText(),
                 new Timestamp(model.getDate())
         );
+        return model;
     }
 
     @Override

@@ -32,7 +32,6 @@ public class DispatcherServlet extends HttpServlet {
         addPattern("/profile/([1-9][0-9]*)/comments", new ProfileCommentServlet());
         addPattern("/trips/search*",new TripSearchServlet());
 
-        addPattern("/profile/edit", new EditProfileServlet());
         addPattern("/profile/requests", new TripRequests());
         addPattern("/profile/trips", new ProfileTrips());
         addPattern("/profile/booked", new BookedTrips());
