@@ -21,7 +21,7 @@ public class AuthController {
 
     @GetMapping("/auth")
     public String getLoginPage(){
-        return "Auth";
+        return "auth";
     }
 
     @PostMapping("/auth")

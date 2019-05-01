@@ -7,6 +7,8 @@ import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.view.JstlView;
+import org.springframework.web.servlet.view.UrlBasedViewResolver;
 import org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer;
 import org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver;
 
@@ -24,18 +26,12 @@ public class AppConfig {
     private Environment environment;
 
     @Bean
-    public FreeMarkerConfigurer freemarkerConfig() {
-        FreeMarkerConfigurer freeMarkerConfigurer = new FreeMarkerConfigurer();
-        freeMarkerConfigurer.setTemplateLoaderPath("/WEB-INF/templates/");
-        return freeMarkerConfigurer;
-    }
-
-    @Bean
-    public FreeMarkerViewResolver freemarkerViewResolver() {
-        FreeMarkerViewResolver resolver = new FreeMarkerViewResolver();
-        resolver.setCache(true);
-        resolver.setPrefix("");
-        resolver.setSuffix(".ftl");
+    public UrlBasedViewResolver viewResolver() {
+        UrlBasedViewResolver resolver
+                = new UrlBasedViewResolver();
+        resolver.setPrefix("/jsp/");
+        resolver.setSuffix(".jsp");
+        resolver.setViewClass(JstlView.class);
         return resolver;
     }
 
