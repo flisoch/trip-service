@@ -90,13 +90,9 @@ const deleteTrip = (tripId) => {
 
 const deleteTripComment = (tripId, commentId) => {
     let comment = $(`#comment_${commentId}`);
-
     $.ajax({
-        url: `/trips/${tripId}/comments`,
+        url: `/trips/${tripId}/comments/${commentId}`,
         type: 'POST',
-        data: {
-            "comment_id": commentId,
-        },
         success: (data) => {
             comment.remove();
             let list = $(`#comments-container`);

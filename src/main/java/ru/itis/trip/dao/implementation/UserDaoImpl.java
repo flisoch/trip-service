@@ -56,7 +56,7 @@ public class UserDaoImpl implements ru.itis.trip.dao.UserDao {
     }
 
     @Override
-    public Optional<User> create(User model) {
+    public User create(User model) {
 
         KeyHolder keyHolder = new GeneratedKeyHolder();
         jdbcTemplate.update(
@@ -70,8 +70,7 @@ public class UserDaoImpl implements ru.itis.trip.dao.UserDao {
                 }, keyHolder);
 
         model.setId(keyHolder.getKey().longValue());
-
-        return Optional.of(model);
+        return model;
     }
 
     @Override

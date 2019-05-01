@@ -1,19 +1,27 @@
 package ru.itis.trip.controllers;
 
+import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+import ru.itis.trip.dao.UserDao;
+import ru.itis.trip.entities.User;
+import ru.itis.trip.entities.UserComment;
 import ru.itis.trip.entities.dto.UserCommentDto;
 import ru.itis.trip.entities.dto.UserDto;
 import ru.itis.trip.forms.ProfileForm;
+import ru.itis.trip.forms.UserCommentForm;
 import ru.itis.trip.services.UserCommentService;
 import ru.itis.trip.services.UserService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.net.URI;
 import java.util.List;
 import java.util.Optional;
 
@@ -42,6 +50,7 @@ public class ProfileController {
             comments.forEach(comment -> comment.setCommentatee(user.get()));
             modelMap.put("comments", comments);
             modelMap.put("profile", user.get());
+            modelMap.put("user", UserDto.from(userService.getCurrentUser(request)));
             return "profileById";
         }
     }
@@ -59,5 +68,24 @@ public class ProfileController {
     public String updateProfile(ProfileForm profileForm, HttpServletRequest request){
         userService.updateUser(userService.getCurrentUser(request), profileForm);
         return "redirect:/profile";
+    }
+
+    @PostMapping("/profile/{userId}/comments/{commentId}")
+    @ResponseBody
+    public ResponseEntity addUserComment(@PathVariable Long commentId){
+        userCommentService.deleteComment(commentId);
+        return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/profile/{userId}/comments")
+    @ResponseBody
+    public ResponseEntity addUserComment(@PathVariable Long userId,
+                                         UserCommentForm userCommentForm,
+                                         HttpServletRequest request){
+        User user = userService.getCurrentUser(request);
+        userCommentForm.setCommentateeId(userId);
+        userCommentForm.setCommentatorId(user.getId());
+        UserCommentDto comment = userCommentService.saveComment(userCommentForm, user);
+        return ResponseEntity.ok(comment);
     }
 }

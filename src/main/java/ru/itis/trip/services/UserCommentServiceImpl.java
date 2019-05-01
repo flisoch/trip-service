@@ -3,14 +3,21 @@ package ru.itis.trip.services;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.itis.trip.dao.UserCommentDao;
+import ru.itis.trip.dao.UserDao;
+import ru.itis.trip.entities.User;
 import ru.itis.trip.entities.UserComment;
 import ru.itis.trip.entities.dto.UserCommentDto;
+import ru.itis.trip.forms.UserCommentForm;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
 public class UserCommentServiceImpl implements UserCommentService {
+    @Autowired
+    UserDao userDao;
+
     UserCommentDao commentDao;
 
     @Autowired
@@ -24,8 +31,13 @@ public class UserCommentServiceImpl implements UserCommentService {
     }
 
     @Override
-    public void saveComment(UserComment userComment) {
-        commentDao.create(userComment);
+    public UserCommentDto saveComment(UserCommentForm userComment, User commentator) {
+        Optional<User> commentatee = userDao.read(userComment.getCommentateeId());
+        UserComment comment = UserComment.from(userComment);
+        comment.setCommentatee(commentatee.get());
+        comment.setCommentator(commentator);
+        UserComment savedComment = commentDao.create(comment);
+        return UserCommentDto.from(savedComment);
     }
 
     @Override

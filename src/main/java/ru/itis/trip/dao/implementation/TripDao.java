@@ -13,11 +13,8 @@ import javax.sql.DataSource;
 import java.sql.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 public class TripDao implements ru.itis.trip.dao.TripDao {
 
@@ -363,7 +360,7 @@ public class TripDao implements ru.itis.trip.dao.TripDao {
     }
 
     @Override
-    public Optional<Trip> create(Trip model) {
+    public Trip create(Trip model) {
 
         KeyHolder keyHolder = new GeneratedKeyHolder();
         jdbcTemplate.update(
@@ -379,8 +376,8 @@ public class TripDao implements ru.itis.trip.dao.TripDao {
                     return preparedStatement;
                 }, keyHolder);
 
-        model.setId(keyHolder.getKey().longValue());
-        return Optional.of(model);
+        model.setId(Objects.requireNonNull(keyHolder.getKey()).longValue());
+        return model;
 
     }
 

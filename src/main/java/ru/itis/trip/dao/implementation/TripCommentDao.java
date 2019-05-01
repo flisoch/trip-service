@@ -9,8 +9,11 @@ import ru.itis.trip.entities.TripComment;
 import ru.itis.trip.entities.User;
 
 import javax.sql.DataSource;
-import java.sql.*;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 public class TripCommentDao implements ru.itis.trip.dao.TripCommentDao {
@@ -80,7 +83,7 @@ public class TripCommentDao implements ru.itis.trip.dao.TripCommentDao {
     }
 
     @Override
-    public Optional<TripComment> create(TripComment model) {
+    public TripComment create(TripComment model) {
         KeyHolder keyHolder = new GeneratedKeyHolder();
         jdbcTemplate.update(
                 connection -> {
@@ -93,8 +96,8 @@ public class TripCommentDao implements ru.itis.trip.dao.TripCommentDao {
                     return preparedStatement;
                 }, keyHolder);
 
-        model.setId(keyHolder.getKey().longValue());
-        return Optional.of(model);
+        model.setId(Objects.requireNonNull(keyHolder.getKey()).longValue());
+        return model;
     }
 
     @Override

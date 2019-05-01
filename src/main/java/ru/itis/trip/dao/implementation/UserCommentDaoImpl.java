@@ -62,7 +62,7 @@ public class UserCommentDaoImpl implements UserCommentDao {
     }
 
     @Override
-    public Optional<UserComment> create(UserComment model) {
+    public UserComment create(UserComment model) {
         KeyHolder keyHolder = new GeneratedKeyHolder();
         jdbcTemplate.update(
                 connection -> {
@@ -76,7 +76,7 @@ public class UserCommentDaoImpl implements UserCommentDao {
                 }, keyHolder);
 
         model.setId(Objects.requireNonNull(keyHolder.getKey()).longValue());
-        return Optional.of(model);
+        return model;
     }
 
     @Override

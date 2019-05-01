@@ -38,8 +38,8 @@ public class UserServiceImpl implements UserService {
                 .hashedPassword(hash(registrationForm.getPassword()))
                 .username(registrationForm.getUsername())
                 .build();
-        Optional<User> userCandidate = userDao.create(user);
-        return userCandidate;
+        User userCandidate = userDao.create(user);
+        return Optional.ofNullable(userCandidate);
     }
 
     @Override
