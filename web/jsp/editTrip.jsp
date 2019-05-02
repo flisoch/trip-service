@@ -1,6 +1,6 @@
 <%@taglib prefix="t" tagdir="/WEB-INF/tags" %>
 
-<t:baseTemplate title="Edit tagdirip">
+<t:baseTemplate title="Edit trip">
     <jsp:attribute name="head_area">
         <script src="/static/js/registration.js"></script>
         <script src="/static/js/trip.js"></script>
@@ -60,7 +60,7 @@
                                     <div class="form-group col-8">
                                     <label for="info">Info</label>
                                     <textarea type="text" name="info" class="form-control disable" id="info"
-                                              value="${trip.info}" disabled></textarea>
+                                              disabled>${trip.info}</textarea>
                                     </div>
                                 </div>
 

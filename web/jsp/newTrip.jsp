@@ -11,7 +11,7 @@
 
                     <div class="card-body">
 
-                        <form method="POST">
+                        <form method="POST" action="/trips">
 
                             <div class="form-group">
                                 <label for="departure">departure</label>

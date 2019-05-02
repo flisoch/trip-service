@@ -1,10 +1,12 @@
 package ru.itis.trip.dao.implementation;
 
 import lombok.SneakyThrows;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
+import org.springframework.stereotype.Repository;
 import ru.itis.trip.entities.Request;
 import ru.itis.trip.entities.Trip;
 import ru.itis.trip.entities.User;
@@ -16,6 +18,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.*;
 
+@Repository
 public class TripDao implements ru.itis.trip.dao.TripDao {
 
     private static final String CREATE_QUERY = "INSERT INTO trip(arrival_point, departure_point, dateTime, free_seats, initiator_id,info) VALUES (?,?,?,?,?,?)";
@@ -164,6 +167,7 @@ public class TripDao implements ru.itis.trip.dao.TripDao {
         jdbcTemplate.update(DELETE_REQUEST_QUERY, tripId, userId);
     }
 
+    @Autowired
     public TripDao(DataSource dataSource) {
         this.dataSource = dataSource;
         this.jdbcTemplate = new JdbcTemplate(dataSource);

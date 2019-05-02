@@ -20,8 +20,6 @@ public class DispatcherServlet extends HttpServlet {
     public void init() {
         
         map = new LinkedList<>();
-        addPattern("/trips/new", new NewTripServlet());
-        addPattern("/trips/([1-9][0-9]*)/edit", new EditTripServlet());
         addPattern("/trips/([1-9][0-9]*)", new TripByIdServlet());
         addPattern("/trips/([1-9][0-9]*)/apply", new ApplyTripServlet());
 

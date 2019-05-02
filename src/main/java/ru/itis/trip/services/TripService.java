@@ -3,6 +3,8 @@ package ru.itis.trip.services;
 import ru.itis.trip.entities.Request;
 import ru.itis.trip.entities.Trip;
 import ru.itis.trip.entities.User;
+import ru.itis.trip.entities.dto.TripDto;
+import ru.itis.trip.forms.NewTripForm;
 import ru.itis.trip.forms.TripForm;
 
 import javax.servlet.http.HttpServletRequest;
@@ -13,10 +15,10 @@ public interface TripService {
 
     List<Trip> getAllTrips();
 
-    Trip getById(Long id);
+    TripDto getById(Long id);
     List<Trip> getTripsWithParameters(HttpServletRequest request);
 
-    void createTrip(Trip trip);
+    Trip createTrip(NewTripForm tripForm, User iniciator);
 
     void updateTrip(HttpServletRequest request, TripForm tripForm);
 

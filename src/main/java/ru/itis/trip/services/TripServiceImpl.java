@@ -1,9 +1,13 @@
 package ru.itis.trip.services;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import ru.itis.trip.dao.TripDao;
 import ru.itis.trip.entities.Request;
 import ru.itis.trip.entities.Trip;
 import ru.itis.trip.entities.User;
+import ru.itis.trip.entities.dto.TripDto;
+import ru.itis.trip.forms.NewTripForm;
 import ru.itis.trip.forms.TripForm;
 
 import javax.servlet.http.HttpServletRequest;
@@ -15,9 +19,11 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+@Service
 public class TripServiceImpl implements TripService {
     TripDao tripDao;
 
+    @Autowired
     public TripServiceImpl(TripDao tripDao) {
         this.tripDao = tripDao;
     }
@@ -28,8 +34,8 @@ public class TripServiceImpl implements TripService {
     }
 
     @Override
-    public Trip getById(Long id) {
-        return tripDao.read(id).get();
+    public TripDto getById(Long id) {
+        return TripDto.from(tripDao.read(id).get());
     }
 
     @Override
@@ -56,8 +62,11 @@ public class TripServiceImpl implements TripService {
     }
 
     @Override
-    public void createTrip(Trip trip) {
+    public Trip createTrip(NewTripForm tripForm, User iniciator) {
+        Trip trip = Trip.from(tripForm);
+        trip.setIniciator(iniciator);
         tripDao.create(trip);
+        return trip;
     }
 
     @Override

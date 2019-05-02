@@ -1,7 +1,9 @@
 package ru.itis.trip.servlets;
 
+import ru.itis.trip.dao.TripDao;
 import ru.itis.trip.entities.Trip;
 import ru.itis.trip.entities.TripComment;
+import ru.itis.trip.entities.dto.TripDto;
 import ru.itis.trip.helpers.RenderHelper;
 import ru.itis.trip.services.CommentService;
 import ru.itis.trip.services.TripService;
@@ -44,10 +46,10 @@ public class TripByIdServlet extends HttpServlet {
 
 //        HashMap<String, Object> root = new HashMap<>();
         Long id = getId(request);
-        Trip trip = tripService.getById(id);
-        List<TripComment> comments = commentService.getComments(trip);
+        TripDto trip = tripService.getById(id);
+//        List<TripComment> comments = commentService.getComments(trip);
         request.setAttribute("trip",trip);
-        request.setAttribute("comments",comments);
+//        request.setAttribute("comments",comments);
         request.getRequestDispatcher("/jsp/tripById.jsp").forward(request, response);
 
 //        RenderHelper.render(getServletContext(),response,"Trip.ftl",root);
