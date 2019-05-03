@@ -5,17 +5,14 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class TripForm {
-
-    String departurePoint;
-    String arrivalPoint;
-    String date;
+    String destination;
+    String departure;
     String info;
-    int seatsNumber;
-
+    Integer seats;
+    String date;
 }

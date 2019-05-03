@@ -173,14 +173,14 @@
 
                                     <div class="form-row">
                                         <div class="form-group col">
-                                            <label for="bio">About me</label>
+                                            <label for="additionalInfo">About me</label>
                                             <c:choose>
                                                 <c:when test="${empty user.additionalInfo}">
-                                                    <textarea class="form-control disable" id="bio" rows="3"
+                                                    <textarea class="form-control disable" name="additionalInfo" rows="3"
                                                               disabled></textarea>
                                                 </c:when>
                                                        <c:otherwise>
-                                                           <textarea class="form-control disable" id="bio" rows="3"
+                                                           <textarea class="form-control disable" name="additionalInfo" rows="3"
                                                                      disabled>${user.additionalInfo}</textarea>
                                                        </c:otherwise>
                                                 </c:choose>

@@ -54,7 +54,7 @@ function submitTripChanges(id) {
     let date = $("#timeToInputField").val();
 
     $.ajax({
-        url: `/trips/${id}/edit`,
+        url: `/trips/${id}`,
         type:"POST",
         data: {
             "info": info,
@@ -64,10 +64,9 @@ function submitTripChanges(id) {
             "date":date,
         },
         success: function (msg) {
-            alert("successfully updated");
+            disable();
         },
         error: function (msg) {
-            alert(2);
         }
     });
 }

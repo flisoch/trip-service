@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import ru.itis.trip.entities.forms.NewTripForm;
+import ru.itis.trip.entities.forms.TripForm;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -29,13 +29,13 @@ public class Trip {
     List<User> passangers;
     List<TripComment> comments;
 
-    public static Trip from(NewTripForm tripForm) {
+    public static Trip from(TripForm tripForm) {
         return   Trip.builder()
                 .arrivalPoint(tripForm.getDestination())
                 .departurePoint(tripForm.getDeparture())
                 .freeSeats(tripForm.getSeats())
-                .date(stringDateToLong(tripForm.getTime_to()))
-                .info(tripForm.getBio())
+                .date(stringDateToLong(tripForm.getDate()))
+                .info(tripForm.getInfo())
                 .build();
     }
 

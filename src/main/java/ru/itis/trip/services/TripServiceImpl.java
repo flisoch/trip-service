@@ -9,13 +9,9 @@ import ru.itis.trip.entities.Trip;
 import ru.itis.trip.entities.TripComment;
 import ru.itis.trip.entities.User;
 import ru.itis.trip.entities.dto.TripDto;
-import ru.itis.trip.entities.forms.NewTripForm;
 import ru.itis.trip.entities.forms.TripForm;
 
 import javax.servlet.http.HttpServletRequest;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -61,14 +57,14 @@ public class TripServiceImpl implements TripService {
             return tripDao.getByUserId(Long.parseLong(userId));
         }*/
         String freeSeats = request.getParameter("seats");
-        String dateTime = request.getParameter("time_to");
+        String dateTime = request.getParameter("date");
         String departure = request.getParameter("departure");
         String destination = request.getParameter("destination");
         return tripDao.getByParameters(departure, destination, freeSeats, dateTime);
     }
 
     @Override
-    public Trip createTrip(NewTripForm tripForm, User iniciator) {
+    public Trip createTrip(TripForm tripForm, User iniciator) {
         Trip trip = Trip.from(tripForm);
         trip.setIniciator(iniciator);
         tripDao.create(trip);
@@ -76,25 +72,10 @@ public class TripServiceImpl implements TripService {
     }
 
     @Override
-    public void updateTrip(HttpServletRequest request, TripForm tripForm) {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");//"yyyy-MM-dd'T'HH:mm:ss.SSSZ"
-        Date date;
-        Long epoch = 0L;
-        try {
-            date = dateFormat.parse(tripForm.getDate());
-            epoch = date.getTime();
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        Trip trip = Trip.builder()
-                .iniciator((User) request.getSession().getAttribute("current_user"))
-                .info(tripForm.getInfo())
-                .date(epoch)
-                .freeSeats(tripForm.getSeatsNumber())
-                .departurePoint(tripForm.getDeparturePoint())
-                .arrivalPoint(tripForm.getArrivalPoint())
-                .id(getId(request))
-                .build();
+    public void updateTrip(TripForm tripForm, Long tripId, User iniciator) {
+        Trip trip = Trip.from(tripForm);
+        trip.setId(tripId);
+        trip.setIniciator(iniciator);
         tripDao.update(trip);
     }
 

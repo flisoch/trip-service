@@ -20,7 +20,7 @@ function submitChanges() {
                 "lastname": $("#lastname").val(),
                 "job": $("#working-place").val(),
                 "address": $("#inputAddress").val(),
-                "bio": $("#bio").val(),
+                "bio": $("#info").val(),
                 "age": $("#age").val()
         },
         success: function (msg) {

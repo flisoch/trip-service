@@ -19,7 +19,7 @@
 
                         <div class="card-body">
 
-                            <form action="/profile" method="POST">
+
 
                                 <div class="form-row">
                                     <div class="form-group col-4">
@@ -70,7 +70,6 @@
                                     <button type="button" class="btn btn-warning" onclick="enable();">Change</button>
                                 </div>
 
-						    </form>
 		                </div>
 
                     </div>

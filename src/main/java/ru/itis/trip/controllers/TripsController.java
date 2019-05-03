@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import ru.itis.trip.entities.Trip;
 import ru.itis.trip.entities.TripComment;
 import ru.itis.trip.entities.User;
-import ru.itis.trip.entities.forms.NewTripForm;
+import ru.itis.trip.entities.forms.TripForm;
 import ru.itis.trip.services.CommentService;
 import ru.itis.trip.services.TripService;
 import ru.itis.trip.services.UserService;
@@ -33,7 +33,7 @@ public class TripsController {
     }
 
     @PostMapping("/trips")
-    public String createTrip(NewTripForm form, HttpServletRequest request){
+    public String createTrip(TripForm form, HttpServletRequest request){
         User user = userService.getCurrentUser(request);
         Trip trip = tripService.createTrip(form, user);
         return "redirect:/trips/"+trip.getId()+"/edit";
@@ -71,6 +71,12 @@ public class TripsController {
     @PostMapping("/trips/{tripId}/comments/{commentId}")
     public ResponseEntity createComment(@PathVariable Long commentId){
         commentService.deleteComment(commentId);
+        return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/trips/{tripId}")
+    public ResponseEntity updateProfile(@PathVariable Long tripId, TripForm tripForm, HttpServletRequest request){
+        tripService.updateTrip(tripForm, tripId, userService.getCurrentUser(request));
         return ResponseEntity.ok().build();
     }
 }
