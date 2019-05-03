@@ -55,7 +55,7 @@ function submitTripChanges(id) {
 
     $.ajax({
         url: `/trips/${id}`,
-        type:"POST",
+        type:"PUT",
         data: {
             "info": info,
             "departure": departure,
@@ -76,7 +76,7 @@ const deleteTrip = (tripId) => {
 
     $.ajax({
         url: `/trips/${tripId}`,
-        type: 'POST',
+        type: 'DELETE',
         success: (data) => {
             trip.remove();
         },

@@ -31,7 +31,7 @@ public interface TripService {
 
     HashMap<String, List<Trip>> getTripsByUser(User id);
 
-    List<Trip> getBookedByUser(User user);
+    List<TripDto> getBookedByUser(User user);
 
     void deleteRequestById(Long id);
 

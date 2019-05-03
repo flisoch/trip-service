@@ -16,6 +16,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 @Service
 public class TripServiceImpl implements TripService {
@@ -41,8 +42,8 @@ public class TripServiceImpl implements TripService {
     }
 
     @Override
-    public List<Trip> getBookedByUser(User user) {
-        return tripDao.getBookedTripByUser(user);
+    public List<TripDto> getBookedByUser(User user) {
+        return tripDao.getBookedTripByUser(user).stream().map(TripDto::from).collect(Collectors.toList());
     }
 
     @Override
