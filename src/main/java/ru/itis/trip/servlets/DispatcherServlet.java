@@ -25,7 +25,6 @@ public class DispatcherServlet extends HttpServlet {
         addPattern("/requests/reject", new RejectTripServlet());
         addPattern("/requests/accept", new AcceptTripServlet());
 
-        addPattern("/trips/search*",new TripSearchServlet());
 
         addPattern("/profile/requests", new TripRequests());
 

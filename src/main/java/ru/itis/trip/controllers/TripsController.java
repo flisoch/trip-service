@@ -109,4 +109,13 @@ public class TripsController {
         modelMap.put("user", UserDto.from(user));
         return "bookedTrips";
     }
+
+    @GetMapping("/trips/search")
+    public String searchtripsPage(ModelMap modelMap, HttpServletRequest request){
+        List<Trip> trips = tripService.getTripsWithParameters(request);
+        modelMap.put("trips",trips);
+        modelMap.put("user", userService.getCurrentUser(request));
+        return "search";
+        
+    }
 }

@@ -70,6 +70,7 @@ public class UserDaoImpl implements ru.itis.trip.dao.UserDao {
                 }, keyHolder);
 
         model.setId(keyHolder.getKey().longValue());
+        model.setPhoto("/static/pictures/default.png");
         return model;
     }
 

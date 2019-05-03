@@ -254,7 +254,7 @@ public class TripDao implements ru.itis.trip.dao.TripDao {
     @Override
     public List<Trip> getByParameters(String departure, String destination, String freeSeats, String dateTime) {
         List<Trip> trips;
-        StringBuilder query = new StringBuilder("SELECT s.id as user_id, s.photo as user_photo, s.username, t.id as trip_id, arrival_point, departure_point, ");
+        StringBuilder query = new StringBuilder("SELECT s.id as initiator_id, s.photo, s.username, t.id as trip_id, arrival_point, departure_point, ");
         query.append("dateTime, info, free_seats from trip t join service_user s on t.initiator_id = s.id ");
 
         query.append("WHERE ");
