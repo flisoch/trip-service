@@ -4,9 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import ru.itis.trip.entities.User;
-import ru.itis.trip.forms.LoginForm;
+import ru.itis.trip.entities.forms.LoginForm;
 import ru.itis.trip.services.UserService;
 
 import javax.servlet.http.HttpServletRequest;

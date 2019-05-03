@@ -1,4 +1,4 @@
-package ru.itis.trip.forms;
+package ru.itis.trip.entities.forms;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -10,12 +10,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class TripForm {
+public class CommentForm {
 
-    String departurePoint;
-    String arrivalPoint;
-    String date;
-    String info;
-    int seatsNumber;
-
+    String comment;
 }

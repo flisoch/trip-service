@@ -1,7 +1,7 @@
 package ru.itis.trip.services;
 
-import ru.itis.trip.forms.LoginForm;
-import ru.itis.trip.forms.ProfileForm;
+import ru.itis.trip.entities.forms.LoginForm;
+import ru.itis.trip.entities.forms.ProfileForm;
 
 import javax.servlet.http.HttpServletResponse;
 

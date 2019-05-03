@@ -4,8 +4,8 @@ import ru.itis.trip.entities.Request;
 import ru.itis.trip.entities.Trip;
 import ru.itis.trip.entities.User;
 import ru.itis.trip.entities.dto.TripDto;
-import ru.itis.trip.forms.NewTripForm;
-import ru.itis.trip.forms.TripForm;
+import ru.itis.trip.entities.forms.NewTripForm;
+import ru.itis.trip.entities.forms.TripForm;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;

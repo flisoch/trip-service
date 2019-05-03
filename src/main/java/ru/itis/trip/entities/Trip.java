@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import ru.itis.trip.forms.NewTripForm;
+import ru.itis.trip.entities.forms.NewTripForm;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

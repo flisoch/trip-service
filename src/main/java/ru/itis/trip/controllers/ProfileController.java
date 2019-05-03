@@ -1,6 +1,5 @@
 package ru.itis.trip.controllers;
 
-import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -9,19 +8,15 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import ru.itis.trip.dao.UserDao;
 import ru.itis.trip.entities.User;
-import ru.itis.trip.entities.UserComment;
 import ru.itis.trip.entities.dto.UserCommentDto;
 import ru.itis.trip.entities.dto.UserDto;
-import ru.itis.trip.forms.ProfileForm;
-import ru.itis.trip.forms.UserCommentForm;
+import ru.itis.trip.entities.forms.ProfileForm;
+import ru.itis.trip.entities.forms.UserCommentForm;
 import ru.itis.trip.services.UserCommentService;
 import ru.itis.trip.services.UserService;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.net.URI;
 import java.util.List;
 import java.util.Optional;
 

@@ -1,4 +1,4 @@
-package ru.itis.trip.forms;
+package ru.itis.trip.entities.forms;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

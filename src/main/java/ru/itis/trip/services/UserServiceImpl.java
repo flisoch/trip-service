@@ -6,9 +6,9 @@ import org.springframework.stereotype.Service;
 import ru.itis.trip.dao.UserDao;
 import ru.itis.trip.entities.User;
 import ru.itis.trip.entities.dto.UserDto;
-import ru.itis.trip.forms.LoginForm;
-import ru.itis.trip.forms.ProfileForm;
-import ru.itis.trip.forms.RegistrationForm;
+import ru.itis.trip.entities.forms.LoginForm;
+import ru.itis.trip.entities.forms.ProfileForm;
+import ru.itis.trip.entities.forms.RegistrationForm;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;

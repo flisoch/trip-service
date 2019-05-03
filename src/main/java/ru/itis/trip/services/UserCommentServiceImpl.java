@@ -7,7 +7,7 @@ import ru.itis.trip.dao.UserDao;
 import ru.itis.trip.entities.User;
 import ru.itis.trip.entities.UserComment;
 import ru.itis.trip.entities.dto.UserCommentDto;
-import ru.itis.trip.forms.UserCommentForm;
+import ru.itis.trip.entities.forms.UserCommentForm;
 
 import java.util.List;
 import java.util.Optional;

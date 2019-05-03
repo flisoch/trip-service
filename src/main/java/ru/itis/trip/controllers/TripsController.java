@@ -8,13 +8,12 @@ import org.springframework.web.bind.annotation.*;
 import ru.itis.trip.entities.Trip;
 import ru.itis.trip.entities.TripComment;
 import ru.itis.trip.entities.User;
-import ru.itis.trip.forms.NewTripForm;
+import ru.itis.trip.entities.forms.NewTripForm;
 import ru.itis.trip.services.CommentService;
 import ru.itis.trip.services.TripService;
 import ru.itis.trip.services.UserService;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.List;
 
 @Controller
 public class TripsController {

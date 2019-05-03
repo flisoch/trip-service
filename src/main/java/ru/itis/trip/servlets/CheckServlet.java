@@ -2,8 +2,6 @@ package ru.itis.trip.servlets;
 
 import com.google.gson.Gson;
 import ru.itis.trip.entities.User;
-import ru.itis.trip.forms.LoginForm;
-import ru.itis.trip.helpers.RenderHelper;
 import ru.itis.trip.services.UserService;
 
 import javax.servlet.ServletConfig;
@@ -13,9 +11,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class CheckServlet extends HttpServlet {
 
