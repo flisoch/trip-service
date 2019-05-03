@@ -27,6 +27,7 @@ public class Trip {
     boolean expired;
 
     List<User> passangers;
+    List<TripComment> comments;
 
     public static Trip from(NewTripForm tripForm) {
         return   Trip.builder()

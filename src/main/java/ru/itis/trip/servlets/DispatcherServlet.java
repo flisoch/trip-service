@@ -20,13 +20,11 @@ public class DispatcherServlet extends HttpServlet {
     public void init() {
         
         map = new LinkedList<>();
-        addPattern("/trips/([1-9][0-9]*)", new TripByIdServlet());
         addPattern("/trips/([1-9][0-9]*)/apply", new ApplyTripServlet());
 
         addPattern("/requests/reject", new RejectTripServlet());
         addPattern("/requests/accept", new AcceptTripServlet());
 
-        addPattern("/trips/([1-9][0-9]*)/comments", new TripCommentServlet());
         addPattern("/trips/search*",new TripSearchServlet());
 
         addPattern("/profile/requests", new TripRequests());

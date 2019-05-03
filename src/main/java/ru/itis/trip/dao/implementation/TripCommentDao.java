@@ -4,6 +4,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
+import org.springframework.stereotype.Repository;
 import ru.itis.trip.entities.Trip;
 import ru.itis.trip.entities.TripComment;
 import ru.itis.trip.entities.User;
@@ -16,6 +17,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
+@Repository
 public class TripCommentDao implements ru.itis.trip.dao.TripCommentDao {
 
 

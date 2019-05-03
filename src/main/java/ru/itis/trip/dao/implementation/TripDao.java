@@ -29,6 +29,7 @@ public class TripDao implements ru.itis.trip.dao.TripDao {
     private static final String SELECT_BY_DIRECTION_DATE_WITH_USER = "SELECT * from trip t join service_user s on t.initiator_id = s.idervice_user s on t.initiator_id = s.id " +
             "where departure_point = ? AND arrival_point = ? AND dateTime = ?";
     private static final String SELECT_BY_ID_WITH_EMPTY_USER = "SELECT t.id,arrival_point,departure_point,datetime,free_seats,initiator_id,info,username from trip t join service_user s on t.initiator_id = s.id WHERE t.id = ?";
+    private static final String SELECT_BY_ID_WITH_PHOTO_USER = "SELECT t.id as trip_id,arrival_point,departure_point,datetime,free_seats,initiator_id,info,username, photo from trip t join service_user s on t.initiator_id = s.id WHERE t.id = ?";
     ;
     private static final String SELECT_BY_USER_WITH_EMPTY_USER = "SELECT * from trip t join service_user s on t.initiator_id = s.id where s.id = ?";
     private static final String SELECT_REQUEST_BY_USER_ID = "SELECT a.id, a.trip_id, a.user_id, u.username from trip_user_apply a " +
@@ -138,9 +139,9 @@ public class TripDao implements ru.itis.trip.dao.TripDao {
 
     private RowMapper<Trip> tripUserWithPhotoMapper = ((resultSet, i) -> {
         User user = User.builder()
-                .id(resultSet.getLong("user_id"))
+                .id(resultSet.getLong("initiator_id"))
                 .username(resultSet.getString("username"))
-                .photo(resultSet.getString("user_photo"))
+                .photo(resultSet.getString("photo"))
                 .build();
 
         return Trip.builder()
@@ -387,7 +388,7 @@ public class TripDao implements ru.itis.trip.dao.TripDao {
 
     @Override
     public Optional<Trip> read(Long id) {
-        return Optional.of(jdbcTemplate.queryForObject(SELECT_BY_ID_WITH_EMPTY_USER, tripMapperWithEmptyUser, id));
+        return Optional.of(jdbcTemplate.queryForObject(SELECT_BY_ID_WITH_PHOTO_USER, tripUserWithPhotoMapper, id));
     }
 
     @Override

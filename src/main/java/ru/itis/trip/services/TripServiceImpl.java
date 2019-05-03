@@ -2,9 +2,11 @@ package ru.itis.trip.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import ru.itis.trip.dao.TripCommentDao;
 import ru.itis.trip.dao.TripDao;
 import ru.itis.trip.entities.Request;
 import ru.itis.trip.entities.Trip;
+import ru.itis.trip.entities.TripComment;
 import ru.itis.trip.entities.User;
 import ru.itis.trip.entities.dto.TripDto;
 import ru.itis.trip.forms.NewTripForm;
@@ -22,10 +24,11 @@ import java.util.regex.Pattern;
 @Service
 public class TripServiceImpl implements TripService {
     TripDao tripDao;
+    TripCommentDao commentDao;
 
     @Autowired
-    public TripServiceImpl(TripDao tripDao) {
-        this.tripDao = tripDao;
+    public TripServiceImpl(TripDao tripDao, TripCommentDao commentDao) {
+        this.tripDao = tripDao;this.commentDao = commentDao;
     }
 
     @Override
@@ -35,7 +38,10 @@ public class TripServiceImpl implements TripService {
 
     @Override
     public TripDto getById(Long id) {
-        return TripDto.from(tripDao.read(id).get());
+        Trip trip = tripDao.read(id).get();
+        List< TripComment > comments = commentDao.getTripComments(trip);
+        trip.setComments(comments);
+        return TripDto.from(trip);
     }
 
     @Override

@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import ru.itis.trip.entities.Trip;
+import ru.itis.trip.entities.TripComment;
 import ru.itis.trip.entities.User;
 
 import java.util.ArrayList;
@@ -26,6 +27,7 @@ public class TripDto {
     boolean expired;
 
     List<UserDto> passangers;
+    List<TripCommentDto> comments;
 
     public static TripDto from(Trip trip) {
         return TripDto.builder()
@@ -39,6 +41,8 @@ public class TripDto {
                 .expired(trip.isExpired())
                 .passangers(trip.getPassangers()!=null?trip.getPassangers().stream()
                         .map(UserDto::from).collect(Collectors.toList()) : new ArrayList<>())
+                .comments(trip.getComments()!=null?trip.getComments().stream()
+                        .map(TripCommentDto::from).collect(Collectors.toList()):null)
                 .build();
     }
 }
