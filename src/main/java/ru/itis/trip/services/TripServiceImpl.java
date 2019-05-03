@@ -14,8 +14,6 @@ import ru.itis.trip.entities.forms.TripForm;
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 @Service
@@ -25,7 +23,8 @@ public class TripServiceImpl implements TripService {
 
     @Autowired
     public TripServiceImpl(TripDao tripDao, TripCommentDao commentDao) {
-        this.tripDao = tripDao;this.commentDao = commentDao;
+        this.tripDao = tripDao;
+        this.commentDao = commentDao;
     }
 
     @Override
@@ -36,7 +35,7 @@ public class TripServiceImpl implements TripService {
     @Override
     public TripDto getById(Long id) {
         Trip trip = tripDao.read(id).get();
-        List< TripComment > comments = commentDao.getTripComments(trip);
+        List<TripComment> comments = commentDao.getTripComments(trip);
         trip.setComments(comments);
         return TripDto.from(trip);
     }
@@ -86,17 +85,6 @@ public class TripServiceImpl implements TripService {
     }
 
     @Override
-    public void rejectRequest(Long userId, Long tripId) {
-        tripDao.deleteRequest(userId, tripId);
-    }
-
-    @Override
-    public void acceptRequest(Long userId, Long tripId) {
-        tripDao.addUserToTrip(userId, tripId);
-        tripDao.deleteRequest(userId, tripId);
-    }
-
-    @Override
     public HashMap<String, List<Request>> getRequsets(User user) {
         return tripDao.getRequests(user);
     }
@@ -111,13 +99,12 @@ public class TripServiceImpl implements TripService {
         tripDao.delete(id);
     }
 
-    private Long getId(HttpServletRequest request) {
-        Pattern compile = Pattern.compile("/trips/([1-9][0-9]*)");
-        Matcher matcher = compile.matcher(request.getRequestURI());
-        Long id = null;
-        if (matcher.find()) {
-            id = Long.valueOf(matcher.group(1));
+    @Override
+    public void acceptOrDenyRequest(Long requestId, boolean accepted) {
+        if (accepted) {
+            Request request = tripDao.findRequestById(requestId);
+            tripDao.addUserToTrip(request.getUser().getId(), request.getTrip().getId());
         }
-        return id;
+        tripDao.deleteRequestById(requestId);
     }
 }

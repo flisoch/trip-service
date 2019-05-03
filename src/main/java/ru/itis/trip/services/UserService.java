@@ -24,4 +24,6 @@ public interface UserService {
     Optional<UserDto> getUserById(Long id);
 
     User getUserByUsername(String username);
+
+    void deleteRememberMeCookie(HttpServletRequest request, HttpServletResponse response);
 }

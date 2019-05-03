@@ -25,10 +25,6 @@ public interface TripService {
 
     HashMap<String, List<Request>> getRequsets(User user);
 
-    void rejectRequest(Long userId, Long tripId);
-
-    void acceptRequest(Long userId, Long tripId);
-
     HashMap<String, List<Trip>> getTripsByUser(User id);
 
     List<TripDto> getBookedByUser(User user);
@@ -36,4 +32,6 @@ public interface TripService {
     void deleteRequestById(Long id);
 
     void deleteTripById(Long id);
+
+    void acceptOrDenyRequest(Long requestId, boolean accepted);
 }

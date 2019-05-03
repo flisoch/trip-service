@@ -36,7 +36,7 @@ public class TripDao implements ru.itis.trip.dao.TripDao {
             "join trip t on a.trip_id = t.id " +
             "join service_user u on a.user_id = u.id " +
             "WHERE t.initiator_id = ? or u.id = ?";
-    private static final String DELETE_REQUEST_QUERY = "DELETE FROM trip_user_apply WHERE trip_id = ? AND user_id = ?";
+    private static final String DELETE_REQUEST_QUERY = "DELETE FROM trip_user_apply WHERE id=?";
     private static final String SELECT_BOOKED_BY_USER_ID = "SELECT u.photo as user_photo, u.username, b.trip_id, b.user_id," +
             "arrival_point, departure_point, t.datetime, t.info,t.free_seats from booked_trip b inner join trip t on b.trip_id=t.id join service_user u " +
             "on t.initiator_id=u.id WHERE user_id = ?";
@@ -106,6 +106,16 @@ public class TripDao implements ru.itis.trip.dao.TripDao {
                     .build();
         }
     };
+    private RowMapper<Request> requestRowMapper = new RowMapper<Request>() {
+        @Override
+        public Request mapRow(ResultSet resultSet, int i) throws SQLException {
+            return Request.builder()
+                    .id(resultSet.getLong("id"))
+                    .user(User.builder().id(resultSet.getLong("user_id")).build())
+                    .trip(Trip.builder().id(resultSet.getLong("trip_id")).build())
+                    .build();
+        }
+    };
 
     private RowMapper<Trip> tripMapperWithUser = new RowMapper<Trip>() {
         @Override
@@ -162,12 +172,6 @@ public class TripDao implements ru.itis.trip.dao.TripDao {
         jdbcTemplate.update(DELETE_REQUEST_BY_ID, id);
     }
 
-    @SneakyThrows
-    @Override
-    public void deleteRequest(Long userId, Long tripId) {
-        jdbcTemplate.update(DELETE_REQUEST_QUERY, tripId, userId);
-    }
-
     @Autowired
     public TripDao(DataSource dataSource) {
         this.dataSource = dataSource;
@@ -185,8 +189,8 @@ public class TripDao implements ru.itis.trip.dao.TripDao {
     @SneakyThrows
     @Override
     public void sendApply(Long tripId, Long userId) {
-        jdbcTemplate.update("SELECT * from booked_trip WHERE trip_id = ? and user_id = ?",
-                tripId, userId);
+        /*jdbcTemplate.update("SELECT * from booked_trip WHERE trip_id = ? and user_id = ?",
+                tripId, userId);*/
         //todo:Todo: create a trigger:
         jdbcTemplate.update("INSERT INTO trip_user_apply(trip_id, user_id) VALUES (?,?)",
                 tripId, userId);
@@ -408,5 +412,9 @@ public class TripDao implements ru.itis.trip.dao.TripDao {
     @Override
     public void delete(Long id) {
         jdbcTemplate.update(DELETE_QUERY, id);
+    }
+
+    public Request findRequestById(Long id){
+        return jdbcTemplate.queryForObject("SELECT * FROM trip_user_apply WHERE id=?", requestRowMapper, id);
     }
 }

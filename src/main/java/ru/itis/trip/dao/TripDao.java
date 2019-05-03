@@ -21,8 +21,6 @@ public interface TripDao extends Dao<Trip>{
 
     HashMap<String, List<Request>> getRequests(User user);
 
-    void deleteRequest(Long userId, Long tripId);
-
     void addUserToTrip(Long userId, Long tripId);
 
     List<Trip> getBookedTripByUser(User user);
@@ -30,4 +28,6 @@ public interface TripDao extends Dao<Trip>{
     List<Trip> getByParameters(String departure, String destination, String freeSeats, String dateTime);
 
     void deleteRequestById(Long id);
+
+    Request findRequestById(Long id);
 }

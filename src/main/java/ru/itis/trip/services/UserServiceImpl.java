@@ -148,4 +148,16 @@ public class UserServiceImpl implements UserService {
         response.addCookie(cookie);
         userDao.addToken(user, token);
     }
+
+    public void deleteRememberMeCookie(HttpServletRequest request, HttpServletResponse response) {
+
+        for (Cookie cookie : request.getCookies()) {
+
+            if (cookie.getName().equals("remember_me")) {
+
+                cookie.setMaxAge(0);
+                response.addCookie(cookie);
+            }
+        }
+    }
 }

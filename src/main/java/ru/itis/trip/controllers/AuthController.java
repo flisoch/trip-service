@@ -39,4 +39,11 @@ public class AuthController {
         return "redirect:/profile";
 
     }
+
+    @GetMapping("/logout")
+    public String logout(HttpServletRequest request, HttpServletResponse response){
+        request.getSession().invalidate();
+        userService.deleteRememberMeCookie(request,response);
+        return "redirect:/auth";
+    }
 }
