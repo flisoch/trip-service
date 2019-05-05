@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.validation.constraints.NotEmpty;
 import java.time.LocalDateTime;
@@ -18,5 +19,6 @@ public class TripForm {
     String info;
     Integer seats;
     @NotEmpty(message = "new trip must have LocalDateTime date")
-    LocalDateTime date;
+//            @DateTimeFormat(pattern = "")
+    String date;
 }

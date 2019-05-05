@@ -15,7 +15,7 @@ public interface TripService {
     List<Trip> getAllTrips();
 
     TripDto getById(Long id);
-    List<Trip> getTripsWithParameters(HttpServletRequest request);
+    List<Trip> getTripsWithParameters(User user);
 
     Trip createTrip(TripForm tripForm, User iniciator);
 

@@ -3,10 +3,10 @@ package ru.itis.trip.services;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ru.itis.trip.dao.user.UserDao;
 import ru.itis.trip.dao.comments.TripCommentDao;
 import ru.itis.trip.dao.request.RequestRepository;
 import ru.itis.trip.dao.trip.TripRepository;
+import ru.itis.trip.dao.user.UserDao;
 import ru.itis.trip.entities.Request;
 import ru.itis.trip.entities.Trip;
 import ru.itis.trip.entities.TripComment;
@@ -17,6 +17,7 @@ import ru.itis.trip.entities.dto.UserDto;
 import ru.itis.trip.entities.forms.TripForm;
 
 import javax.servlet.http.HttpServletRequest;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -68,15 +69,12 @@ public class TripServiceImpl implements TripService {
     }
 
     @Override
-    public List<Trip> getTripsWithParameters(HttpServletRequest request) {
+    public List<Trip> getTripsWithParameters(User user) {
         /*String userId = request.getParameter("user_id");
         if(userId != null){
             return tripDao.getByUserId(Long.parseLong(userId));
         }*/
-        String freeSeats = request.getParameter("seats");
-        String dateTime = request.getParameter("date");
-        String departure = request.getParameter("departure");
-        String destination = request.getParameter("destination");
+
 //        return tripRepository.getByParameters(departure, destination, freeSeats, date);
         return tripRepository.getAllNotExpired();
     }
@@ -85,6 +83,7 @@ public class TripServiceImpl implements TripService {
     public Trip createTrip(TripForm tripForm, User iniciator) {
         Trip trip = Trip.from(tripForm);
         trip.setIniciator(iniciator);
+        trip.setDate(LocalDateTime.parse(tripForm.getDate()));
         tripRepository.save(trip);
         return trip;
     }

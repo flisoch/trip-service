@@ -32,7 +32,7 @@ const sendComment = (tripId) => {
                     <div class="card-body text-secondary">
                         <h5 class="card-title">${data.text}</h5>
                         <p class="card-text">
-                            ${formatDate(new Date(data.date))}
+                            ${data.date}
                         </p
                     </div>
                 </div>`

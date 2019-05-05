@@ -45,13 +45,14 @@ public class Trip {
     List<User> passangers;
     @OneToMany(mappedBy = "trip")
     List<TripComment> comments;
+    @OneToMany(mappedBy = "trip")
+    List<Request> tripRequests;
 
     public static Trip from(TripForm tripForm) {
         return Trip.builder()
                 .arrivalPoint(tripForm.getDestination())
                 .departurePoint(tripForm.getDeparture())
                 .freeSeats(tripForm.getSeats())
-                .date((tripForm.getDate()))
                 .info(tripForm.getInfo())
                 .build();
     }
