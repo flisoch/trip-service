@@ -41,7 +41,7 @@ public class UserCommentDaoImpl implements UserCommentDao {
                     .id(resultSet.getLong("id"))
                     .commentator(commentator)
                     .text(resultSet.getString("text"))
-                    .date(resultSet.getTimestamp("dateTime").getTime())
+                    .date(resultSet.getTimestamp("datetime").toLocalDateTime())
                     .build();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -71,7 +71,7 @@ public class UserCommentDaoImpl implements UserCommentDao {
                     preparedStatement.setLong(1, model.getCommentatee().getId());
                     preparedStatement.setLong(2, model.getCommentator().getId());
                     preparedStatement.setString(3, model.getText());
-                    preparedStatement.setTimestamp(4, new Timestamp(model.getDate()));
+                    preparedStatement.setTimestamp(4, Timestamp.valueOf(model.getDate()));
                     return preparedStatement;
                 }, keyHolder);
 
@@ -90,7 +90,7 @@ public class UserCommentDaoImpl implements UserCommentDao {
                 model.getCommentatee().getId(),
                 model.getCommentator().getId(),
                 model.getText(),
-                new Timestamp(model.getDate())
+                Timestamp.valueOf(model.getDate())
         );
         return model;
     }

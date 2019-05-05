@@ -7,6 +7,7 @@ import ru.itis.trip.entities.Trip;
 import ru.itis.trip.entities.TripComment;
 import ru.itis.trip.entities.dto.TripCommentDto;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -30,7 +31,7 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     public TripCommentDto saveComment(TripComment tripComment) {
-        tripComment.setDate(System.currentTimeMillis());
+        tripComment.setDate(LocalDateTime.now());
         return TripCommentDto.from(tripCommentDao.create(tripComment));
     }
 }

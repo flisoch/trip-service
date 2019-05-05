@@ -5,12 +5,9 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import ru.itis.trip.entities.Trip;
-import ru.itis.trip.entities.TripComment;
-import ru.itis.trip.entities.User;
 
-import java.util.ArrayList;
+import java.time.LocalDateTime;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Data
 @Builder
@@ -22,7 +19,7 @@ public class TripDto {
     String departurePoint;
     String arrivalPoint;
     String info;
-    Long date;
+    LocalDateTime date;
     int freeSeats;
     boolean expired;
 
@@ -39,10 +36,6 @@ public class TripDto {
                 .date(trip.getDate())
                 .freeSeats(trip.getFreeSeats())
                 .expired(trip.isExpired())
-                .passangers(trip.getPassangers()!=null?trip.getPassangers().stream()
-                        .map(UserDto::from).collect(Collectors.toList()) : new ArrayList<>())
-                .comments(trip.getComments()!=null?trip.getComments().stream()
-                        .map(TripCommentDto::from).collect(Collectors.toList()):null)
                 .build();
     }
 }

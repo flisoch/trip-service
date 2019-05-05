@@ -16,9 +16,9 @@ import ru.itis.trip.services.TripService;
 import ru.itis.trip.services.UserService;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 public class TripsController {
@@ -94,9 +94,9 @@ public class TripsController {
     @GetMapping("/trips")
     public String myTripsPage(ModelMap modelMap, HttpServletRequest request) {
         User user = userService.getCurrentUser(request);
-        HashMap<String, List<Trip>> trips = tripService.getTripsByUser(user);
-        modelMap.put("activeTrips", trips.getOrDefault("active", new ArrayList<>()));
-        modelMap.put("expiredTrips", trips.getOrDefault("expired", new ArrayList<>()));
+        List<Trip> trips = tripService.getTripsByUser(user);
+        modelMap.put("activeTrips", trips.stream().filter(trip -> trip.getDate().isAfter(LocalDateTime.now())).collect(Collectors.toList()));
+        modelMap.put("expiredTrips", trips.stream().filter(trip -> trip.getDate().isBefore(LocalDateTime.now())).collect(Collectors.toList()));
         modelMap.put("user", UserDto.from(user));
         return "MyTrips";
     }
@@ -111,11 +111,11 @@ public class TripsController {
     }
 
     @GetMapping("/trips/search")
-    public String searchtripsPage(ModelMap modelMap, HttpServletRequest request){
+    public String searchtripsPage(ModelMap modelMap, HttpServletRequest request) {
         List<Trip> trips = tripService.getTripsWithParameters(request);
-        modelMap.put("trips",trips);
+        modelMap.put("trips", trips);
         modelMap.put("user", userService.getCurrentUser(request));
         return "search";
-        
+
     }
 }

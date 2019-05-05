@@ -221,13 +221,13 @@
                                                 </div>
                                                 <div class="card-body text-secondary">
                                                     <h5 class="card-title">${comment.text}</h5>
-                                                    <p class="card-text" id="comment_${comment.id}_text">
+                                                    <p class="card-text" id="comment_${comment.id}_text">${comment.date}
                                                     </p>
 
-                                                    <script>
+                                                    <%--<script>
                                                         document.getElementById('comment_${comment.id}_text').innerText
                                                             = formatDate(new Date(${comment.date}));
-                                                    </script>
+                                                    </script>--%>
                                                 </div>
                                             </div>
                                          </c:forEach>

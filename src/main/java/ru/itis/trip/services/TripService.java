@@ -23,9 +23,9 @@ public interface TripService {
 
     void sendApply(Long tripId, Long id);
 
-    HashMap<String, List<Request>> getRequsets(User user);
+    List<Request> getRequsets(User user);
 
-    HashMap<String, List<Trip>> getTripsByUser(User id);
+    List<Trip> getTripsByUser(User id);
 
     List<TripDto> getBookedByUser(User user);
 

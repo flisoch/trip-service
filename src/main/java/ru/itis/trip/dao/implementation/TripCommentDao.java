@@ -43,7 +43,7 @@ public class TripCommentDao implements ru.itis.trip.dao.TripCommentDao {
                     .trip(Trip.builder().id(resultSet.getLong("trip_id")).build())
                     .commentator(User.builder().id(resultSet.getLong("commentator_id")).build())
                     .text(resultSet.getString("text"))
-                    .date(resultSet.getTimestamp("dateTime").getTime())
+                    .date(resultSet.getTimestamp("date").toLocalDateTime())
                     .build();
             return tripComment;
         } catch (SQLException e) {
@@ -64,7 +64,7 @@ public class TripCommentDao implements ru.itis.trip.dao.TripCommentDao {
                     .trip(Trip.builder().id(resultSet.getLong("trip_id")).build())
                     .commentator(user)
                     .text(resultSet.getString("text"))
-                    .date(resultSet.getTimestamp("dateTime").getTime())
+                    .date(resultSet.getTimestamp("date").toLocalDateTime())
                     .build();
 
             return tripComment;
@@ -94,7 +94,7 @@ public class TripCommentDao implements ru.itis.trip.dao.TripCommentDao {
                     preparedStatement.setLong(1, model.getTrip().getId());
                     preparedStatement.setLong(2, model.getCommentator().getId());
                     preparedStatement.setString(3, model.getText());
-                    preparedStatement.setTimestamp(4, new Timestamp(model.getDate()));
+                    preparedStatement.setTimestamp(4, Timestamp.valueOf(model.getDate()));
                     return preparedStatement;
                 }, keyHolder);
 
@@ -113,7 +113,7 @@ public class TripCommentDao implements ru.itis.trip.dao.TripCommentDao {
                 model.getTrip().getId(),
                 model.getCommentator().getId(),
                 model.getText(),
-                new Timestamp(model.getDate())
+                Timestamp.valueOf(model.getDate())
         );
         return model;
     }

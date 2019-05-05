@@ -5,6 +5,9 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.NotEmpty;
+import java.time.LocalDateTime;
+
 @Data
 @Builder
 @NoArgsConstructor
@@ -14,5 +17,6 @@ public class TripForm {
     String departure;
     String info;
     Integer seats;
-    String date;
+    @NotEmpty(message = "new trip must have LocalDateTime date")
+    LocalDateTime date;
 }

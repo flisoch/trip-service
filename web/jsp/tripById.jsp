@@ -21,11 +21,11 @@
 
                             </p>
 
-                            <p id="trip_${trip.id}_date"></p>
-                            <script>
+                            <p id="trip_${trip.id}_date">${trip.date}</p>
+                            <%--<script>
                                 document.getElementById('trip_${trip.id}_date').innerText
                                     = "Date: " + formatDate(new Date(${trip.date}));
-                            </script>
+                            </script>--%>
 
                             <c:choose>
                                 <c:when test="${trip.iniciator.id == user.id}">
