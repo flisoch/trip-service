@@ -52,17 +52,17 @@ function submitTripChanges(id) {
     let destination = $("#destination").val();
     let seats = $("#seats").val();
     let date = $("#timeToInputField").val();
+    let jsonString = JSON.stringify({info: info,
+        departure: departure,
+        destination: destination,
+        seats:seats,
+        date:date});
 
     $.ajax({
         url: `/trips/${id}`,
-        type:"POST",
-        data: {
-            "info": info,
-            "departure": departure,
-            "destination": destination,
-            "seats":seats,
-            "date":date,
-        },
+        type:"PUT",
+        contentType:"application/json",
+        data: jsonString,
         success: function (msg) {
             disable();
         },

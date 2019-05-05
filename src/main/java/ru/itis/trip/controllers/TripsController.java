@@ -79,8 +79,8 @@ public class TripsController {
         return ResponseEntity.ok().build();
     }
 
-    @PostMapping(value = "/trips/{tripId}")
-    public ResponseEntity updateProfile(TripForm tripForm, @PathVariable Long tripId, HttpServletRequest request) {
+    @PutMapping(value = "/trips/{tripId}")
+    public ResponseEntity updateProfile(@RequestBody TripForm tripForm, @PathVariable Long tripId, HttpServletRequest request) {
         tripService.updateTrip(tripForm, tripId, userService.getCurrentUser(request));
         return ResponseEntity.ok().build();
     }
