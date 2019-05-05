@@ -1,25 +1,30 @@
 package ru.itis.trip.services;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import ru.itis.trip.dao.TripCommentDao;
 import ru.itis.trip.dao.TripDao;
 import ru.itis.trip.entities.Request;
 import ru.itis.trip.entities.Trip;
+import ru.itis.trip.entities.TripComment;
 import ru.itis.trip.entities.User;
-import ru.itis.trip.forms.TripForm;
+import ru.itis.trip.entities.dto.TripDto;
+import ru.itis.trip.entities.forms.TripForm;
 
 import javax.servlet.http.HttpServletRequest;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
+@Service
 public class TripServiceImpl implements TripService {
     TripDao tripDao;
+    TripCommentDao commentDao;
 
-    public TripServiceImpl(TripDao tripDao) {
+    @Autowired
+    public TripServiceImpl(TripDao tripDao, TripCommentDao commentDao) {
         this.tripDao = tripDao;
+        this.commentDao = commentDao;
     }
 
     @Override
@@ -28,13 +33,16 @@ public class TripServiceImpl implements TripService {
     }
 
     @Override
-    public Trip getById(Long id) {
-        return tripDao.read(id).get();
+    public TripDto getById(Long id) {
+        Trip trip = tripDao.read(id).get();
+        List<TripComment> comments = commentDao.getTripComments(trip);
+        trip.setComments(comments);
+        return TripDto.from(trip);
     }
 
     @Override
-    public List<Trip> getBookedByUser(User user) {
-        return tripDao.getBookedTripByUser(user);
+    public List<TripDto> getBookedByUser(User user) {
+        return tripDao.getBookedTripByUser(user).stream().map(TripDto::from).collect(Collectors.toList());
     }
 
     @Override
@@ -49,54 +57,31 @@ public class TripServiceImpl implements TripService {
             return tripDao.getByUserId(Long.parseLong(userId));
         }*/
         String freeSeats = request.getParameter("seats");
-        String dateTime = request.getParameter("time_to");
+        String dateTime = request.getParameter("date");
         String departure = request.getParameter("departure");
         String destination = request.getParameter("destination");
         return tripDao.getByParameters(departure, destination, freeSeats, dateTime);
     }
 
     @Override
-    public void createTrip(Trip trip) {
+    public Trip createTrip(TripForm tripForm, User iniciator) {
+        Trip trip = Trip.from(tripForm);
+        trip.setIniciator(iniciator);
         tripDao.create(trip);
+        return trip;
     }
 
     @Override
-    public void updateTrip(HttpServletRequest request, TripForm tripForm) {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");//"yyyy-MM-dd'T'HH:mm:ss.SSSZ"
-        Date date;
-        Long epoch = 0L;
-        try {
-            date = dateFormat.parse(tripForm.getDate());
-            epoch = date.getTime();
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        Trip trip = Trip.builder()
-                .iniciator((User) request.getSession().getAttribute("current_user"))
-                .info(tripForm.getInfo())
-                .date(epoch)
-                .freeSeats(tripForm.getSeatsNumber())
-                .departurePoint(tripForm.getDeparturePoint())
-                .arrivalPoint(tripForm.getArrivalPoint())
-                .id(getId(request))
-                .build();
+    public void updateTrip(TripForm tripForm, Long tripId, User iniciator) {
+        Trip trip = Trip.from(tripForm);
+        trip.setId(tripId);
+        trip.setIniciator(iniciator);
         tripDao.update(trip);
     }
 
     @Override
     public void sendApply(Long tripId, Long userId) {
         tripDao.sendApply(tripId, userId);
-    }
-
-    @Override
-    public void rejectRequest(Long userId, Long tripId) {
-        tripDao.deleteRequest(userId, tripId);
-    }
-
-    @Override
-    public void acceptRequest(Long userId, Long tripId) {
-        tripDao.addUserToTrip(userId, tripId);
-        tripDao.deleteRequest(userId, tripId);
     }
 
     @Override
@@ -114,13 +99,12 @@ public class TripServiceImpl implements TripService {
         tripDao.delete(id);
     }
 
-    private Long getId(HttpServletRequest request) {
-        Pattern compile = Pattern.compile("/trips/([1-9][0-9]*)");
-        Matcher matcher = compile.matcher(request.getRequestURI());
-        Long id = null;
-        if (matcher.find()) {
-            id = Long.valueOf(matcher.group(1));
+    @Override
+    public void acceptOrDenyRequest(Long requestId, boolean accepted) {
+        if (accepted) {
+            Request request = tripDao.findRequestById(requestId);
+            tripDao.addUserToTrip(request.getUser().getId(), request.getTrip().getId());
         }
-        return id;
+        tripDao.deleteRequestById(requestId);
     }
 }

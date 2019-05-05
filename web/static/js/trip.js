@@ -1,6 +1,6 @@
 const apply = (tripId) => {
     $.ajax({
-        url: `/trips/${tripId}/apply`,
+        url: `/trips/${tripId}/requests`,
         type: 'POST',
         success: (data) => {
             alert('aplly sent!');
@@ -52,22 +52,21 @@ function submitTripChanges(id) {
     let destination = $("#destination").val();
     let seats = $("#seats").val();
     let date = $("#timeToInputField").val();
+    let jsonString = JSON.stringify({info: info,
+        departure: departure,
+        destination: destination,
+        seats:seats,
+        date:date});
 
     $.ajax({
-        url: `/trips/${id}/edit`,
-        type:"POST",
-        data: {
-            "info": info,
-            "departure": departure,
-            "destination": destination,
-            "seats":seats,
-            "date":date,
-        },
+        url: `/trips/${id}`,
+        type:"PUT",
+        contentType:"application/json",
+        data: jsonString,
         success: function (msg) {
-            alert("successfully updated");
+            disable();
         },
         error: function (msg) {
-            alert(2);
         }
     });
 }
@@ -77,7 +76,7 @@ const deleteTrip = (tripId) => {
 
     $.ajax({
         url: `/trips/${tripId}`,
-        type: 'POST',
+        type: 'DELETE',
         success: (data) => {
             trip.remove();
         },
@@ -90,13 +89,9 @@ const deleteTrip = (tripId) => {
 
 const deleteTripComment = (tripId, commentId) => {
     let comment = $(`#comment_${commentId}`);
-
     $.ajax({
-        url: `/trips/${tripId}/comments`,
+        url: `/trips/${tripId}/comments/${commentId}`,
         type: 'POST',
-        data: {
-            "comment_id": commentId,
-        },
         success: (data) => {
             comment.remove();
             let list = $(`#comments-container`);

@@ -3,7 +3,8 @@ package ru.itis.trip.services;
 import ru.itis.trip.entities.Request;
 import ru.itis.trip.entities.Trip;
 import ru.itis.trip.entities.User;
-import ru.itis.trip.forms.TripForm;
+import ru.itis.trip.entities.dto.TripDto;
+import ru.itis.trip.entities.forms.TripForm;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
@@ -13,26 +14,24 @@ public interface TripService {
 
     List<Trip> getAllTrips();
 
-    Trip getById(Long id);
+    TripDto getById(Long id);
     List<Trip> getTripsWithParameters(HttpServletRequest request);
 
-    void createTrip(Trip trip);
+    Trip createTrip(TripForm tripForm, User iniciator);
 
-    void updateTrip(HttpServletRequest request, TripForm tripForm);
+    void updateTrip(TripForm tripForm, Long tripId, User user);
 
     void sendApply(Long tripId, Long id);
 
     HashMap<String, List<Request>> getRequsets(User user);
 
-    void rejectRequest(Long userId, Long tripId);
-
-    void acceptRequest(Long userId, Long tripId);
-
     HashMap<String, List<Trip>> getTripsByUser(User id);
 
-    List<Trip> getBookedByUser(User user);
+    List<TripDto> getBookedByUser(User user);
 
     void deleteRequestById(Long id);
 
     void deleteTripById(Long id);
+
+    void acceptOrDenyRequest(Long requestId, boolean accepted);
 }

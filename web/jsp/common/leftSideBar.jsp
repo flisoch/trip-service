@@ -13,13 +13,13 @@
                 <a class="nav-link" href="/profile">Profile</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="/profile/trips">My trips</a>
+                <a class="nav-link" href="/trips">My trips</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="/profile/booked">Booked trips</a>
+                <a class="nav-link" href="/trips/booked">Booked trips</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="/profile/requests">Requests</a>
+                <a class="nav-link" href="/requests">Requests</a>
             </li>
         </ul>
     </div>

@@ -1,13 +1,11 @@
-const accept = (tripId, userId, requestId) => {
+const accept = (requestId) => {
     let requestCard = $(`#request_${requestId}`);
-
+    let jsonString = JSON.stringify({accepted: true});
     $.ajax({
-        url: `/requests/accept`,
-        type: 'POST',
-        data: {
-            'trip_id': tripId,
-            'user_id': userId,
-        },
+        url: `/requests/${requestId}`,
+        contentType: 'application/json',
+        type: 'PUT',
+        data: jsonString,
 
         success: (data) => {
             requestCard.remove();
@@ -31,15 +29,14 @@ const accept = (tripId, userId, requestId) => {
     });
 };
 
-const reject = (tripId, userId, requestId) => {
+const reject = (requestId) => {
     let requestCard = $(`#request_${requestId}`);
+    let jsonString = JSON.stringify({accepted: false});
     $.ajax({
-        url: `/requests/reject`,
-        type: 'POST',
-        data: {
-            'trip_id': tripId,
-            'user_id': userId,
-        },
+        url: `/requests/${requestId}`,
+        contentType: 'application/json',
+        type: 'PUT',
+        data: jsonString,
         success: (data) => {
             requestCard.remove();
 

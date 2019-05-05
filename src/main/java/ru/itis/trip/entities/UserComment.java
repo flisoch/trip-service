@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import ru.itis.trip.entities.forms.UserCommentForm;
 
 
 @Data
@@ -16,4 +17,11 @@ public class UserComment {
     User commentatee;
     String text;
     Long date;
+
+    public static UserComment from(UserCommentForm userComment) {
+        return UserComment.builder()
+                .text(userComment.getText())
+                .date(System.currentTimeMillis())
+                .build();
+    }
 }

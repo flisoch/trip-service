@@ -4,17 +4,20 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
+import org.springframework.stereotype.Repository;
 import ru.itis.trip.entities.Trip;
 import ru.itis.trip.entities.TripComment;
 import ru.itis.trip.entities.User;
-import ru.itis.trip.services.UserService;
 
 import javax.sql.DataSource;
-import java.sql.*;
-import java.util.ArrayList;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
+@Repository
 public class TripCommentDao implements ru.itis.trip.dao.TripCommentDao {
 
 
@@ -82,7 +85,7 @@ public class TripCommentDao implements ru.itis.trip.dao.TripCommentDao {
     }
 
     @Override
-    public boolean create(TripComment model) {
+    public TripComment create(TripComment model) {
         KeyHolder keyHolder = new GeneratedKeyHolder();
         jdbcTemplate.update(
                 connection -> {
@@ -95,8 +98,8 @@ public class TripCommentDao implements ru.itis.trip.dao.TripCommentDao {
                     return preparedStatement;
                 }, keyHolder);
 
-        model.setId(keyHolder.getKey().longValue());
-        return model.getId() != null;
+        model.setId(Objects.requireNonNull(keyHolder.getKey()).longValue());
+        return model;
     }
 
     @Override
@@ -105,13 +108,14 @@ public class TripCommentDao implements ru.itis.trip.dao.TripCommentDao {
     }
 
     @Override
-    public void update(TripComment model) {
+    public TripComment update(TripComment model) {
         jdbcTemplate.update(UPDATE_QUERY,
                 model.getTrip().getId(),
                 model.getCommentator().getId(),
                 model.getText(),
                 new Timestamp(model.getDate())
         );
+        return model;
     }
 
     @Override

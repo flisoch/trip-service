@@ -47,9 +47,9 @@
                                                 <a href="/profile/${request.user.id}">User:${request.user.username}</a>
                                             </h5>
 
-                                            <button onclick="accept(${request.trip.id},${request.user.id}, ${request.id})"
+                                            <button onclick="accept(${request.id})"
                                                     class="btn btn-success">accept</button>
-                                            <button onclick="reject(${request.trip.id},${request.user.id}, ${request.id})"
+                                            <button onclick="reject(${request.id})"
                                                     class="btn btn-danger">reject</button>
                                         </div>
                                     </div>

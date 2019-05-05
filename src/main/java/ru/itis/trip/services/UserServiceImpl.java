@@ -1,10 +1,14 @@
 package ru.itis.trip.services;
 
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import ru.itis.trip.dao.UserDao;
 import ru.itis.trip.entities.User;
-import ru.itis.trip.forms.LoginForm;
-import ru.itis.trip.forms.ProfileForm;
+import ru.itis.trip.entities.dto.UserDto;
+import ru.itis.trip.entities.forms.LoginForm;
+import ru.itis.trip.entities.forms.ProfileForm;
+import ru.itis.trip.entities.forms.RegistrationForm;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -17,25 +21,25 @@ import java.security.NoSuchAlgorithmException;
 import java.util.Date;
 import java.util.Optional;
 
+@Service
 public class UserServiceImpl implements UserService {
 
     private UserDao userDao;
 
+    @Autowired
     public UserServiceImpl(UserDao userDao) {
         this.userDao = userDao;
     }
 
     @Override
-    public User signUp(ProfileForm profileForm) {
+    public Optional<User> signUp(RegistrationForm registrationForm) {
         User user = User.builder()
-                .email(profileForm.getEmail())
-                .hashedPassword(hash(profileForm.getPassword()))
-                .username(profileForm.getUsername())
+                .email(registrationForm.getEmail())
+                .hashedPassword(hash(registrationForm.getPassword()))
+                .username(registrationForm.getUsername())
                 .build();
-        if(userDao.create(user)){
-            return user;
-        }
-        return null;
+        User userCandidate = userDao.create(user);
+        return Optional.ofNullable(userCandidate);
     }
 
     @Override
@@ -60,25 +64,27 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User signIn(LoginForm loginForm) {
+    public Optional<User> signIn(LoginForm loginForm) {
 
         User user = userDao.getByUsername(loginForm.getUsername()).orElse(null);
 
         if (user != null && user.getHashedPassword().equals(hash(loginForm.getPassword()))) {
-            return user;
+            return Optional.of(user);
         }
 
-        return null;
+        return Optional.empty();
     }
 
     @Override
-    public void authorize(User current_user, HttpServletRequest request, HttpServletResponse response) {
+    public void authorize(User current_user, HttpServletRequest request) {
 
         request.getSession().setAttribute("current_user",current_user);
 
-        if(request.getParameter("remember_me") != null) {
-            addToken(current_user, response);
-        }
+    }
+
+    @Override
+    public void remember(User current_user, HttpServletResponse response){
+        addToken(current_user, response);
     }
 
     @Override
@@ -104,9 +110,9 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User getUserById(Long id) {
+    public Optional<UserDto> getUserById(Long id) {
         Optional<User> user = userDao.read(id);
-        return user.orElse(null);
+        return user.map(UserDto::from);
     }
 
     private String createToken(String username) {
@@ -141,5 +147,17 @@ public class UserServiceImpl implements UserService {
         cookie.setMaxAge(24*60*60);
         response.addCookie(cookie);
         userDao.addToken(user, token);
+    }
+
+    public void deleteRememberMeCookie(HttpServletRequest request, HttpServletResponse response) {
+
+        for (Cookie cookie : request.getCookies()) {
+
+            if (cookie.getName().equals("remember_me")) {
+
+                cookie.setMaxAge(0);
+                response.addCookie(cookie);
+            }
+        }
     }
 }

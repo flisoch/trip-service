@@ -26,7 +26,7 @@
                     <div id="home" class="container tab-pane active">
                         <div class="card">
                             <div class="card-body">
-                                <form action="/profile/edit" method="POST">
+                                <form action="/profile" method="POST">
 
                                     <div class="form-row">
                                         <div class="form-group col-3">
@@ -173,14 +173,14 @@
 
                                     <div class="form-row">
                                         <div class="form-group col">
-                                            <label for="bio">About me</label>
+                                            <label for="additionalInfo">About me</label>
                                             <c:choose>
                                                 <c:when test="${empty user.additionalInfo}">
-                                                    <textarea class="form-control disable" id="bio" rows="3"
+                                                    <textarea class="form-control disable" name="additionalInfo" rows="3"
                                                               disabled></textarea>
                                                 </c:when>
                                                        <c:otherwise>
-                                                           <textarea class="form-control disable" id="bio" rows="3"
+                                                           <textarea class="form-control disable" name="additionalInfo" rows="3"
                                                                      disabled>${user.additionalInfo}</textarea>
                                                        </c:otherwise>
                                                 </c:choose>

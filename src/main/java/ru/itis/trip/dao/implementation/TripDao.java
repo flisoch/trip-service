@@ -1,10 +1,12 @@
 package ru.itis.trip.dao.implementation;
 
 import lombok.SneakyThrows;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
+import org.springframework.stereotype.Repository;
 import ru.itis.trip.entities.Request;
 import ru.itis.trip.entities.Trip;
 import ru.itis.trip.entities.User;
@@ -13,12 +15,10 @@ import javax.sql.DataSource;
 import java.sql.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
+@Repository
 public class TripDao implements ru.itis.trip.dao.TripDao {
 
     private static final String CREATE_QUERY = "INSERT INTO trip(arrival_point, departure_point, dateTime, free_seats, initiator_id,info) VALUES (?,?,?,?,?,?)";
@@ -29,19 +29,20 @@ public class TripDao implements ru.itis.trip.dao.TripDao {
     private static final String SELECT_BY_DIRECTION_DATE_WITH_USER = "SELECT * from trip t join service_user s on t.initiator_id = s.idervice_user s on t.initiator_id = s.id " +
             "where departure_point = ? AND arrival_point = ? AND dateTime = ?";
     private static final String SELECT_BY_ID_WITH_EMPTY_USER = "SELECT t.id,arrival_point,departure_point,datetime,free_seats,initiator_id,info,username from trip t join service_user s on t.initiator_id = s.id WHERE t.id = ?";
+    private static final String SELECT_BY_ID_WITH_PHOTO_USER = "SELECT t.id as trip_id,arrival_point,departure_point,datetime,free_seats,initiator_id,info,username, photo from trip t join service_user s on t.initiator_id = s.id WHERE t.id = ?";
     ;
     private static final String SELECT_BY_USER_WITH_EMPTY_USER = "SELECT * from trip t join service_user s on t.initiator_id = s.id where s.id = ?";
     private static final String SELECT_REQUEST_BY_USER_ID = "SELECT a.id, a.trip_id, a.user_id, u.username from trip_user_apply a " +
             "join trip t on a.trip_id = t.id " +
             "join service_user u on a.user_id = u.id " +
             "WHERE t.initiator_id = ? or u.id = ?";
-    private static final String DELETE_REQUEST_QUERY = "DELETE FROM trip_user_apply WHERE trip_id = ? AND user_id = ?";
-    private static final String SELECT_BOOKED_BY_USER_ID = "SELECT u.photo as user_photo, u.username, b.trip_id, b.user_id," +
+    private static final String DELETE_REQUEST_QUERY = "DELETE FROM trip_user_apply WHERE id=?";
+    private static final String SELECT_BOOKED_BY_USER_ID = "SELECT u.photo as photo, u.username, b.trip_id, b.user_id as initiator_id," +
             "arrival_point, departure_point, t.datetime, t.info,t.free_seats from booked_trip b inner join trip t on b.trip_id=t.id join service_user u " +
             "on t.initiator_id=u.id WHERE user_id = ?";
     private static final String DELETE_REQUEST_BY_ID = "DELETE FROM trip_user_apply WHERE id = ?";
     private static final String INSERT_TO_BOOKED = "INSERT INTO booked_trip(trip_id, user_id) VALUES (?,?)";
-    private static final String DECRESE_SEATS = "UPDATE trip SET free_seats = free_seats - 1 WHERE id = ?";
+    private static final String DECRESE_SEATS = "UPDATE trip SET free_seats=free_seats-1 WHERE id=?";
 
     DataSource dataSource;
     JdbcTemplate jdbcTemplate;
@@ -105,6 +106,16 @@ public class TripDao implements ru.itis.trip.dao.TripDao {
                     .build();
         }
     };
+    private RowMapper<Request> requestRowMapper = new RowMapper<Request>() {
+        @Override
+        public Request mapRow(ResultSet resultSet, int i) throws SQLException {
+            return Request.builder()
+                    .id(resultSet.getLong("id"))
+                    .user(User.builder().id(resultSet.getLong("user_id")).build())
+                    .trip(Trip.builder().id(resultSet.getLong("trip_id")).build())
+                    .build();
+        }
+    };
 
     private RowMapper<Trip> tripMapperWithUser = new RowMapper<Trip>() {
         @Override
@@ -138,9 +149,9 @@ public class TripDao implements ru.itis.trip.dao.TripDao {
 
     private RowMapper<Trip> tripUserWithPhotoMapper = ((resultSet, i) -> {
         User user = User.builder()
-                .id(resultSet.getLong("user_id"))
+                .id(resultSet.getLong("initiator_id"))
                 .username(resultSet.getString("username"))
-                .photo(resultSet.getString("user_photo"))
+                .photo(resultSet.getString("photo"))
                 .build();
 
         return Trip.builder()
@@ -161,12 +172,7 @@ public class TripDao implements ru.itis.trip.dao.TripDao {
         jdbcTemplate.update(DELETE_REQUEST_BY_ID, id);
     }
 
-    @SneakyThrows
-    @Override
-    public void deleteRequest(Long userId, Long tripId) {
-        jdbcTemplate.update(DELETE_REQUEST_QUERY, tripId, userId);
-    }
-
+    @Autowired
     public TripDao(DataSource dataSource) {
         this.dataSource = dataSource;
         this.jdbcTemplate = new JdbcTemplate(dataSource);
@@ -177,14 +183,14 @@ public class TripDao implements ru.itis.trip.dao.TripDao {
     public void addUserToTrip(Long userId, Long tripId) {
         jdbcTemplate.update(INSERT_TO_BOOKED, tripId, userId);
         //Todo: create a trigger:
-        jdbcTemplate.update(DECRESE_SEATS);
+        jdbcTemplate.update(DECRESE_SEATS, tripId);
     }
 
     @SneakyThrows
     @Override
     public void sendApply(Long tripId, Long userId) {
-        jdbcTemplate.update("SELECT * from booked_trip WHERE trip_id = ? and user_id = ?",
-                tripId, userId);
+        /*jdbcTemplate.update("SELECT * from booked_trip WHERE trip_id = ? and user_id = ?",
+                tripId, userId);*/
         //todo:Todo: create a trigger:
         jdbcTemplate.update("INSERT INTO trip_user_apply(trip_id, user_id) VALUES (?,?)",
                 tripId, userId);
@@ -252,7 +258,7 @@ public class TripDao implements ru.itis.trip.dao.TripDao {
     @Override
     public List<Trip> getByParameters(String departure, String destination, String freeSeats, String dateTime) {
         List<Trip> trips;
-        StringBuilder query = new StringBuilder("SELECT s.id as user_id, s.photo as user_photo, s.username, t.id as trip_id, arrival_point, departure_point, ");
+        StringBuilder query = new StringBuilder("SELECT s.id as initiator_id, s.photo, s.username, t.id as trip_id, arrival_point, departure_point, ");
         query.append("dateTime, info, free_seats from trip t join service_user s on t.initiator_id = s.id ");
 
         query.append("WHERE ");
@@ -363,7 +369,7 @@ public class TripDao implements ru.itis.trip.dao.TripDao {
     }
 
     @Override
-    public boolean create(Trip model) {
+    public Trip create(Trip model) {
 
         KeyHolder keyHolder = new GeneratedKeyHolder();
         jdbcTemplate.update(
@@ -379,18 +385,18 @@ public class TripDao implements ru.itis.trip.dao.TripDao {
                     return preparedStatement;
                 }, keyHolder);
 
-        model.setId(keyHolder.getKey().longValue());
-        return model.getId() != null;
+        model.setId(Objects.requireNonNull(keyHolder.getKey()).longValue());
+        return model;
 
     }
 
     @Override
     public Optional<Trip> read(Long id) {
-        return Optional.of(jdbcTemplate.queryForObject(SELECT_BY_ID_WITH_EMPTY_USER, tripMapperWithEmptyUser, id));
+        return Optional.of(jdbcTemplate.queryForObject(SELECT_BY_ID_WITH_PHOTO_USER, tripUserWithPhotoMapper, id));
     }
 
     @Override
-    public void update(Trip model) {
+    public Trip update(Trip model) {
         jdbcTemplate.update(UPDATE_QUERY,
                 model.getArrivalPoint(),
                 model.getDeparturePoint(),
@@ -400,10 +406,15 @@ public class TripDao implements ru.itis.trip.dao.TripDao {
                 model.getInfo(),
                 model.getId()
         );
+        return model;
     }
 
     @Override
     public void delete(Long id) {
         jdbcTemplate.update(DELETE_QUERY, id);
+    }
+
+    public Request findRequestById(Long id){
+        return jdbcTemplate.queryForObject("SELECT * FROM trip_user_apply WHERE id=?", requestRowMapper, id);
     }
 }

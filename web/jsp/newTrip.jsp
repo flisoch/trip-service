@@ -11,7 +11,7 @@
 
                     <div class="card-body">
 
-                        <form method="POST">
+                        <form method="POST" action="/trips">
 
                             <div class="form-group">
                                 <label for="departure">departure</label>
@@ -37,13 +37,13 @@
 
                             <div class="form-group">
                                 <label for="timeToInputField">Date and time</label>
-                                <input name="time_to" type="datetime-local" class="form-control" value="2018-01-01T23:00"
+                                <input name="date" type="datetime-local" class="form-control" value="2018-01-01T23:00"
                                        id="timeToInputField" required>
                             </div>
 
                             <div class="form-group">
-                                <label for="bio">About Trip</label>
-                                <textarea name="bio" class="form-control" id="bio" rows="3"></textarea>
+                                <label for="info">About Trip</label>
+                                <textarea name="info" class="form-control" id="info" rows="3"></textarea>
                             </div>
 
                             <div class="form-group">

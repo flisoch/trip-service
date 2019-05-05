@@ -20,7 +20,7 @@ function submitChanges() {
                 "lastname": $("#lastname").val(),
                 "job": $("#working-place").val(),
                 "address": $("#inputAddress").val(),
-                "bio": $("#bio").val(),
+                "bio": $("#info").val(),
                 "age": $("#age").val()
         },
         success: function (msg) {
@@ -76,11 +76,8 @@ const deleteUserComment = (userId, commentId) => {
     let comment = $(`#comment_${commentId}`);
 
     $.ajax({
-        url: `/profile/${userId}/comments`,
+        url: `/profile/${userId}/comments/${commentId}`,
         type: 'POST',
-        data: {
-            "comment_id": commentId,
-        },
         success: (data) => {
             comment.remove();
             let list = $(`#comments-container`);
