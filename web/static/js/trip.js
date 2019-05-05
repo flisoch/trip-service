@@ -55,7 +55,7 @@ function submitTripChanges(id) {
 
     $.ajax({
         url: `/trips/${id}`,
-        type:"PUT",
+        type:"POST",
         data: {
             "info": info,
             "departure": departure,
