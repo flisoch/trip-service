@@ -1,6 +1,6 @@
 const apply = (tripId) => {
     $.ajax({
-        url: `/trips/${tripId}/apply`,
+        url: `/trips/${tripId}/requests`,
         type: 'POST',
         success: (data) => {
             alert('aplly sent!');

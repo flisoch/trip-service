@@ -1,12 +1,11 @@
 const accept = (requestId) => {
     let requestCard = $(`#request_${requestId}`);
-
+    let jsonString = JSON.stringify({accepted: true});
     $.ajax({
         url: `/requests/${requestId}`,
+        contentType: 'application/json',
         type: 'PUT',
-        data: {
-            'accepted': true
-        },
+        data: jsonString,
 
         success: (data) => {
             requestCard.remove();
@@ -32,12 +31,12 @@ const accept = (requestId) => {
 
 const reject = (requestId) => {
     let requestCard = $(`#request_${requestId}`);
+    let jsonString = JSON.stringify({accepted: false});
     $.ajax({
         url: `/requests/${requestId}`,
+        contentType: 'application/json',
         type: 'PUT',
-        data: {
-            'accepted': false
-        },
+        data: jsonString,
         success: (data) => {
             requestCard.remove();
 

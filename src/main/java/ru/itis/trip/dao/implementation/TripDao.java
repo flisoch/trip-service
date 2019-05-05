@@ -37,12 +37,12 @@ public class TripDao implements ru.itis.trip.dao.TripDao {
             "join service_user u on a.user_id = u.id " +
             "WHERE t.initiator_id = ? or u.id = ?";
     private static final String DELETE_REQUEST_QUERY = "DELETE FROM trip_user_apply WHERE id=?";
-    private static final String SELECT_BOOKED_BY_USER_ID = "SELECT u.photo as user_photo, u.username, b.trip_id, b.user_id," +
+    private static final String SELECT_BOOKED_BY_USER_ID = "SELECT u.photo as photo, u.username, b.trip_id, b.user_id as initiator_id," +
             "arrival_point, departure_point, t.datetime, t.info,t.free_seats from booked_trip b inner join trip t on b.trip_id=t.id join service_user u " +
             "on t.initiator_id=u.id WHERE user_id = ?";
     private static final String DELETE_REQUEST_BY_ID = "DELETE FROM trip_user_apply WHERE id = ?";
     private static final String INSERT_TO_BOOKED = "INSERT INTO booked_trip(trip_id, user_id) VALUES (?,?)";
-    private static final String DECRESE_SEATS = "UPDATE trip SET free_seats = free_seats - 1 WHERE id = ?";
+    private static final String DECRESE_SEATS = "UPDATE trip SET free_seats=free_seats-1 WHERE id=?";
 
     DataSource dataSource;
     JdbcTemplate jdbcTemplate;
@@ -183,7 +183,7 @@ public class TripDao implements ru.itis.trip.dao.TripDao {
     public void addUserToTrip(Long userId, Long tripId) {
         jdbcTemplate.update(INSERT_TO_BOOKED, tripId, userId);
         //Todo: create a trigger:
-        jdbcTemplate.update(DECRESE_SEATS);
+        jdbcTemplate.update(DECRESE_SEATS, tripId);
     }
 
     @SneakyThrows

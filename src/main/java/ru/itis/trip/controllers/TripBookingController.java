@@ -4,12 +4,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.*;
 import ru.itis.trip.entities.Request;
 import ru.itis.trip.entities.User;
+import ru.itis.trip.entities.forms.RequestForm;
 import ru.itis.trip.services.TripService;
 import ru.itis.trip.services.UserService;
 
@@ -31,8 +29,8 @@ public class TripBookingController {
     UserService userService;
 
     @PutMapping("/requests/{requestId}")
-    public ResponseEntity acceptOrDenyRequest(@PathVariable Long requestId, boolean accepted){
-        tripService.acceptOrDenyRequest(requestId, accepted);
+    public ResponseEntity acceptOrDenyRequest(@PathVariable Long requestId, @RequestBody RequestForm accepted){
+        tripService.acceptOrDenyRequest(requestId, accepted.isAccepted());
         return ResponseEntity.ok().build();
     }
 
