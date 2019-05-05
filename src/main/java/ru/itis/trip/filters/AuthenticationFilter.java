@@ -1,7 +1,6 @@
 package ru.itis.trip.filters;
 
 import ru.itis.trip.services.UserService;
-import ru.itis.trip.util.Pair;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;

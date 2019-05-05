@@ -2,8 +2,8 @@ package ru.itis.trip.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import ru.itis.trip.dao.UserCommentDao;
-import ru.itis.trip.dao.UserDao;
+import ru.itis.trip.dao.comments.UserCommentDao;
+import ru.itis.trip.dao.user.UserDao;
 import ru.itis.trip.entities.User;
 import ru.itis.trip.entities.UserComment;
 import ru.itis.trip.entities.dto.UserCommentDto;

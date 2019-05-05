@@ -1,10 +1,11 @@
-package ru.itis.trip.dao.implementation;
+package ru.itis.trip.dao.comments;
 
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
+import ru.itis.trip.dao.comments.TripCommentDao;
 import ru.itis.trip.entities.Trip;
 import ru.itis.trip.entities.TripComment;
 import ru.itis.trip.entities.User;
@@ -18,7 +19,7 @@ import java.util.Objects;
 import java.util.Optional;
 
 @Repository
-public class TripCommentDaoImpl implements ru.itis.trip.dao.TripCommentDao {
+public class TripCommentDaoImpl implements TripCommentDao {
 
 
     private static final String SELECT_BY_ID_WITH_EMPTY_MODELS = "SELECT * FROM  comment_trip WHERE id = ?";
@@ -33,7 +34,6 @@ public class TripCommentDaoImpl implements ru.itis.trip.dao.TripCommentDao {
     private static final String SELECT_COMMENTS_BY_TRIP_ID = "SELECT  * FROM  comment_trip WHERE  trip_id = ?";
 
     JdbcTemplate jdbcTemplate;
-    DataSource dataSource;
 
     RowMapper<TripComment> tripCommentMapper = (resultSet, i) -> {
         try {
@@ -75,7 +75,6 @@ public class TripCommentDaoImpl implements ru.itis.trip.dao.TripCommentDao {
     };
 
     public TripCommentDaoImpl(DataSource dataSource) {
-        this.dataSource = dataSource;
         this.jdbcTemplate = new JdbcTemplate(dataSource);
     }
 

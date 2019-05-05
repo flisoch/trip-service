@@ -1,4 +1,4 @@
-package ru.itis.trip.dao.implementation;
+package ru.itis.trip.dao.user;
 
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +15,7 @@ import java.sql.ResultSet;
 import java.util.Optional;
 
 @Repository
-public class UserDaoImpl implements ru.itis.trip.dao.UserDao {
+public class UserDaoImpl implements UserDao {
 
     private static final String SQL_CREATE_QUERY = "INSERT INTO service_user(email, hash_password, username) VALUES (?,?,?)";
     private static final String SQL_UPDATE_QUERY = "UPDATE service_user SET email = ?, hash_password = ?," +
@@ -27,7 +27,6 @@ public class UserDaoImpl implements ru.itis.trip.dao.UserDao {
     private static final String INSERT_TOKEN = "UPDATE service_user SET token = ? WHERE id = ?";
     private static final String SQL_SELECT_BY_TOKEN_QUERY = "SELECT * from service_user where token = ?";
 
-    private DataSource dataSource;
     private JdbcTemplate jdbcTemplate;
 
     private RowMapper<User> userMapper = new RowMapper<User>() {
@@ -51,7 +50,6 @@ public class UserDaoImpl implements ru.itis.trip.dao.UserDao {
 
     @Autowired
     public UserDaoImpl(DataSource dataSource) {
-        this.dataSource = dataSource;
         this.jdbcTemplate = new JdbcTemplate(dataSource);
     }
 

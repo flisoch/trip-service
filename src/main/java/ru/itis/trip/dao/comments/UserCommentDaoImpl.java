@@ -1,4 +1,4 @@
-package ru.itis.trip.dao.implementation;
+package ru.itis.trip.dao.comments;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -6,7 +6,7 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
-import ru.itis.trip.dao.UserCommentDao;
+import ru.itis.trip.dao.comments.UserCommentDao;
 import ru.itis.trip.entities.User;
 import ru.itis.trip.entities.UserComment;
 

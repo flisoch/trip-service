@@ -3,10 +3,9 @@ package ru.itis.trip.services;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ru.itis.trip.dao.UserDao;
-import ru.itis.trip.dao.TripCommentDao;
+import ru.itis.trip.dao.user.UserDao;
+import ru.itis.trip.dao.comments.TripCommentDao;
 import ru.itis.trip.dao.request.RequestRepository;
-import ru.itis.trip.dao.request.RequestRepositoryCustom;
 import ru.itis.trip.dao.trip.TripRepository;
 import ru.itis.trip.entities.Request;
 import ru.itis.trip.entities.Trip;
@@ -18,7 +17,6 @@ import ru.itis.trip.entities.dto.UserDto;
 import ru.itis.trip.entities.forms.TripForm;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 

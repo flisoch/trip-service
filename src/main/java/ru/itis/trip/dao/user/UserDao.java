@@ -1,5 +1,6 @@
-package ru.itis.trip.dao;
+package ru.itis.trip.dao.user;
 
+import ru.itis.trip.dao.CrudDao;
 import ru.itis.trip.entities.User;
 
 import java.util.Optional;

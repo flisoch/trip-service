@@ -1,4 +1,4 @@
-package ru.itis.trip.dao.implementation.mappers;
+package ru.itis.trip.dao.mappers;
 
 import java.sql.ResultSet;
 

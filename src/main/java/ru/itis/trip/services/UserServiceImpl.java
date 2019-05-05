@@ -3,7 +3,7 @@ package ru.itis.trip.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import ru.itis.trip.dao.UserDao;
+import ru.itis.trip.dao.user.UserDao;
 import ru.itis.trip.entities.User;
 import ru.itis.trip.entities.dto.UserDto;
 import ru.itis.trip.entities.forms.LoginForm;
