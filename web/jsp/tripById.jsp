@@ -32,8 +32,10 @@
                                     <a href="/trips/${trip.id}/edit" class="btn btn-primary">Edit</a>
                                 </c:when>
                                 <c:otherwise>
-                                    <a href="/trips/${trip.id}/apply" class="btn btn-primary">Apply</a>
-                                </c:otherwise>
+                                            <span class="btn btn-xs btn-primary" onclick="apply(${trip.id});event.stopPropagation();">
+                                        Apply
+                                    </span>
+                                        </c:otherwise>
                             </c:choose>
 
                         </div>
