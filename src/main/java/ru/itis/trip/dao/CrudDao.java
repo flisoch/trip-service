@@ -3,7 +3,7 @@ package ru.itis.trip.dao;
 import java.util.Optional;
 
 
-public interface Dao<T> {
+public interface CrudDao<T> {
 
     T create(T model);
 

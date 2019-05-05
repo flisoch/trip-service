@@ -5,6 +5,6 @@ import ru.itis.trip.entities.TripComment;
 
 import java.util.List;
 
-public interface TripCommentDao extends Dao<TripComment> {
+public interface TripCommentDao extends CrudDao<TripComment> {
     List<TripComment> getTripComments(Trip trip);
 }

@@ -7,7 +7,7 @@ import ru.itis.trip.entities.User;
 import java.util.HashMap;
 import java.util.List;
 
-public interface TripDao extends Dao<Trip>{
+public interface TripDao extends CrudDao<Trip> {
 
     List<Trip> getByUser(User user);
     List<Trip> getByDirection(String departurePoint, String arrivalPoint);

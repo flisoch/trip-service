@@ -18,7 +18,7 @@ import java.util.Objects;
 import java.util.Optional;
 
 @Repository
-public class TripCommentDao implements ru.itis.trip.dao.TripCommentDao {
+public class TripCommentDaoImpl implements ru.itis.trip.dao.TripCommentDao {
 
 
     private static final String SELECT_BY_ID_WITH_EMPTY_MODELS = "SELECT * FROM  comment_trip WHERE id = ?";
@@ -74,7 +74,7 @@ public class TripCommentDao implements ru.itis.trip.dao.TripCommentDao {
         return null;
     };
 
-    public TripCommentDao(DataSource dataSource) {
+    public TripCommentDaoImpl(DataSource dataSource) {
         this.dataSource = dataSource;
         this.jdbcTemplate = new JdbcTemplate(dataSource);
     }
