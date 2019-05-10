@@ -1,54 +1,64 @@
 package ru.itis.trip.entities;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import ru.itis.trip.entities.forms.TripForm;
+import ru.itis.trip.entities.util.LocalDateTimeConverter;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.List;
 
 
 @Data
+@ToString(exclude = {"iniciator", "passangers", "comments", "tripRequests"})
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+@EqualsAndHashCode
+@Entity
+@Table(name = "trip")
 public class Trip {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
+    @ManyToOne
+    @JoinColumn(name = "initiator_id")
     User iniciator;
+    @Column(name = "departure_point")
     String departurePoint;
+    @Column(name = "arrival_point")
     String arrivalPoint;
+    @Column(name = "info")
     String info;
-    Long date;
-    int freeSeats;
-    boolean expired;
+    @Column(name = "datetime")
+    @Convert(converter = LocalDateTimeConverter.class)
+    LocalDateTime date;
 
+    @Column(name = "free_seats")
+    int freeSeats;
+    @Transient
+    boolean expired;
+    @Transient
+    TripStatus status;
+
+    @ManyToMany
+    @JoinTable(name = "booked_trip",
+            joinColumns = @JoinColumn(name = "trip_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id"))
     List<User> passangers;
+    @OneToMany(mappedBy = "trip")
     List<TripComment> comments;
+    @OneToMany(mappedBy = "trip")
+    List<Request> tripRequests;
 
     public static Trip from(TripForm tripForm) {
-        return   Trip.builder()
+        return Trip.builder()
                 .arrivalPoint(tripForm.getDestination())
                 .departurePoint(tripForm.getDeparture())
                 .freeSeats(tripForm.getSeats())
-                .date(stringDateToLong(tripForm.getDate()))
                 .info(tripForm.getInfo())
+                .date(LocalDateTime.parse(tripForm.getDate()))
                 .build();
     }
 
-    public static Long stringDateToLong(String dateTime){
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");//"yyyy-MM-dd'T'HH:mm:ss.SSSZ"
-        Date date;
-        long epoch = 0L;
-        try {
-            date = dateFormat.parse(dateTime);
-            epoch = date.getTime();
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        return epoch;
-    }
 }

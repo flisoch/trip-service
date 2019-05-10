@@ -1,4 +1,4 @@
-package ru.itis.trip.dao.implementation;
+package ru.itis.trip.dao.comments;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -6,7 +6,7 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
-import ru.itis.trip.dao.UserCommentDao;
+import ru.itis.trip.dao.comments.UserCommentDao;
 import ru.itis.trip.entities.User;
 import ru.itis.trip.entities.UserComment;
 
@@ -41,7 +41,7 @@ public class UserCommentDaoImpl implements UserCommentDao {
                     .id(resultSet.getLong("id"))
                     .commentator(commentator)
                     .text(resultSet.getString("text"))
-                    .date(resultSet.getTimestamp("dateTime").getTime())
+                    .date(resultSet.getTimestamp("datetime").toLocalDateTime())
                     .build();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -71,7 +71,7 @@ public class UserCommentDaoImpl implements UserCommentDao {
                     preparedStatement.setLong(1, model.getCommentatee().getId());
                     preparedStatement.setLong(2, model.getCommentator().getId());
                     preparedStatement.setString(3, model.getText());
-                    preparedStatement.setTimestamp(4, new Timestamp(model.getDate()));
+                    preparedStatement.setTimestamp(4, Timestamp.valueOf(model.getDate()));
                     return preparedStatement;
                 }, keyHolder);
 
@@ -90,7 +90,7 @@ public class UserCommentDaoImpl implements UserCommentDao {
                 model.getCommentatee().getId(),
                 model.getCommentator().getId(),
                 model.getText(),
-                new Timestamp(model.getDate())
+                Timestamp.valueOf(model.getDate())
         );
         return model;
     }

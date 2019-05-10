@@ -3,7 +3,7 @@ package ru.itis.trip.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import ru.itis.trip.dao.UserDao;
+import ru.itis.trip.dao.user.UserDao;
 import ru.itis.trip.entities.User;
 import ru.itis.trip.entities.dto.UserDto;
 import ru.itis.trip.entities.forms.LoginForm;
@@ -24,6 +24,7 @@ import java.util.Optional;
 @Service
 public class UserServiceImpl implements UserService {
 
+    private static final String DEFAULT_PHOTO = "/static/pictures/default.png";
     private UserDao userDao;
 
     @Autowired
@@ -37,8 +38,9 @@ public class UserServiceImpl implements UserService {
                 .email(registrationForm.getEmail())
                 .hashedPassword(hash(registrationForm.getPassword()))
                 .username(registrationForm.getUsername())
+                .photo(DEFAULT_PHOTO)
                 .build();
-        User userCandidate = userDao.create(user);
+        User userCandidate = userDao.save(user);
         return Optional.ofNullable(userCandidate);
     }
 
@@ -50,7 +52,7 @@ public class UserServiceImpl implements UserService {
             if(cookies != null){
                 for (Cookie cookie: cookies){
                     if(cookie.getName().equals("remember_me")){
-                        Optional<User> userDb = userDao.getByToken(cookie.getValue());
+                        Optional<User> userDb = userDao.findByRememberMeToken(cookie.getValue());
                         if(userDb.isPresent()){
                             user = userDb.get();
                             request.getSession().setAttribute("current_user", user);
@@ -66,7 +68,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public Optional<User> signIn(LoginForm loginForm) {
 
-        User user = userDao.getByUsername(loginForm.getUsername()).orElse(null);
+        User user = userDao.findByUsername(loginForm.getUsername()).orElse(null);
 
         if (user != null && user.getHashedPassword().equals(hash(loginForm.getPassword()))) {
             return Optional.of(user);
@@ -101,17 +103,17 @@ public class UserServiceImpl implements UserService {
         user.setJob(profileForm.getJob());
         user.setAdditionalInfo(profileForm.getAdditionalInfo());
         user.setName(profileForm.getName());
-        userDao.update(user);
+        userDao.save(user);
     }
 
     @Override
     public User getUserByUsername(String username) {
-        return userDao.getByUsername(username).orElse(null);
+        return userDao.findByUsername(username).orElse(null);
     }
 
     @Override
     public Optional<UserDto> getUserById(Long id) {
-        Optional<User> user = userDao.read(id);
+        Optional<User> user = userDao.findById(id);
         return user.map(UserDto::from);
     }
 
@@ -146,7 +148,8 @@ public class UserServiceImpl implements UserService {
         Cookie cookie = new Cookie("remember_me", token);
         cookie.setMaxAge(24*60*60);
         response.addCookie(cookie);
-        userDao.addToken(user, token);
+        user.setRememberMeToken(token);
+        userDao.save(user);
     }
 
     public void deleteRememberMeCookie(HttpServletRequest request, HttpServletResponse response) {

@@ -49,7 +49,7 @@
                 </div>
                 <div class="list-group">
                     <c:forEach var="trip" items="${trips}">
-                        <a <%--href="/trips/${trip.id}"--%> class="list-group-item list-group-item-action"
+                        <a id="trip-${trip.id}" class="list-group-item list-group-item-action"
                                                             onclick="location.href='/trips/${trip.id}'">
                             <div class="row">
                                 <div class="col">
@@ -78,17 +78,29 @@
                                     <img src="${trip.iniciator.photo}" width="50">
                                     <span>${trip.iniciator.username}</span>
                                 </div>
-                                <div class="col">
+                                <div id="trip-${trip.id}-status"class="col">
                                     <c:choose>
-                                        <c:when test="${trip.iniciator.id == user.id}">
-                                            <span class="btn btn-xs btn-info" onclick="location.href='/trips/${trip.id}/edit';event.stopPropagation();">
+                                        <c:when test="${trip.status == 'MY'}">
+                                            <div class="btn btn-xs btn-info" onclick="location.href='/trips/${trip.id}/edit';event.stopPropagation();">
                                         Edit
-                                    </span>
+                                    </div>
+                                        </c:when>
+                                        <c:when test="${trip.status == 'BOOKED'}">
+                                            <div>Status: Booked</div>
+                                            <div class="btn btn-xs btn-info" onclick="leaveTrip(${trip.id});event.stopPropagation();">
+                                                Leave group
+                                            </div>
+                                        </c:when>
+                                        <c:when test="${trip.status == 'WISHED'}">
+                                            <div>Status: request sent</div>
+                                            <div class="btn btn-xs btn-danger" onclick="cancelRequest(${trip.id});event.stopPropagation();">
+                                        Cancel request
+                                            </div>
                                         </c:when>
                                         <c:otherwise>
-                                            <span class="btn btn-xs btn-primary" onclick="apply(${trip.id});event.stopPropagation();">
+                                            <div class="btn btn-xs btn-primary" onclick="apply(${trip.id});event.stopPropagation();">
                                         Apply
-                                    </span>
+                                    </div>
                                         </c:otherwise>
                                     </c:choose>
                                 </div>

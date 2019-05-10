@@ -1,10 +1,11 @@
-package ru.itis.trip.dao.implementation;
+package ru.itis.trip.dao.comments;
 
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
+import ru.itis.trip.dao.comments.TripCommentDao;
 import ru.itis.trip.entities.Trip;
 import ru.itis.trip.entities.TripComment;
 import ru.itis.trip.entities.User;
@@ -18,7 +19,7 @@ import java.util.Objects;
 import java.util.Optional;
 
 @Repository
-public class TripCommentDao implements ru.itis.trip.dao.TripCommentDao {
+public class TripCommentDaoImpl implements TripCommentDao {
 
 
     private static final String SELECT_BY_ID_WITH_EMPTY_MODELS = "SELECT * FROM  comment_trip WHERE id = ?";
@@ -33,7 +34,6 @@ public class TripCommentDao implements ru.itis.trip.dao.TripCommentDao {
     private static final String SELECT_COMMENTS_BY_TRIP_ID = "SELECT  * FROM  comment_trip WHERE  trip_id = ?";
 
     JdbcTemplate jdbcTemplate;
-    DataSource dataSource;
 
     RowMapper<TripComment> tripCommentMapper = (resultSet, i) -> {
         try {
@@ -43,7 +43,7 @@ public class TripCommentDao implements ru.itis.trip.dao.TripCommentDao {
                     .trip(Trip.builder().id(resultSet.getLong("trip_id")).build())
                     .commentator(User.builder().id(resultSet.getLong("commentator_id")).build())
                     .text(resultSet.getString("text"))
-                    .date(resultSet.getTimestamp("dateTime").getTime())
+                    .date(resultSet.getTimestamp("date").toLocalDateTime())
                     .build();
             return tripComment;
         } catch (SQLException e) {
@@ -64,7 +64,7 @@ public class TripCommentDao implements ru.itis.trip.dao.TripCommentDao {
                     .trip(Trip.builder().id(resultSet.getLong("trip_id")).build())
                     .commentator(user)
                     .text(resultSet.getString("text"))
-                    .date(resultSet.getTimestamp("dateTime").getTime())
+                    .date(resultSet.getTimestamp("date").toLocalDateTime())
                     .build();
 
             return tripComment;
@@ -74,8 +74,7 @@ public class TripCommentDao implements ru.itis.trip.dao.TripCommentDao {
         return null;
     };
 
-    public TripCommentDao(DataSource dataSource) {
-        this.dataSource = dataSource;
+    public TripCommentDaoImpl(DataSource dataSource) {
         this.jdbcTemplate = new JdbcTemplate(dataSource);
     }
 
@@ -94,7 +93,7 @@ public class TripCommentDao implements ru.itis.trip.dao.TripCommentDao {
                     preparedStatement.setLong(1, model.getTrip().getId());
                     preparedStatement.setLong(2, model.getCommentator().getId());
                     preparedStatement.setString(3, model.getText());
-                    preparedStatement.setTimestamp(4, new Timestamp(model.getDate()));
+                    preparedStatement.setTimestamp(4, Timestamp.valueOf(model.getDate()));
                     return preparedStatement;
                 }, keyHolder);
 
@@ -113,7 +112,7 @@ public class TripCommentDao implements ru.itis.trip.dao.TripCommentDao {
                 model.getTrip().getId(),
                 model.getCommentator().getId(),
                 model.getText(),
-                new Timestamp(model.getDate())
+                Timestamp.valueOf(model.getDate())
         );
         return model;
     }

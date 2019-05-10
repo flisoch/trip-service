@@ -44,11 +44,8 @@
                                                     <p>From: ${trip.departurePoint}</p>
                                                 </div>
                                                 <div class="col">
-                                                    <p id="trip_${trip.id}_date"></p>
-                                                    <script>
-                                                        document.getElementById('trip_${trip.id}_date').innerText
-                                                            = "Date: " + formatDate(new Date(${trip.date}));
-                                                    </script>
+                                                    <p id="trip_${trip.id}_date">${trip.date}</p>
+
                                                 </div>
 
                                             </div>
@@ -103,11 +100,7 @@
                                                     <p>From: ${trip.departurePoint}</p>
                                                 </div>
                                                 <div class="col">
-                                                    <p id="trip_${trip.id}_date"></p>
-                                                    <script>
-                                                        document.getElementById('trip_${trip.id}_date').innerText
-                                                            = "Date: " + formatDate(new Date(${trip.date}));
-                                                    </script>
+                                                    <p id="trip_${trip.id}_date">${trip.date}</p>
                                                 </div>
 
                                             </div>

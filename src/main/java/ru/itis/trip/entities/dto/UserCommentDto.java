@@ -6,6 +6,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import ru.itis.trip.entities.UserComment;
 
+import java.time.LocalDateTime;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -15,7 +17,7 @@ public class UserCommentDto {
     UserDto commentator;
     UserDto commentatee;
     String text;
-    Long date;
+    LocalDateTime date;
 
     public static UserCommentDto from(UserComment userComment) {
         return UserCommentDto.builder()

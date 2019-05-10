@@ -5,23 +5,37 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import ru.itis.trip.entities.forms.UserCommentForm;
+import ru.itis.trip.entities.util.LocalDateTimeConverter;
+
+import javax.persistence.*;
+import java.time.LocalDateTime;
 
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+@Entity
+@Table(name = "comment_user")
 public class UserComment {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
+    @ManyToOne
+    @JoinColumn(name = "commentator_id")
     User commentator;
+    @ManyToOne
+    @JoinColumn(name = "commentatee_id")
     User commentatee;
     String text;
-    Long date;
+    @Convert(converter = LocalDateTimeConverter.class)
+    @Column(name = "datetime")
+    LocalDateTime date;
 
     public static UserComment from(UserCommentForm userComment) {
         return UserComment.builder()
                 .text(userComment.getText())
-                .date(System.currentTimeMillis())
+                .date(LocalDateTime.now())
                 .build();
     }
 }

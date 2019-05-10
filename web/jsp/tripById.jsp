@@ -21,31 +21,50 @@
 
                             </p>
 
-                            <p id="trip_${trip.id}_date"></p>
-                            <script>
-                                document.getElementById('trip_${trip.id}_date').innerText
-                                    = "Date: " + formatDate(new Date(${trip.date}));
-                            </script>
+                            <p id="trip_${trip.id}_date">${trip.date}</p>
+                                <%--<script>
+                                    document.getElementById('trip_${trip.id}_date').innerText
+                                        = "Date: " + formatDate(new Date(${trip.date}));
+                                </script>--%>
 
-                            <c:choose>
-                                <c:when test="${trip.iniciator.id == user.id}">
-                                    <a href="/trips/${trip.id}/edit" class="btn btn-primary">Edit</a>
-                                </c:when>
-                                <c:otherwise>
-                                    <a href="/trips/${trip.id}/apply" class="btn btn-primary">Apply</a>
-                                </c:otherwise>
-                            </c:choose>
-
+                            <span id="trip-${trip.id}-status"class="col">
+                                    <c:choose>
+                                        <c:when test="${trip.status == 'MY'}">
+                                            <div class="btn btn-xs btn-info" onclick="location.href='/trips/${trip.id}/edit';event.stopPropagation();">
+                                                Edit
+                                            </div>
+                                        </c:when>
+                                        <c:when test="${trip.status == 'BOOKED'}">
+                                            <div>Status: Booked</div>
+                                            <div class="btn btn-xs btn-info" onclick="leaveTrip(${trip.id});event.stopPropagation();">
+                                                Leave group
+                                            </div>
+                                        </c:when>
+                                        <c:when test="${trip.status == 'WISHED'}">
+                                            <div>Status: request sent</div>
+                                            <div class="btn btn-xs btn-danger" onclick="cancelRequest(${trip.id});event.stopPropagation();">
+                                                Cancel request
+                                            </div>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <div class="btn btn-xs btn-primary" onclick="apply(${trip.id});event.stopPropagation();">
+                                                Apply
+                                            </div>
+                                        </c:otherwise>
+                                    </c:choose>
+                            </span>
                         </div>
                         <div class="card-footer text-muted">
-                            <c:choose>
+                            <c:if test="${trip.status == 'MY'}">
+                                <c:choose>
                                 <c:when test="${empty trip.passangers}">
                                     <div id="passangers-container"></div>
                                 </c:when>
                                 <c:otherwise>
                                     <div id="passangers-container">
-                                        <c:forEach var="comment" items="${comments}">
+                                        <c:forEach var="passanger" items="${trip.passangers}">
                                             <p>
+                                                <span>Passangers:</span>
                                                 <c:choose>
                                                     <c:when test="${empty passanger.photo}">
                                                         <a href="/profile/${passanger.id}">
@@ -54,7 +73,7 @@
                                                     </c:when>
                                                     <c:otherwise>
                                                         <a href="/profile/${passanger.id}">
-                                                            <img class="img-fluid" src="${passanger.photo}">
+                                                            <img class="img-fluid" width="40" height="40" src="${passanger.photo}">
                                                         </a>
                                                     </c:otherwise>
                                                 </c:choose>
@@ -64,6 +83,7 @@
                                     </div>
                                 </c:otherwise>
                             </c:choose>
+                            </c:if>
                         </div>
                     </div>
 

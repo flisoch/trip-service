@@ -3,7 +3,50 @@ const apply = (tripId) => {
         url: `/trips/${tripId}/requests`,
         type: 'POST',
         success: (data) => {
-            alert('aplly sent!');
+            let tripStatusElement = $(`#trip-${tripId}-status`);
+            tripStatusElement.empty();
+            tripStatusElement.append(`
+                <div>Status: Request sent</div>
+                    <div class="btn btn-xs btn-danger" onclick="cancelRequest(${tripId});event.stopPropagation();">
+                        Cancel request
+                    </div>
+            `)
+        }
+    });
+};
+
+const cancelRequest = (tripId) => {
+    $.ajax({
+        url: `/trips/${tripId}`,
+        type: 'PUT',
+        contentType:"application/json",
+        data: JSON.stringify({action: "cancelRequest"}),
+        success: (data) => {
+            let tripStatusElement = $(`#trip-${tripId}-status`);
+            tripStatusElement.empty();
+            tripStatusElement.append(`
+             <div class="btn btn-xs btn-primary" onclick="apply(${tripId});event.stopPropagation();">
+                Apply
+             </div>
+            `)
+        }
+    });
+};
+
+const leaveTrip = (tripId) => {
+    $.ajax({
+        url: `/trips/${tripId}`,
+        type: 'PUT',
+        contentType:"application/json",
+        data: JSON.stringify({action: "leaveTrip"}),
+        success: (data) => {
+            let tripStatusElement = $(`#trip-${tripId}-status`);
+            tripStatusElement.empty();
+            tripStatusElement.append(`
+             <div class="btn btn-xs btn-primary" onclick="apply(${tripId});event.stopPropagation();">
+                Apply
+             </div>
+            `)
         }
     });
 };
@@ -32,7 +75,7 @@ const sendComment = (tripId) => {
                     <div class="card-body text-secondary">
                         <h5 class="card-title">${data.text}</h5>
                         <p class="card-text">
-                            ${formatDate(new Date(data.date))}
+                            ${data.date}
                         </p
                     </div>
                 </div>`
