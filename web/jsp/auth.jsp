@@ -1,3 +1,4 @@
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <!DOCTYPE html>
 
@@ -45,6 +46,16 @@
                                 </label>
                             </div>
                         </div>
+
+                        <c:if test="${param.error!= null}">
+                            <div>
+                                <div class="alert alert-danger alert-dismissible">
+                                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                                    Invalid credentials
+                                </div>
+                            </div>
+                        </c:if>
+
                         <input type="submit" class="btn btn-primary col" value="Log in">
                     </form>
                 </div>
