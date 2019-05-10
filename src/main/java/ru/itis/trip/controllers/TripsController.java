@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 import ru.itis.trip.entities.Trip;
 import ru.itis.trip.entities.TripComment;
@@ -17,6 +18,7 @@ import ru.itis.trip.services.UserService;
 import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Controller
@@ -109,9 +111,9 @@ public class TripsController {
     }
 
     @GetMapping("/trips/search")
-    public String searchtripsPage(ModelMap modelMap, HttpServletRequest request) {
+    public String searchtripsPage(@RequestParam Map<String, String> searchParameters, ModelMap modelMap, HttpServletRequest request) {
         User user = userService.getCurrentUser(request);
-        List<TripDto> trips = tripService.getTripsWithParameters(user);
+        List<TripDto> trips = tripService.getTripsWithParameters(user, searchParameters);
         modelMap.put("trips", trips);
         return "search";
 

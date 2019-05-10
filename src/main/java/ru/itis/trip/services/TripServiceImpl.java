@@ -3,6 +3,7 @@ package ru.itis.trip.services;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.MultiValueMap;
 import ru.itis.trip.dao.comments.TripCommentDao;
 import ru.itis.trip.dao.request.RequestRepository;
 import ru.itis.trip.dao.trip.TripRepository;
@@ -17,6 +18,7 @@ import ru.itis.trip.entities.forms.TripForm;
 import javax.persistence.EntityManager;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -36,7 +38,7 @@ public class TripServiceImpl implements TripService {
 
     @Override
     public List<TripDto> getAllTrips(User user) {
-        List<Trip> allNotExpired = tripRepository.getAllNotExpired(user);
+        List<Trip> allNotExpired = tripRepository.getAllNotExpired();
         return allNotExpired.stream().map(trip -> {
             TripDto tripDto = TripDto.from(trip);
             tripDto.setStatus(getTripStatusForUser(trip, user));
@@ -75,9 +77,20 @@ public class TripServiceImpl implements TripService {
 
     @Override
     @Transactional
-    public List<TripDto> getTripsWithParameters(User user) {
-        List<Trip> allNotExpired = tripRepository.getAllNotExpired(user);
-        return allNotExpired.stream().map(trip -> {
+    public List<TripDto> getTripsWithParameters(User user, Map<String, String> searchParameters) {
+        String departure = searchParameters.get("departure");
+        String destination = searchParameters.get("destination");
+        String seats = searchParameters.get("seats");
+        String date = searchParameters.get("time_to");
+        LocalDateTime dateTime;
+        if(date==null || date.equals("")){
+            dateTime = LocalDateTime.now();
+        }
+        else {
+            dateTime = LocalDateTime.parse(date) ;
+        }
+        List<Trip> trips = tripRepository.getByParameters(departure, destination, seats, dateTime);
+        return trips.stream().map(trip -> {
             TripDto tripDto = TripDto.from(trip);
             tripDto.setStatus(getTripStatusForUser(trip, user));
             return tripDto;

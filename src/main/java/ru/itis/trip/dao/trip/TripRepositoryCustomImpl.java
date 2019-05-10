@@ -25,7 +25,7 @@ public class TripRepositoryCustomImpl implements TripRepositoryCustom {
     }
 
     @Override
-    public List<Trip> getAllNotExpired(User user) {
+    public List<Trip> getAllNotExpired() {
         List<Trip> trips = em.createQuery("select t from Trip as t where " +
                 "t.date > :now", Trip.class)
                 .setParameter("now", LocalDateTime.now())
@@ -63,5 +63,27 @@ public class TripRepositoryCustomImpl implements TripRepositoryCustom {
                 .setParameter("user", user).getResultList();
     }
 
+    @Override
+    public List<Trip> getByParameters(String departure, String destination, String freeSeats, LocalDateTime date) {
+        List<Trip> trips;
+        StringBuilder query = new StringBuilder("SELECT t from Trip as t where ");
+
+        if (departure != null && !departure.equals("")) {
+            query.append("t.departurePoint LIKE \'").append(departure).append("%\' AND ");
+        }
+        if (destination != null && !destination.equals("")) {
+            query.append("t.arrivalPoint LIKE \'").append(destination).append("%\' AND ");
+        }
+        if (freeSeats != null && !freeSeats.equals("")) {
+            query.append("t.freeSeats >= ").append(freeSeats);
+            query.append(" AND ");
+        }
+        if (date != null) {
+            query.append("t.date >= :date").append(" AND ");
+        }
+        query.append("free_seats > 0");
+        trips = em.createQuery(query.toString(), Trip.class).setParameter("date", date).getResultList();
+        return trips;
+    }
 
 }
