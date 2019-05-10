@@ -18,4 +18,5 @@ public class TripForm {
     @NotEmpty(message = "new trip must have LocalDateTime date")
     String date;
     String action;
+    Long userId;
 }

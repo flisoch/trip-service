@@ -32,6 +32,18 @@ const cancelRequest = (tripId) => {
         }
     });
 };
+const removeUserFromTrip = (tripId, userId) => {
+    $.ajax({
+        url: `/trips/${tripId}`,
+        type: 'PUT',
+        contentType:"application/json",
+        data: JSON.stringify({action: "kickUser", userId:userId}),
+        success: (data) => {
+            let passangerToRemove = $(`#passanger-${(passanger.id)}`);
+            passangerToRemove.empty();
+        }
+    });
+};
 
 const leaveTrip = (tripId) => {
     $.ajax({

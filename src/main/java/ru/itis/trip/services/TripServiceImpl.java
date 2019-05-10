@@ -119,6 +119,10 @@ public class TripServiceImpl implements TripService {
             else if(action.equals("leaveTrip")){
                 trip.getPassangers().removeIf(u -> u.equals(user));
             }
+            else if(action.equals("kickUser")){
+                User userToKick = userDao.findById(tripForm.getUserId()).orElseThrow(()->new IllegalArgumentException("no user with such id"));
+                trip.getPassangers().removeIf(u -> u.equals(userToKick));
+            }
             else throw new IllegalArgumentException("given action command not found");
         }
         else {

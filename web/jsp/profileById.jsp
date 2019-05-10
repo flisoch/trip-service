@@ -89,7 +89,7 @@
 
 										<div class="card-body text-secondary">
 											<p class="card-text">
-												No Comments yet
+												No comments yet
 											</p>
 										</div>
 									</div>

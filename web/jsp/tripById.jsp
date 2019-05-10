@@ -86,13 +86,13 @@
                             </c:if>
                         </div>
                     </div>
-
+                    <div id="comments-container">
                     <c:choose>
                         <c:when test="${empty comments}">
-                            <div id="comments-container"></div>
+                            <div>No comments yet</div>
                         </c:when>
                         <c:otherwise>
-                            <div id="comments-container">
+
                                 <c:forEach var="passanger" items="${trip.passangers}">
                                     <div class="card border-secondary mb-3" id="passanger_${passanger.id}">
                                         <div class="card-header">
@@ -119,6 +119,7 @@
                             </div>
                         </c:otherwise>
                     </c:choose>
+                </div>
 
 
                     <div class="card border-info mb-3">
