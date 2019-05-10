@@ -14,7 +14,7 @@
                     <div class="card mx-3">
 
                         <div class="card-header">
-                            Trip N
+                            <a href="/trips/${trip.id}">Trip#${trip.id}</a>
                         </div>
 
                         <div class="card-body">

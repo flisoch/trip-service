@@ -7,6 +7,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import ru.itis.trip.entities.Request;
 import ru.itis.trip.entities.User;
+import ru.itis.trip.entities.dto.RequestDto;
 import ru.itis.trip.entities.dto.UserDto;
 import ru.itis.trip.entities.forms.RequestForm;
 import ru.itis.trip.services.TripService;
@@ -41,7 +42,7 @@ public class TripBookingController {
     @GetMapping("/requests")
     protected String requestsPage(ModelMap modelMap, HttpServletRequest request) {
         User user = userService.getCurrentUser(request);
-        List<Request> requests = tripService.getRequsets(user);
+        List<RequestDto> requests = tripService.getRequsets(user);
 
         modelMap.put("user", UserDto.from(user));
         modelMap.put("requests_to_me", requests.stream().filter(r -> r.getTrip().getIniciator().getId().equals(user.getId())).collect(Collectors.toList()));

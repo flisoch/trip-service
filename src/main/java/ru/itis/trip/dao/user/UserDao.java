@@ -1,16 +1,13 @@
 package ru.itis.trip.dao.user;
 
-import ru.itis.trip.dao.CrudDao;
+import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Repository;
 import ru.itis.trip.entities.User;
 
 import java.util.Optional;
 
-public interface UserDao extends CrudDao<User> {
-//    Optional<User> getByEmail(String email);
-
-    Optional<User> getByUsername(String username);
-
-    boolean addToken(User user, String token);
-
-    Optional<User> getByToken(String token);
+@Repository
+public interface UserDao extends CrudRepository<User, Long> {
+    Optional<User> findByRememberMeToken(String token);
+    Optional<User> findByUsername(String username);
 }

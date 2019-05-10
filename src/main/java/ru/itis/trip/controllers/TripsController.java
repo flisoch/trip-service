@@ -47,8 +47,9 @@ public class TripsController {
     @GetMapping("/trips/{tripId}")
     public String tripPage(@PathVariable Long tripId,
                            ModelMap modelMap, HttpServletRequest request) {
+        User user = userService.getCurrentUser(request);
         modelMap.put("user", userService.getCurrentUser(request));
-        modelMap.put("trip", tripService.getById(tripId));
+        modelMap.put("trip", tripService.getById(tripId, user));
 
         return "tripById";
     }
@@ -56,8 +57,9 @@ public class TripsController {
     @GetMapping("/trips/{tripId}/edit")
     public String updateTripPage(@PathVariable Long tripId,
                                  ModelMap modelMap, HttpServletRequest request) {
-        modelMap.put("user", userService.getCurrentUser(request));
-        modelMap.put("trip", tripService.getById(tripId));
+        User user = userService.getCurrentUser(request);
+        modelMap.put("user", UserDto.from(user));
+        modelMap.put("trip", tripService.getById(tripId, user));
 
         return "editTrip";
     }
@@ -80,7 +82,9 @@ public class TripsController {
     }
 
     @PutMapping(value = "/trips/{tripId}")
-    public ResponseEntity updateProfile(@RequestBody TripForm tripForm, @PathVariable Long tripId, HttpServletRequest request) {
+    public ResponseEntity updateProfile(@RequestBody TripForm tripForm,
+                                        @PathVariable Long tripId,
+                                        HttpServletRequest request) {
         tripService.updateTrip(tripForm, tripId, userService.getCurrentUser(request));
         return ResponseEntity.ok().build();
     }
@@ -94,7 +98,7 @@ public class TripsController {
     @GetMapping("/trips")
     public String myTripsPage(ModelMap modelMap, HttpServletRequest request) {
         User user = userService.getCurrentUser(request);
-        List<Trip> trips = tripService.getTripsByUser(user);
+        List<TripDto> trips = tripService.getTripsByUser(user);
         modelMap.put("activeTrips", trips.stream().filter(trip -> trip.getDate().isAfter(LocalDateTime.now())).collect(Collectors.toList()));
         modelMap.put("expiredTrips", trips.stream().filter(trip -> trip.getDate().isBefore(LocalDateTime.now())).collect(Collectors.toList()));
         modelMap.put("user", UserDto.from(user));
@@ -112,9 +116,10 @@ public class TripsController {
 
     @GetMapping("/trips/search")
     public String searchtripsPage(ModelMap modelMap, HttpServletRequest request) {
-        List<Trip> trips = tripService.getTripsWithParameters(request);
+        User user = userService.getCurrentUser(request);
+        List<TripDto> trips = tripService.getTripsWithParameters(user);
         modelMap.put("trips", trips);
-        modelMap.put("user", userService.getCurrentUser(request));
+        modelMap.put("user", UserDto.from(user));
         return "search";
 
     }

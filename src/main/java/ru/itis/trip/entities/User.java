@@ -1,9 +1,6 @@
 package ru.itis.trip.entities;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.List;
@@ -14,6 +11,8 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+@ToString(exclude = {"bookedTrips", "myComments", "requests", "myUserComments", "trips"})
+@EqualsAndHashCode(of = {"id", "hashedPassword", "username"})
 /*
 ФИО, адрес проживания, место работы, возраст, фото, дополнительная информация.
  */
@@ -23,7 +22,7 @@ public class User {
     Long id;
     String username;
     String email;
-    @Column(name = "hash_password")
+    @Column(name = "hash_password", length = 500)
     String hashedPassword;
     String name;
     String lastname;
@@ -35,13 +34,21 @@ public class User {
     String photo;   //path?
     @Column(name = "additional_info")
     String additionalInfo;
+    @Column(name = "token", length = 500)
+    String rememberMeToken;
 
     @ManyToMany(mappedBy = "passangers")
     List<Trip> bookedTrips;
 
     @OneToMany(mappedBy = "commentator")
     List<TripComment> myComments;
+    @OneToMany(mappedBy = "commentator")
+    List<UserComment> myUserComments;
 
     @OneToMany(mappedBy = "iniciator")
     List<Trip> trips;
+
+    @OneToMany(mappedBy = "user")
+    List<Request> requests;
+
 }

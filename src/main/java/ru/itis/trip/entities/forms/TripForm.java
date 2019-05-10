@@ -19,6 +19,6 @@ public class TripForm {
     String info;
     Integer seats;
     @NotEmpty(message = "new trip must have LocalDateTime date")
-//            @DateTimeFormat(pattern = "")
     String date;
+    String action;
 }

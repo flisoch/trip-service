@@ -10,10 +10,11 @@ import java.util.List;
 
 
 @Data
-@ToString(exclude = {"iniciator", "passangers", "comments"})
+@ToString(exclude = {"iniciator", "passangers", "comments", "tripRequests"})
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+@EqualsAndHashCode
 @Entity
 @Table(name = "trip")
 public class Trip {
@@ -37,6 +38,8 @@ public class Trip {
     int freeSeats;
     @Transient
     boolean expired;
+    @Transient
+    TripStatus status;
 
     @ManyToMany
     @JoinTable(name = "booked_trip",
@@ -54,6 +57,7 @@ public class Trip {
                 .departurePoint(tripForm.getDeparture())
                 .freeSeats(tripForm.getSeats())
                 .info(tripForm.getInfo())
+                .date(LocalDateTime.parse(tripForm.getDate()))
                 .build();
     }
 

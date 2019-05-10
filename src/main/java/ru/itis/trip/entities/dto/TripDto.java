@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import ru.itis.trip.entities.Trip;
+import ru.itis.trip.entities.TripStatus;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -14,17 +15,18 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class TripDto {
-    Long id;
-    UserDto iniciator;
-    String departurePoint;
-    String arrivalPoint;
-    String info;
-    LocalDateTime date;
-    int freeSeats;
-    boolean expired;
+    private Long id;
+    private UserDto iniciator;
+    private String departurePoint;
+    private String arrivalPoint;
+    private String info;
+    private LocalDateTime date;
+    private int freeSeats;
+    private boolean expired;
+    private TripStatus status;
 
-    List<UserDto> passangers;
-    List<TripCommentDto> comments;
+    private List<UserDto> passangers;
+    private List<TripCommentDto> comments;
 
     public static TripDto from(Trip trip) {
         return TripDto.builder()

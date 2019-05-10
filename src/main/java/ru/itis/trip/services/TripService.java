@@ -1,21 +1,19 @@
 package ru.itis.trip.services;
 
-import ru.itis.trip.entities.Request;
 import ru.itis.trip.entities.Trip;
 import ru.itis.trip.entities.User;
+import ru.itis.trip.entities.dto.RequestDto;
 import ru.itis.trip.entities.dto.TripDto;
 import ru.itis.trip.entities.forms.TripForm;
 
-import javax.servlet.http.HttpServletRequest;
-import java.util.HashMap;
 import java.util.List;
 
 public interface TripService {
 
-    List<Trip> getAllTrips();
+    List<TripDto> getAllTrips(User user);
 
-    TripDto getById(Long id);
-    List<Trip> getTripsWithParameters(User user);
+    TripDto getById(Long id, User user);
+    List<TripDto> getTripsWithParameters(User user);
 
     Trip createTrip(TripForm tripForm, User iniciator);
 
@@ -23,9 +21,9 @@ public interface TripService {
 
     void sendApply(Long tripId, Long id);
 
-    List<Request> getRequsets(User user);
+    List<RequestDto> getRequsets(User user);
 
-    List<Trip> getTripsByUser(User id);
+    List<TripDto> getTripsByUser(User id);
 
     List<TripDto> getBookedByUser(User user);
 

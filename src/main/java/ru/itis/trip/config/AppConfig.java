@@ -87,7 +87,8 @@ public class AppConfig {
     private Properties hibernateProperties() {
         Properties hibernateProperties = new Properties();
         String[] propsNames = {"hibernate.hbm2ddl.auto", "hibernate.dialect",
-                "hibernate.show_sql", "hibernate.enable_lazy_load_no_trans"};
+//                "hibernate.show_sql", "hibernate.enable_lazy_load_no_trans"};
+                "hibernate.show_sql"};
         Arrays.stream(propsNames).forEach(propName ->
                 hibernateProperties.setProperty(propName,
                         environment.getProperty(propName)));

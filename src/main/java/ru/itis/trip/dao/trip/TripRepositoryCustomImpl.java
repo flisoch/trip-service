@@ -2,6 +2,7 @@ package ru.itis.trip.dao.trip;
 
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
+import ru.itis.trip.entities.Request;
 import ru.itis.trip.entities.Trip;
 import ru.itis.trip.entities.User;
 
@@ -24,10 +25,12 @@ public class TripRepositoryCustomImpl implements TripRepositoryCustom {
     }
 
     @Override
-    public List<Trip> getAllNotExpired() {
-        return em.createQuery("select t from Trip as t where t.date > :now", Trip.class)
+    public List<Trip> getAllNotExpired(User user) {
+        List<Trip> trips = em.createQuery("select t from Trip as t where " +
+                "t.date > :now", Trip.class)
                 .setParameter("now", LocalDateTime.now())
                 .getResultList();
+        return trips;
     }
 
 

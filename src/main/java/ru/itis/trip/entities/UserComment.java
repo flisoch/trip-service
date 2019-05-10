@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 import ru.itis.trip.entities.forms.UserCommentForm;
 import ru.itis.trip.entities.util.LocalDateTimeConverter;
 
-import javax.persistence.Convert;
+import javax.persistence.*;
 import java.time.LocalDateTime;
 
 
@@ -15,12 +15,21 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+@Entity
+@Table(name = "comment_user")
 public class UserComment {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
+    @ManyToOne
+    @JoinColumn(name = "commentator_id")
     User commentator;
+    @ManyToOne
+    @JoinColumn(name = "commentatee_id")
     User commentatee;
     String text;
     @Convert(converter = LocalDateTimeConverter.class)
+    @Column(name = "datetime")
     LocalDateTime date;
 
     public static UserComment from(UserCommentForm userComment) {

@@ -32,7 +32,7 @@ public class UserCommentServiceImpl implements UserCommentService {
 
     @Override
     public UserCommentDto saveComment(UserCommentForm userComment, User commentator) {
-        Optional<User> commentatee = userDao.read(userComment.getCommentateeId());
+        Optional<User> commentatee = userDao.findById(userComment.getCommentateeId());
         UserComment comment = UserComment.from(userComment);
         comment.setCommentatee(commentatee.get());
         comment.setCommentator(commentator);

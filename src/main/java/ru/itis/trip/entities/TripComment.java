@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name = "comment_trip")
 @Data
-@ToString(exclude = {"commentator","trip"})
+@ToString(exclude = {"commentator", "trip"})
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
@@ -25,6 +25,7 @@ public class TripComment {
     Trip trip;
     String text;
     @Convert(converter = LocalDateTimeConverter.class)
+    @Column(name = "datetime")
     LocalDateTime date;
 
 }

@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface TripRepositoryCustom {
     List<Trip> findByIniciatorId(Long userId);
-    List<Trip> getAllNotExpired();
+    List<Trip> getAllNotExpired(User user);
     List<Trip> getBookedByUserId(Long userId);
 
     void addUserToTrip(Long passangerId, Long tripId);
