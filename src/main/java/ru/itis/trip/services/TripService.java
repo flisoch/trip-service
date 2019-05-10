@@ -1,7 +1,5 @@
 package ru.itis.trip.services;
 
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.MultiValueMap;
 import ru.itis.trip.entities.Trip;
 import ru.itis.trip.entities.User;
 import ru.itis.trip.entities.dto.RequestDto;
@@ -12,8 +10,6 @@ import java.util.List;
 import java.util.Map;
 
 public interface TripService {
-
-    List<TripDto> getAllTrips(User user);
 
     TripDto getById(Long id, User user);
 
@@ -31,9 +27,9 @@ public interface TripService {
 
     List<TripDto> getBookedByUser(User user);
 
-    void deleteRequestById(Long id);
-
     void deleteTripById(Long id);
 
     void acceptOrDenyRequest(Long requestId, boolean accepted);
+
+    void deleteRequestById(Long requestId);
 }

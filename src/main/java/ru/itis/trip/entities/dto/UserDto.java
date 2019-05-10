@@ -11,17 +11,17 @@ import ru.itis.trip.entities.User;
 @NoArgsConstructor
 @AllArgsConstructor
 public class UserDto {
-    Long id;
-    String username;
-    String email;
-    String name;
-    String lastname;
-    String middlename;
-    String address;
-    String job;
-    Integer age;
-    String photo;   //path?
-    String additionalInfo;
+    private Long id;
+    private String username;
+    private String email;
+    private String name;
+    private String lastname;
+    private String middlename;
+    private String address;
+    private String job;
+    private Integer age;
+    private String photo;
+    private String additionalInfo;
 
     public static UserDto from(User user) {
         return UserDto.builder()

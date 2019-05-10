@@ -10,62 +10,62 @@
 
 </head>
 <body>
-    <jsp:include page="/jsp/common/navbar.jsp"></jsp:include>
-    <div class="container-fluid">
-        <div class="row">
-            <!-- CONTENT -->
-            <div class="col"></div>
+<jsp:include page="/jsp/common/navbar.jsp"></jsp:include>
+<div class="container-fluid">
+    <div class="row">
+        <!-- CONTENT -->
+        <div class="col"></div>
 
-            <div class="card text-center" style="width: 20rem;">
-                <div class="card-header h4">
-                    <!--Авторизация-->
-                    Authorization
-                </div>
-
-                <div class="card-body">
-                    <form action="/auth" method="POST">
-                        <div class="form-group">
-                            <label for="username">Username</label>
-
-                            <input type="text" name="username" class="form-control" id="username" placeholder="vasya1234"
-                                   required>
-                        </div>
-                        <div class="form-group">
-                            <label for="password">Password</label>
-
-                            <input type="password" name="password" class="form-control" id="password" placeholder="qwerty"
-                                   required>
-                        </div>
-
-                        <div class="form-group">
-                            <div class="form-check">
-                                <input class="form-check-input" name="remember_me" type="checkbox" id="remember-me">
-                                <label class="form-check-label" for="remember-me">
-                                    <!--Запомнить меня-->
-                                    Remember me
-                                </label>
-                            </div>
-                        </div>
-
-                        <c:if test="${param.error!= null}">
-                            <div>
-                                <div class="alert alert-danger alert-dismissible">
-                                    <button type="button" class="close" data-dismiss="alert">&times;</button>
-                                    Invalid credentials
-                                </div>
-                            </div>
-                        </c:if>
-
-                        <input type="submit" class="btn btn-primary col" value="Log in">
-                    </form>
-                </div>
-
-
+        <div class="card text-center" style="width: 20rem;">
+            <div class="card-header h4">
+                <!--Авторизация-->
+                Authorization
             </div>
 
-            <div class="col"></div>
-            <!-- /CONTENT -->
+            <div class="card-body">
+                <form action="/auth" method="POST">
+                    <div class="form-group">
+                        <label for="username">Username</label>
+
+                        <input type="text" name="username" class="form-control" id="username" placeholder="vasya1234"
+                               required>
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Password</label>
+
+                        <input type="password" name="password" class="form-control" id="password" placeholder="qwerty"
+                               required>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="form-check">
+                            <input class="form-check-input" name="remember_me" type="checkbox" id="remember-me">
+                            <label class="form-check-label" for="remember-me">
+                                <!--Запомнить меня-->
+                                Remember me
+                            </label>
+                        </div>
+                    </div>
+
+                    <c:if test="${param.error!= null}">
+                        <div>
+                            <div class="alert alert-danger alert-dismissible">
+                                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                                Invalid credentials
+                            </div>
+                        </div>
+                    </c:if>
+
+                    <input type="submit" class="btn btn-primary col" value="Log in">
+                </form>
+            </div>
+
+
         </div>
+
+        <div class="col"></div>
+        <!-- /CONTENT -->
     </div>
+</div>
 </body>
 </html>

@@ -10,7 +10,7 @@ const accept = (requestId) => {
         success: (data) => {
             requestCard.remove();
             let list = $(`#requests-to-me-container`);
-            if(list[0].childElementCount == 0){
+            if (list[0].childElementCount == 0) {
                 list.append(`
                     <div class="card mb-3" id="no_requests_from_me_card">
 
@@ -23,7 +23,7 @@ const accept = (requestId) => {
                 `);
             }
         },
-        error:(data) => {
+        error: (data) => {
             alert("error, you already sent the request!");
         }
     });
@@ -41,7 +41,7 @@ const reject = (requestId) => {
             requestCard.remove();
 
             let list = $(`#requests-to-me-container`);
-            if(list[0].childElementCount == 0){
+            if (list[0].childElementCount == 0) {
                 list.append(`
                     <div class="card mb-3" id="no_requests_from_me_card">
 
@@ -60,15 +60,15 @@ const reject = (requestId) => {
 const cancel = (requestId) => {
     let requestCard = $(`#request_${requestId}`);
     $.ajax({
-        url: `/profile/requests`,
-        type: 'POST',
+        url: `/requests/${requestId}`,
+        type: 'DELETE',
         data: {
             'request_id': requestId,
         },
         success: (data) => {
             requestCard.remove();
             let list = $(`#requests-container`);
-            if(list[0].childElementCount == 0){
+            if (list[0].childElementCount == 0) {
                 list.append(`
                     <div class="card mb-3" id="no_requests_from_me_card">
 

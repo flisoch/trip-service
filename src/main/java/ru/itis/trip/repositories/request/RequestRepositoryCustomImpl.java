@@ -1,4 +1,4 @@
-package ru.itis.trip.dao.request;
+package ru.itis.trip.repositories.request;
 
 import org.springframework.stereotype.Component;
 import ru.itis.trip.entities.Request;
@@ -15,8 +15,7 @@ public class RequestRepositoryCustomImpl implements RequestRepositoryCustom {
 
     @Override
     public List<Request> findByUserId(Long userId) {
-        User user = em.createQuery("select u from User as u where id=:userId", User.class)
-                .setParameter("userId", userId).getSingleResult();
+        User user = em.find(User.class, userId);
         return em.createQuery("select r from Request as r where r.user = :user or r.trip.iniciator=:user", Request.class)
                 .setParameter("user", user).getResultList();
     }

@@ -53,11 +53,13 @@
 
                                             <c:choose>
                                                 <c:when test="${empty user.username}">
-                                                    <input type="text" class="form-control disable" name="username" id="username"
+                                                    <input type="text" class="form-control disable" name="username"
+                                                           id="username"
                                                            value="" disabled>
                                                 </c:when>
                                                 <c:otherwise>
-                                                    <input type="text" class="form-control disable" name="username" id="username"
+                                                    <input type="text" class="form-control disable" name="username"
+                                                           id="username"
                                                            disabled value="${user.username}">
                                                 </c:otherwise>
                                             </c:choose>
@@ -176,11 +178,13 @@
                                             <label for="additionalInfo">About me</label>
                                             <c:choose>
                                                 <c:when test="${empty user.additionalInfo}">
-                                                    <textarea class="form-control disable" name="additionalInfo" rows="3"
+                                                    <textarea class="form-control disable" name="additionalInfo"
+                                                              rows="3"
                                                               disabled></textarea>
                                                 </c:when>
                                                        <c:otherwise>
-                                                           <textarea class="form-control disable" name="additionalInfo" rows="3"
+                                                           <textarea class="form-control disable" name="additionalInfo"
+                                                                     rows="3"
                                                                      disabled>${user.additionalInfo}</textarea>
                                                        </c:otherwise>
                                                 </c:choose>
@@ -202,11 +206,11 @@
                         <div id="comments-container">
                             <c:choose>
                                 <c:when test="${empty comments}">
-                                    <div class="card border-secondary mb-3"id="no_comments_card">
+                                    <div class="card border-secondary mb-3" id="no_comments_card">
 
                                         <div class="card-body text-secondary">
-                                            <p class="card-text" >
-                                                    No Comments yet
+                                            <p class="card-text">
+                                                No Comments yet
                                             </p>
                                         </div>
                                     </div>
@@ -221,19 +225,19 @@
                                                 </div>
                                                 <div class="card-body text-secondary">
                                                     <h5 class="card-title">${comment.text}</h5>
-                                                    <p class="card-text" id="comment_${comment.id}_text">${comment.date}
+                                                    <p class="card-text" id="comment_${comment.id}_text">${comment.dateTime}
                                                     </p>
 
-                                                    <%--<script>
-                                                        document.getElementById('comment_${comment.id}_text').innerText
-                                                            = formatDate(new Date(${comment.date}));
-                                                    </script>--%>
+                                                        <%--<script>
+                                                            document.getElementById('comment_${comment.id}_text').innerText
+                                                                = formatDate(new Date(${comment.dateTime}));
+                                                        </script>--%>
                                                 </div>
                                             </div>
                                          </c:forEach>
 
                                 </c:otherwise>
-                            </c:choose> 
+                            </c:choose>
                         </div>
 
                     </div>

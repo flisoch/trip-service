@@ -1,9 +1,9 @@
-package ru.itis.trip.dao;
+package ru.itis.trip.repositories;
 
 import java.util.Optional;
 
 
-public interface CrudDao<T> {
+public interface CrudRepository<T> {
 
     T create(T model);
 

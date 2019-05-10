@@ -1,5 +1,6 @@
 package ru.itis.trip.services;
 
+import org.springframework.stereotype.Component;
 import ru.itis.trip.entities.forms.LoginForm;
 import ru.itis.trip.entities.forms.ProfileForm;
 
@@ -8,6 +9,7 @@ import java.io.IOException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+@Component
 public class ValidationServiceImpl implements ValidationService {
     @Override
     public void validateRegForm(ProfileForm form, HttpServletResponse response) {

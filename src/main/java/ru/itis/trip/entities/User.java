@@ -13,42 +13,39 @@ import java.util.List;
 @Builder
 @ToString(exclude = {"bookedTrips", "myComments", "requests", "myUserComments", "trips"})
 @EqualsAndHashCode(of = {"id", "hashedPassword", "username"})
-/*
-ФИО, адрес проживания, место работы, возраст, фото, дополнительная информация.
- */
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long id;
-    String username;
-    String email;
+    private Long id;
+    private String username;
+    private String email;
     @Column(name = "hash_password", length = 500)
-    String hashedPassword;
-    String name;
-    String lastname;
-    String middlename;
-    String address;
+    private String hashedPassword;
+    private String name;
+    private String lastname;
+    private String middlename;
+    private String address;
     @Column(name = "working_place")
-    String job;
-    Integer age;
-    String photo;   //path?
+    private String job;
+    private Integer age;
+    private String photo;
     @Column(name = "additional_info")
-    String additionalInfo;
+    private String additionalInfo;
     @Column(name = "token", length = 500)
-    String rememberMeToken;
+    private String rememberMeToken;
 
     @ManyToMany(mappedBy = "passangers")
-    List<Trip> bookedTrips;
+    private List<Trip> bookedTrips;
 
     @OneToMany(mappedBy = "commentator")
-    List<TripComment> myComments;
+    private List<TripComment> myComments;
     @OneToMany(mappedBy = "commentator")
-    List<UserComment> myUserComments;
+    private List<UserComment> myUserComments;
 
     @OneToMany(mappedBy = "iniciator")
-    List<Trip> trips;
+    private List<Trip> trips;
 
     @OneToMany(mappedBy = "user")
-    List<Request> requests;
+    private List<Request> requests;
 
 }

@@ -13,18 +13,18 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Builder
 public class UserCommentDto {
-    Long id;
-    UserDto commentator;
-    UserDto commentatee;
-    String text;
-    LocalDateTime date;
+    private Long id;
+    private UserDto commentator;
+    private UserDto commentatee;
+    private String text;
+    private LocalDateTime dateTime;
 
     public static UserCommentDto from(UserComment userComment) {
         return UserCommentDto.builder()
                 .id(userComment.getId())
                 .commentator(UserDto.from(userComment.getCommentator()))
                 .text(userComment.getText())
-                .date(userComment.getDate())
+                .dateTime(userComment.getDate())
                 .build();
     }
 }

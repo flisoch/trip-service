@@ -22,13 +22,13 @@ const validUsername = (id) => {
         username.reportValidity();
     } else {
         username.setCustomValidity('');
-        $.post('/check',{'username':username.value},function (data) {
+        $.post('/check', {'username': username.value}, function (data) {
             datat = data;
-            if($.isEmptyObject(data)){
+            if ($.isEmptyObject(data)) {
                 username.setCustomValidity('username is already taken');
                 username.reportValidity();
             }
-        },'JSON');
+        }, 'JSON');
     }
 
 };

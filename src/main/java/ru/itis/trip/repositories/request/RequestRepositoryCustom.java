@@ -1,7 +1,6 @@
-package ru.itis.trip.dao.request;
+package ru.itis.trip.repositories.request;
 
 import ru.itis.trip.entities.Request;
-import ru.itis.trip.entities.User;
 
 import java.util.List;
 

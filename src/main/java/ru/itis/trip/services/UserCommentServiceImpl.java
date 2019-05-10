@@ -2,26 +2,25 @@ package ru.itis.trip.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import ru.itis.trip.dao.comments.UserCommentDao;
-import ru.itis.trip.dao.user.UserDao;
 import ru.itis.trip.entities.User;
 import ru.itis.trip.entities.UserComment;
 import ru.itis.trip.entities.dto.UserCommentDto;
 import ru.itis.trip.entities.forms.UserCommentForm;
+import ru.itis.trip.repositories.comments.UserCommentJdbcRepository;
+import ru.itis.trip.repositories.user.UserDao;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
 public class UserCommentServiceImpl implements UserCommentService {
     @Autowired
-    UserDao userDao;
+    private UserDao userDao;
 
-    UserCommentDao commentDao;
+    private UserCommentJdbcRepository commentDao;
 
     @Autowired
-    public UserCommentServiceImpl(UserCommentDao commentDao) {
+    public UserCommentServiceImpl(UserCommentJdbcRepository commentDao) {
         this.commentDao = commentDao;
     }
 
@@ -31,10 +30,11 @@ public class UserCommentServiceImpl implements UserCommentService {
     }
 
     @Override
-    public UserCommentDto saveComment(UserCommentForm userComment, User commentator) {
-        Optional<User> commentatee = userDao.findById(userComment.getCommentateeId());
-        UserComment comment = UserComment.from(userComment);
-        comment.setCommentatee(commentatee.get());
+    public UserCommentDto saveComment(UserCommentForm userCommentForm, User commentator) {
+        User commentatee = userDao.findById(userCommentForm.getCommentateeId())
+                .orElseThrow(() -> new IllegalArgumentException("no user with such id"));
+        UserComment comment = UserComment.from(userCommentForm);
+        comment.setCommentatee(commentatee);
         comment.setCommentator(commentator);
         UserComment savedComment = commentDao.create(comment);
         return UserCommentDto.from(savedComment);

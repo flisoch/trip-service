@@ -1,13 +1,10 @@
 package ru.itis.trip.entities.forms;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 @Data
 public class UserCommentForm {
-    String text;
-    Long commentatorId;
-    Long commentateeId;
+    private String text;
+    private Long commentatorId;
+    private Long commentateeId;
 }

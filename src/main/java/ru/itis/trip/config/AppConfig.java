@@ -18,8 +18,6 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.view.JstlView;
 import org.springframework.web.servlet.view.UrlBasedViewResolver;
-import org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer;
-import org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver;
 
 import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
@@ -29,7 +27,7 @@ import java.util.Properties;
 
 @Configuration
 @EnableWebMvc
-@EnableJpaRepositories(basePackages = "ru.itis.trip.dao")
+@EnableJpaRepositories(basePackages = "ru.itis.trip.repositories")
 @EnableTransactionManagement
 @EnableAspectJAutoProxy
 @ComponentScan(value = "ru.itis.trip")
@@ -54,9 +52,9 @@ public class AppConfig {
     public DataSource dataSource() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
         dataSource.setDriverClassName(Objects.requireNonNull(environment.getProperty("driver.classname")));
-        dataSource.setUrl(environment.getProperty("driver.url"));
-        dataSource.setUsername(environment.getProperty("driver.username"));
-        dataSource.setPassword(environment.getProperty("driver.password"));
+        dataSource.setUrl(environment.getProperty("datasourse.url"));
+        dataSource.setUsername(environment.getProperty("datasourse.username"));
+        dataSource.setPassword(environment.getProperty("datasourse.password"));
         return dataSource;
     }
 
@@ -88,7 +86,6 @@ public class AppConfig {
     private Properties hibernateProperties() {
         Properties hibernateProperties = new Properties();
         String[] propsNames = {"hibernate.hbm2ddl.auto", "hibernate.dialect",
-//                "hibernate.show_sql", "hibernate.enable_lazy_load_no_trans"};
                 "hibernate.show_sql"};
         Arrays.stream(propsNames).forEach(propName ->
                 hibernateProperties.setProperty(propName,
@@ -101,6 +98,5 @@ public class AppConfig {
     public PlatformTransactionManager transactionManager(EntityManagerFactory emf) {
         return new JpaTransactionManager(emf);
     }
-
 
 }

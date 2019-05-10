@@ -34,12 +34,20 @@ public class TripBookingController {
         return ResponseEntity.ok().build();
     }
 
+    @DeleteMapping("/requests/{requestId}")
+    public ResponseEntity acceptOrDenyRequest(@PathVariable Long requestId,
+                                              HttpServletRequest request) {
+        tripService.deleteRequestById(requestId);
+        return ResponseEntity.ok().build();
+    }
+
     @PostMapping("/trips/{tripId}/requests")
     public ResponseEntity applyForATrip(@PathVariable Long tripId, HttpServletRequest request) {
         User user = userService.getCurrentUser(request);
         tripService.sendApply(tripId, user.getId());
         return ResponseEntity.ok().build();
     }
+
 
     @GetMapping("/requests")
     protected String requestsPage(ModelMap modelMap, HttpServletRequest request) {

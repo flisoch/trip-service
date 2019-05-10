@@ -1,14 +1,14 @@
-package ru.itis.trip.dao.trip;
+package ru.itis.trip.repositories.trip;
 
 import ru.itis.trip.entities.Trip;
-import ru.itis.trip.entities.User;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
 public interface TripRepositoryCustom {
-    List<Trip> findByIniciatorId(Long userId);
+
     List<Trip> getAllNotExpired();
+
     List<Trip> getBookedByUserId(Long userId);
 
     void addUserToTrip(Long passangerId, Long tripId);

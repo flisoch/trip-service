@@ -3,17 +3,16 @@ package ru.itis.trip.services;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.MultiValueMap;
-import ru.itis.trip.dao.comments.TripCommentDao;
-import ru.itis.trip.dao.request.RequestRepository;
-import ru.itis.trip.dao.trip.TripRepository;
-import ru.itis.trip.dao.user.UserDao;
 import ru.itis.trip.entities.*;
 import ru.itis.trip.entities.dto.RequestDto;
 import ru.itis.trip.entities.dto.TripCommentDto;
 import ru.itis.trip.entities.dto.TripDto;
 import ru.itis.trip.entities.dto.UserDto;
 import ru.itis.trip.entities.forms.TripForm;
+import ru.itis.trip.repositories.comments.TripCommentJdbcRepository;
+import ru.itis.trip.repositories.request.RequestRepository;
+import ru.itis.trip.repositories.trip.TripRepository;
+import ru.itis.trip.repositories.user.UserDao;
 
 import javax.persistence.EntityManager;
 import java.time.LocalDateTime;
@@ -23,32 +22,19 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
-@Transactional
 public class TripServiceImpl implements TripService {
     @Autowired
-    TripRepository tripRepository;
+    private TripRepository tripRepository;
     @Autowired
-    RequestRepository requestRepository;
+    private RequestRepository requestRepository;
     @Autowired
-    UserDao userDao;
-    @Autowired
-    TripCommentDao commentDao;
-    @Autowired
-    EntityManager entityManager;
+    private UserDao userDao;
 
     @Override
-    public List<TripDto> getAllTrips(User user) {
-        List<Trip> allNotExpired = tripRepository.getAllNotExpired();
-        return allNotExpired.stream().map(trip -> {
-            TripDto tripDto = TripDto.from(trip);
-            tripDto.setStatus(getTripStatusForUser(trip, user));
-            return tripDto;
-        }).collect(Collectors.toList());
-    }
-
-    @Override
+    @Transactional
     public TripDto getById(Long id, User user) {
-        Trip trip = tripRepository.findById(id).get();
+        Trip trip = tripRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("no trip sith such id"));
         TripDto tripDto = TripDto.from(trip);
         tripDto.setStatus(getTripStatusForUser(trip, user));
         tripDto.setPassangers(trip.getPassangers().stream().map(UserDto::from).collect(Collectors.toList()));
@@ -83,11 +69,10 @@ public class TripServiceImpl implements TripService {
         String seats = searchParameters.get("seats");
         String date = searchParameters.get("time_to");
         LocalDateTime dateTime;
-        if(date==null || date.equals("")){
+        if (date == null || date.equals("")) {
             dateTime = LocalDateTime.now();
-        }
-        else {
-            dateTime = LocalDateTime.parse(date) ;
+        } else {
+            dateTime = LocalDateTime.parse(date);
         }
         List<Trip> trips = tripRepository.getByParameters(departure, destination, seats, dateTime);
         return trips.stream().map(trip -> {
@@ -109,23 +94,26 @@ public class TripServiceImpl implements TripService {
     @Transactional
     public void updateTrip(TripForm tripForm, Long tripId, User user) {
         String action = tripForm.getAction();
-        Trip trip = tripRepository.findById(tripId).orElseThrow(()->new IllegalArgumentException("no trip with such id"));
-        if(action != null){
-            if(action.equals("cancelRequest")){
-                Optional<Request> any = trip.getTripRequests().stream().filter(request -> request.getUser().equals(user)).findAny();
-                any.ifPresent(requestRepository::delete);
+        Trip trip = tripRepository.findById(tripId).orElseThrow(() -> new IllegalArgumentException("no trip with such id"));
+        if (action != null) {
+            switch (action) {
+                case "cancelRequest":
+                    Optional<Request> anyRequest = trip.getTripRequests().stream().
+                            filter(request -> request.getUser().equals(user)).findAny();
+                    anyRequest.ifPresent(requestRepository::delete);
+                    break;
+                case "leaveTrip":
+                    trip.getPassangers().removeIf(u -> u.equals(user));
+                    break;
+                case "kickUser":
+                    User userToKick = userDao.findById(tripForm.getUserId())
+                            .orElseThrow(() -> new IllegalArgumentException("no user with such id"));
+                    trip.getPassangers().removeIf(u -> u.equals(userToKick));
+                    break;
+                default:
+                    throw new IllegalArgumentException("given action command is not found");
             }
-
-            else if(action.equals("leaveTrip")){
-                trip.getPassangers().removeIf(u -> u.equals(user));
-            }
-            else if(action.equals("kickUser")){
-                User userToKick = userDao.findById(tripForm.getUserId()).orElseThrow(()->new IllegalArgumentException("no user with such id"));
-                trip.getPassangers().removeIf(u -> u.equals(userToKick));
-            }
-            else throw new IllegalArgumentException("given action command not found");
-        }
-        else {
+        } else {
             trip = Trip.from(tripForm);
             trip.setIniciator(user);
         }
@@ -134,19 +122,17 @@ public class TripServiceImpl implements TripService {
 
     @Override
     public void sendApply(Long tripId, Long userId) {
-        Trip trip = tripRepository.findById(tripId).get();
-        User user = userDao.findById(userId).get();
+        Trip trip = tripRepository.findById(tripId)
+                .orElseThrow(() -> new IllegalArgumentException("no trip with such id"));
+        User user = userDao.findById(userId)
+                .orElseThrow(() -> new IllegalArgumentException("no user with such id"));
+        ;
         requestRepository.save(Request.builder().trip(trip).user(user).build());
     }
 
     @Override
     public List<RequestDto> getRequsets(User user) {
         return requestRepository.findByUserId(user.getId()).stream().map(RequestDto::from).collect(Collectors.toList());
-    }
-
-    @Override
-    public void deleteRequestById(Long id) {
-        requestRepository.deleteById(id);
     }
 
     @Override
@@ -157,14 +143,20 @@ public class TripServiceImpl implements TripService {
     @Override
     public void acceptOrDenyRequest(Long requestId, boolean accepted) {
         if (accepted) {
-            Request request = requestRepository.findById(requestId).get();
+            Request request = requestRepository.findById(requestId)
+                    .orElseThrow(() -> new IllegalArgumentException("no request with such id"));
             tripRepository.addUserToTrip(request.getUser().getId(), request.getTrip().getId());
         }
         requestRepository.deleteById(requestId);
     }
 
+    @Override
+    public void deleteRequestById(Long requestId) {
+        requestRepository.deleteById(requestId);
+    }
 
-    private TripStatus getTripStatusForUser(Trip trip, User user){
+    @Transactional
+    public TripStatus getTripStatusForUser(Trip trip, User user) {
         boolean wished = trip.getTripRequests().stream().anyMatch(request -> request.getUser().getId().equals(user.getId()));
         boolean booked = trip.getPassangers().contains(user);
         boolean my = trip.getIniciator().getId().equals(user.getId());

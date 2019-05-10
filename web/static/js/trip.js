@@ -19,7 +19,7 @@ const cancelRequest = (tripId) => {
     $.ajax({
         url: `/trips/${tripId}`,
         type: 'PUT',
-        contentType:"application/json",
+        contentType: "application/json",
         data: JSON.stringify({action: "cancelRequest"}),
         success: (data) => {
             let tripStatusElement = $(`#trip-${tripId}-status`);
@@ -36,11 +36,18 @@ const removeUserFromTrip = (tripId, userId) => {
     $.ajax({
         url: `/trips/${tripId}`,
         type: 'PUT',
-        contentType:"application/json",
-        data: JSON.stringify({action: "kickUser", userId:userId}),
+        contentType: "application/json",
+        data: JSON.stringify({action: "kickUser", userId: userId}),
         success: (data) => {
-            let passangerToRemove = $(`#passanger-${(passanger.id)}`);
-            passangerToRemove.empty();
+            let passangerToRemove = $(`#passanger-${userId}`);
+            passangerToRemove.remove();
+            let passangersContainer = $(`#passangers-container`);
+            if(passangersContainer[0].childElementCount == 1){
+                passangersContainer.append(`
+                <div>No passangers yet</div>
+                `)
+            }
+
         }
     });
 };
@@ -49,7 +56,7 @@ const leaveTrip = (tripId) => {
     $.ajax({
         url: `/trips/${tripId}`,
         type: 'PUT',
-        contentType:"application/json",
+        contentType: "application/json",
         data: JSON.stringify({action: "leaveTrip"}),
         success: (data) => {
             let tripStatusElement = $(`#trip-${tripId}-status`);
@@ -87,7 +94,7 @@ const sendComment = (tripId) => {
                     <div class="card-body text-secondary">
                         <h5 class="card-title">${data.text}</h5>
                         <p class="card-text">
-                            ${data.date}
+                            ${data.dateTime}
                         </p
                     </div>
                 </div>`
@@ -107,16 +114,18 @@ function submitTripChanges(id) {
     let destination = $("#destination").val();
     let seats = $("#seats").val();
     let date = $("#timeToInputField").val();
-    let jsonString = JSON.stringify({info: info,
+    let jsonString = JSON.stringify({
+        info: info,
         departure: departure,
         destination: destination,
-        seats:seats,
-        date:date});
+        seats: seats,
+        date: date
+    });
 
     $.ajax({
         url: `/trips/${id}`,
-        type:"PUT",
-        contentType:"application/json",
+        type: "PUT",
+        contentType: "application/json",
         data: jsonString,
         success: function (msg) {
             disable();
@@ -150,7 +159,7 @@ const deleteTripComment = (tripId, commentId) => {
         success: (data) => {
             comment.remove();
             let list = $(`#comments-container`);
-            if(list[0].childElementCount == 0){
+            if (list[0].childElementCount == 0) {
                 list.append(`
                     <div class="card mb-3" id="no_requests_from_me_card">
 

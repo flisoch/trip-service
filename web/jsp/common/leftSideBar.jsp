@@ -1,10 +1,4 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: flisoch
-  Date: 08.11.18
-  Time: 16:29
-  To change this template use File | Settings | File Templates.
---%>
+
 <!--Left SIDE BAR-->
 <div class="col-2">
     <div class="row  " id="sidebar">

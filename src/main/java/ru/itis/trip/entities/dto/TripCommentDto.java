@@ -5,7 +5,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import ru.itis.trip.entities.TripComment;
-import ru.itis.trip.entities.User;
 
 import java.time.LocalDateTime;
 
@@ -14,17 +13,17 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Builder
 public class TripCommentDto {
-    Long id;
-    User commentator;
-    String text;
-    LocalDateTime date;
+    private Long id;
+    private UserDto commentator;
+    private String text;
+    private LocalDateTime dateTime;
 
     public static TripCommentDto from(TripComment tripComment) {
         return TripCommentDto.builder()
                 .id(tripComment.getId())
-                .commentator(tripComment.getCommentator())
+                .commentator(UserDto.from(tripComment.getCommentator()))
                 .text(tripComment.getText())
-                .date(tripComment.getDate())
+                .dateTime(tripComment.getDate())
                 .build();
     }
 }

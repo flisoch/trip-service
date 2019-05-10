@@ -1,11 +1,11 @@
-package ru.itis.trip.dao.comments;
+package ru.itis.trip.repositories.comments;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
-import ru.itis.trip.dao.comments.TripCommentDao;
 import ru.itis.trip.entities.Trip;
 import ru.itis.trip.entities.TripComment;
 import ru.itis.trip.entities.User;
@@ -19,23 +19,18 @@ import java.util.Objects;
 import java.util.Optional;
 
 @Repository
-public class TripCommentDaoImpl implements TripCommentDao {
+public class TripCommentJdbcRepositoryImpl implements TripCommentJdbcRepository {
 
 
     private static final String SELECT_BY_ID_WITH_EMPTY_MODELS = "SELECT * FROM  comment_trip WHERE id = ?";
-
-    //language=SQL
     private static final String SELECT_BY_ID_WITH_USER = "SELECT c.id as comment_id,trip_id,commentator_id,text,datetime,username,photo as user_photo FROM  comment_trip AS c JOIN service_user AS u ON commentator_id = u.id WHERE trip_id = ?";
-
-    private static final String SELECT_BY_ID_WITH_TRIP = "SELECT * FROM  comment_trip c JOIN trip t ON c.trip_id = t.id WHERE c.id = ?";
     private static final String DELETE_QUERY = "DELETE FROM comment_trip WHERE id = ?";
     private static final String UPDATE_QUERY = "UPDATE  comment_trip SET trip_id = ?,commentator_id = ?,text = ?,dateTime = ? WHERE id = ?";
     private static final String CREATE_QUERY = "INSERT INTO comment_trip (trip_id,commentator_id,text,dateTime) VALUES (?,?,?,?)";
-    private static final String SELECT_COMMENTS_BY_TRIP_ID = "SELECT  * FROM  comment_trip WHERE  trip_id = ?";
 
-    JdbcTemplate jdbcTemplate;
+    private JdbcTemplate jdbcTemplate;
 
-    RowMapper<TripComment> tripCommentMapper = (resultSet, i) -> {
+    private RowMapper<TripComment> tripCommentMapper = (resultSet, i) -> {
         try {
 
             TripComment tripComment = TripComment.builder()
@@ -43,7 +38,7 @@ public class TripCommentDaoImpl implements TripCommentDao {
                     .trip(Trip.builder().id(resultSet.getLong("trip_id")).build())
                     .commentator(User.builder().id(resultSet.getLong("commentator_id")).build())
                     .text(resultSet.getString("text"))
-                    .date(resultSet.getTimestamp("date").toLocalDateTime())
+                    .date(resultSet.getTimestamp("dateTime").toLocalDateTime())
                     .build();
             return tripComment;
         } catch (SQLException e) {
@@ -51,7 +46,7 @@ public class TripCommentDaoImpl implements TripCommentDao {
         }
         return null;
     };
-    RowMapper<TripComment> tripWithUserCommentMapper = (resultSet, i) -> {
+    private RowMapper<TripComment> tripWithUserCommentMapper = (resultSet, i) -> {
         try {
 
             User user = User.builder()
@@ -64,7 +59,7 @@ public class TripCommentDaoImpl implements TripCommentDao {
                     .trip(Trip.builder().id(resultSet.getLong("trip_id")).build())
                     .commentator(user)
                     .text(resultSet.getString("text"))
-                    .date(resultSet.getTimestamp("date").toLocalDateTime())
+                    .date(resultSet.getTimestamp("dateTime").toLocalDateTime())
                     .build();
 
             return tripComment;
@@ -74,7 +69,8 @@ public class TripCommentDaoImpl implements TripCommentDao {
         return null;
     };
 
-    public TripCommentDaoImpl(DataSource dataSource) {
+    @Autowired
+    public TripCommentJdbcRepositoryImpl(DataSource dataSource) {
         this.jdbcTemplate = new JdbcTemplate(dataSource);
     }
 

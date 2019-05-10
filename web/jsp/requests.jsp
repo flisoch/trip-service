@@ -1,4 +1,4 @@
-    <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib prefix="t" tagdir="/WEB-INF/tags" %>
 
 <t:baseTemplate title="Requests">
@@ -48,9 +48,11 @@
                                             </h5>
 
                                             <button onclick="accept(${request.id})"
-                                                    class="btn btn-success">accept</button>
+                                                    class="btn btn-success">accept
+                                            </button>
                                             <button onclick="reject(${request.id})"
-                                                    class="btn btn-danger">reject</button>
+                                                    class="btn btn-danger">reject
+                                            </button>
                                         </div>
                                     </div>
                                  </c:forEach>
@@ -85,7 +87,8 @@
                                             </h5>
 
                                             <button onclick="cancel(${request.id})"
-                                                    class="btn btn-danger">Cancel</button>
+                                                    class="btn btn-danger">Cancel
+                                            </button>
                                         </div>
                                     </div>
                                  </c:forEach>

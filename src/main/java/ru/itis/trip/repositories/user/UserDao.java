@@ -1,4 +1,4 @@
-package ru.itis.trip.dao.user;
+package ru.itis.trip.repositories.user;
 
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;

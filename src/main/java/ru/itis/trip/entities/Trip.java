@@ -20,36 +20,36 @@ import java.util.List;
 public class Trip {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long id;
+    private Long id;
     @ManyToOne
     @JoinColumn(name = "initiator_id")
-    User iniciator;
+    private User iniciator;
     @Column(name = "departure_point")
-    String departurePoint;
+    private String departurePoint;
     @Column(name = "arrival_point")
-    String arrivalPoint;
+    private String arrivalPoint;
     @Column(name = "info")
-    String info;
+    private String info;
     @Column(name = "datetime")
     @Convert(converter = LocalDateTimeConverter.class)
-    LocalDateTime date;
+    private LocalDateTime date;
 
     @Column(name = "free_seats")
-    int freeSeats;
+    private int freeSeats;
     @Transient
-    boolean expired;
+    private boolean expired;
     @Transient
-    TripStatus status;
+    private TripStatus status;
 
     @ManyToMany
     @JoinTable(name = "booked_trip",
             joinColumns = @JoinColumn(name = "trip_id"),
             inverseJoinColumns = @JoinColumn(name = "user_id"))
-    List<User> passangers;
+    private List<User> passangers;
     @OneToMany(mappedBy = "trip")
-    List<TripComment> comments;
+    private List<TripComment> comments;
     @OneToMany(mappedBy = "trip")
-    List<Request> tripRequests;
+    private List<Request> tripRequests;
 
     public static Trip from(TripForm tripForm) {
         return Trip.builder()

@@ -1,4 +1,3 @@
-
 <%@taglib prefix="t" tagdir="/WEB-INF/tags" %>
 
 <t:baseTemplate title="New Trip">
@@ -23,7 +22,8 @@
                             <div class="form-group">
                                 <label for="destination">destination</label>
 
-                                <input type="text" name="destination" class="form-control" id="destination" placeholder="kazan"
+                                <input type="text" name="destination" class="form-control" id="destination"
+                                       placeholder="kazan"
                                        required>
 
                             </div>
@@ -31,7 +31,8 @@
                             <div class="form-group">
                                 <label for="seats">seats</label>
 
-                                <input type="number" name="seats" class="form-control" id="seats" placeholder="1" required>
+                                <input type="number" name="seats" class="form-control" id="seats" placeholder="1"
+                                       required>
 
                             </div>
 

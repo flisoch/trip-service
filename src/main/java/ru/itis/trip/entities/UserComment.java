@@ -20,17 +20,17 @@ import java.time.LocalDateTime;
 public class UserComment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long id;
+    private Long id;
     @ManyToOne
     @JoinColumn(name = "commentator_id")
-    User commentator;
+    private User commentator;
     @ManyToOne
     @JoinColumn(name = "commentatee_id")
-    User commentatee;
-    String text;
+    private User commentatee;
+    private String text;
     @Convert(converter = LocalDateTimeConverter.class)
     @Column(name = "datetime")
-    LocalDateTime date;
+    private LocalDateTime date;
 
     public static UserComment from(UserCommentForm userComment) {
         return UserComment.builder()

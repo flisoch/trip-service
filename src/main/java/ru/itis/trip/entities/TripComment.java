@@ -16,16 +16,16 @@ import java.time.LocalDateTime;
 public class TripComment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long id;
+    private Long id;
     @ManyToOne
     @JoinColumn(name = "commentator_id")
-    User commentator;
+    private User commentator;
     @ManyToOne
     @JoinColumn(name = "trip_id")
-    Trip trip;
-    String text;
+    private Trip trip;
+    private String text;
     @Convert(converter = LocalDateTimeConverter.class)
     @Column(name = "datetime")
-    LocalDateTime date;
+    private LocalDateTime date;
 
 }

@@ -1,4 +1,4 @@
-package ru.itis.trip.dao.comments;
+package ru.itis.trip.repositories.comments;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -6,7 +6,6 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
-import ru.itis.trip.dao.comments.UserCommentDao;
 import ru.itis.trip.entities.User;
 import ru.itis.trip.entities.UserComment;
 
@@ -19,7 +18,7 @@ import java.util.Objects;
 import java.util.Optional;
 
 @Repository
-public class UserCommentDaoImpl implements UserCommentDao {
+public class UserCommentJdbcRepositoryImpl implements UserCommentJdbcRepository {
 
     private static final String CREATE_QUERY = "INSERT INTO comment_user (commentatee_id,commentator_id,text,dateTime) VALUES (?,?,?,?)";
     private static final String UPDATE_QUERY = "UPDATE  comment_user SET VALUES (commentatee_id = ?,commentator_id = ?,text = ?,dateTime = ?) WHERE id = ?";
@@ -52,7 +51,7 @@ public class UserCommentDaoImpl implements UserCommentDao {
     private JdbcTemplate jdbcTemplate;
 
     @Autowired
-    public UserCommentDaoImpl(DataSource dataSource) {
+    public UserCommentJdbcRepositoryImpl(DataSource dataSource) {
         this.jdbcTemplate = new JdbcTemplate(dataSource);
     }
 

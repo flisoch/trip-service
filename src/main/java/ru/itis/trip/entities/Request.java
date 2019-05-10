@@ -14,11 +14,11 @@ import javax.persistence.*;
 public class Request {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long id;
+    private Long id;
     @ManyToOne
     @JoinColumn(name = "user_id")
-    User user;
+    private User user;
     @ManyToOne
     @JoinColumn(name = "trip_id")
-    Trip trip;
+    private Trip trip;
 }

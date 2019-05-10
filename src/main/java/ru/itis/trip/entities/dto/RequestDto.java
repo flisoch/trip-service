@@ -11,9 +11,9 @@ import ru.itis.trip.entities.Request;
 @NoArgsConstructor
 @AllArgsConstructor
 public class RequestDto {
-    Long id;
-    UserDto user;
-    TripDto trip;
+    private Long id;
+    private UserDto user;
+    private TripDto trip;
 
     public static RequestDto from(Request request) {
         return RequestDto.builder()

@@ -38,7 +38,7 @@ public class AuthAspect {
     )
     public Object authOnPost(ProceedingJoinPoint pjp, HttpServletRequest request) throws Throwable {
         User user = userService.getCurrentUser(request);
-        if (user == null){
+        if (user == null) {
             return "redirect:/auth";
         }
         return pjp.proceed(pjp.getArgs());
