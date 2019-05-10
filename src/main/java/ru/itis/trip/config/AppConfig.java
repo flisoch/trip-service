@@ -31,6 +31,7 @@ import java.util.Properties;
 @EnableWebMvc
 @EnableJpaRepositories(basePackages = "ru.itis.trip.dao")
 @EnableTransactionManagement
+@EnableAspectJAutoProxy
 @ComponentScan(value = "ru.itis.trip")
 @PropertySource("classpath:application.properties")
 @Import(WebAppInitializer.class)

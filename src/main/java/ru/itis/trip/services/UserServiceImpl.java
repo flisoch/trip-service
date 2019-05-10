@@ -57,6 +57,9 @@ public class UserServiceImpl implements UserService {
                             user = userDb.get();
                             request.getSession().setAttribute("current_user", user);
                         }
+                        else {
+                            return null;
+                        }
                     }
                 }
             }

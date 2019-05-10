@@ -7,9 +7,6 @@ import lombok.NoArgsConstructor;
 
 
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
-@Builder
 public class ProfileForm {
     String email;
     String password;

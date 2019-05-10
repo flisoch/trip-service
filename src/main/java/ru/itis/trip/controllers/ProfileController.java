@@ -45,16 +45,14 @@ public class ProfileController {
             comments.forEach(comment -> comment.setCommentatee(user.get()));
             modelMap.put("comments", comments);
             modelMap.put("profile", user.get());
-            modelMap.put("user", UserDto.from(userService.getCurrentUser(request)));
             return "profileById";
         }
     }
 
     @GetMapping("/profile")
-    public String profilePage(HttpServletRequest request, ModelMap modelMap) {
-        UserDto user = UserDto.from(userService.getCurrentUser(request));
+    public String profilePage(ModelMap modelMap, HttpServletRequest request) {
+        User user = userService.getCurrentUser(request);
         List<UserCommentDto> comments = userCommentService.getCommentsByUserId(user.getId());
-        modelMap.put("user", user);
         modelMap.put("comments", comments);
         return "MyProfile";
     }

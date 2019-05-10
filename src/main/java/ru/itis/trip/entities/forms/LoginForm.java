@@ -7,9 +7,6 @@ import lombok.NoArgsConstructor;
 
 
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
-@Builder
 public class LoginForm {
     private String username;
     private String email;

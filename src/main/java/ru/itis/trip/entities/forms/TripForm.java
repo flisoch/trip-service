@@ -10,9 +10,6 @@ import javax.validation.constraints.NotEmpty;
 import java.time.LocalDateTime;
 
 @Data
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
 public class TripForm {
     String destination;
     String departure;

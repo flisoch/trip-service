@@ -27,8 +27,10 @@ public class TripBookingController {
     UserService userService;
 
     @PutMapping("/requests/{requestId}")
-    public ResponseEntity acceptOrDenyRequest(@PathVariable Long requestId, @RequestBody RequestForm accepted) {
-        tripService.acceptOrDenyRequest(requestId, accepted.isAccepted());
+    public ResponseEntity acceptOrDenyRequest(@PathVariable Long requestId,
+                                              @RequestBody RequestForm requestForm,
+                                              HttpServletRequest request) {
+        tripService.acceptOrDenyRequest(requestId, requestForm.isAccepted());
         return ResponseEntity.ok().build();
     }
 
@@ -44,7 +46,6 @@ public class TripBookingController {
         User user = userService.getCurrentUser(request);
         List<RequestDto> requests = tripService.getRequsets(user);
 
-        modelMap.put("user", UserDto.from(user));
         modelMap.put("requests_to_me", requests.stream().filter(r -> r.getTrip().getIniciator().getId().equals(user.getId())).collect(Collectors.toList()));
         modelMap.put("requests_from_me", requests.stream().filter(r -> r.getUser().getId().equals(user.getId())).collect(Collectors.toList()));
         return "requests";
