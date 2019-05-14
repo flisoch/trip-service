@@ -68,7 +68,7 @@ public class TripRepositoryCustomImpl implements TripRepositoryCustom {
             query.append(" AND ");
         }
         if (date != null) {
-            query.append("t.dateTime >= :dateTime").append(" AND ");
+            query.append("t.date >= :date").append(" AND ");
         }
         query.append("free_seats > 0");
         trips = em.createQuery(query.toString(), Trip.class).setParameter("date", date).getResultList();
