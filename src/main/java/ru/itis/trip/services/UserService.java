@@ -1,10 +1,10 @@
 package ru.itis.trip.services;
 
 import ru.itis.trip.entities.User;
-import ru.itis.trip.entities.dto.UserDto;
-import ru.itis.trip.entities.forms.LoginForm;
-import ru.itis.trip.entities.forms.ProfileForm;
-import ru.itis.trip.entities.forms.RegistrationForm;
+import ru.itis.trip.dto.UserDto;
+import ru.itis.trip.forms.LoginForm;
+import ru.itis.trip.forms.ProfileForm;
+import ru.itis.trip.forms.RegistrationForm;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

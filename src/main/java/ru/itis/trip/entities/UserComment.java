@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import ru.itis.trip.entities.forms.UserCommentForm;
+import ru.itis.trip.forms.UserCommentForm;
 import ru.itis.trip.entities.util.LocalDateTimeConverter;
 
 import javax.persistence.*;

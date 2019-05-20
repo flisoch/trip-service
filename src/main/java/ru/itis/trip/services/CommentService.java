@@ -2,7 +2,7 @@ package ru.itis.trip.services;
 
 import ru.itis.trip.entities.Trip;
 import ru.itis.trip.entities.TripComment;
-import ru.itis.trip.entities.dto.TripCommentDto;
+import ru.itis.trip.dto.TripCommentDto;
 
 import java.util.List;
 

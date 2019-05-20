@@ -46,7 +46,10 @@
                                     <input name="time_to" type="datetime-local" class="form-control disable"
                                            id="timeToInputField" required
                                            value="${trip.date}" disabled>
-                                    <!--LocalDateTime.ofInstant(Instant.ofEpochMilli(trip.dateTime), ZoneId.systemDefault());-->
+                                    <script>
+                                        document.getElementById('timeToInputField').innerText
+                                            = new Date(${trip.date}).toISOString();
+                                    </script>
                                 </div>
                             </div>
 

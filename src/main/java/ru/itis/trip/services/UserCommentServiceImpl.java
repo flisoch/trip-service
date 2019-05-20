@@ -4,8 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.itis.trip.entities.User;
 import ru.itis.trip.entities.UserComment;
-import ru.itis.trip.entities.dto.UserCommentDto;
-import ru.itis.trip.entities.forms.UserCommentForm;
+import ru.itis.trip.dto.UserCommentDto;
+import ru.itis.trip.forms.UserCommentForm;
 import ru.itis.trip.repositories.comments.UserCommentJdbcRepository;
 import ru.itis.trip.repositories.user.UserDao;
 

@@ -1,4 +1,4 @@
-package ru.itis.trip.entities.dto;
+package ru.itis.trip.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -7,6 +7,8 @@ import lombok.NoArgsConstructor;
 import ru.itis.trip.entities.TripComment;
 
 import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZoneOffset;
 
 @Data
 @AllArgsConstructor
@@ -16,14 +18,15 @@ public class TripCommentDto {
     private Long id;
     private UserDto commentator;
     private String text;
-    private LocalDateTime dateTime;
+    private long dateTime;
 
     public static TripCommentDto from(TripComment tripComment) {
+        long epoch = tripComment.getDate().toInstant(ZoneOffset.UTC).toEpochMilli();
         return TripCommentDto.builder()
                 .id(tripComment.getId())
                 .commentator(UserDto.from(tripComment.getCommentator()))
                 .text(tripComment.getText())
-                .dateTime(tripComment.getDate())
+                .dateTime(epoch)
                 .build();
     }
 }

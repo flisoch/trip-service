@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.ui.ModelMap;
 import ru.itis.trip.entities.User;
-import ru.itis.trip.entities.dto.UserDto;
+import ru.itis.trip.dto.UserDto;
 import ru.itis.trip.services.UserService;
 
 import javax.servlet.http.HttpServletRequest;

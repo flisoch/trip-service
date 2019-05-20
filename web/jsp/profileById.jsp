@@ -112,10 +112,10 @@
                                                     <p class="card-text" id="comment_${comment.id}_text">
                                                             ${comment.dateTime}
                                                     </p>
-                                                        <%--<script>
+                                                        <script>
                                                             document.getElementById('comment_${comment.id}_text').innerText
                                                                 = formatDate(new Date(${comment.dateTime}));
-                                                        </script>--%>
+                                                        </script>
                                                 </div>
                                             </div>
                                          </c:forEach>

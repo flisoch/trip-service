@@ -1,4 +1,4 @@
-package ru.itis.trip.entities.dto;
+package ru.itis.trip.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

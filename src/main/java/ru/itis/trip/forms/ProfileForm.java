@@ -1,4 +1,4 @@
-package ru.itis.trip.entities.forms;
+package ru.itis.trip.forms;
 
 import lombok.Data;
 

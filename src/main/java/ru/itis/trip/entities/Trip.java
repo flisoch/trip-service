@@ -1,7 +1,7 @@
 package ru.itis.trip.entities;
 
 import lombok.*;
-import ru.itis.trip.entities.forms.TripForm;
+import ru.itis.trip.forms.TripForm;
 import ru.itis.trip.entities.util.LocalDateTimeConverter;
 
 import javax.persistence.*;

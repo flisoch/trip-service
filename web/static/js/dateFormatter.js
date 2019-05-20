@@ -1,6 +1,5 @@
 function formatDate(date) {
-    var diff = new Date() - date; // разница в миллисекундах
-
+    var diff = Date.now() - date; // разница в миллисекундах
     if (diff < 1000 && diff > 0) { // прошло менее 1 секунды
         return 'just now';
     }

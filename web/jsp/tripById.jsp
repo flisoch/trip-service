@@ -22,10 +22,10 @@
                             </p>
 
                             <p id="trip_${trip.id}_date">${trip.date}</p>
-                                <%--<script>
+                                <script>
                                     document.getElementById('trip_${trip.id}_date').innerText
-                                        = "Date: " + formatDate(new Date(${trip.dateTime}));
-                                </script>--%>
+                                        = "Date: " + formatDate(new Date(${trip.date}));
+                                </script>
 
                             <span id="trip-${trip.id}-status" class="col">
                                     <c:choose>

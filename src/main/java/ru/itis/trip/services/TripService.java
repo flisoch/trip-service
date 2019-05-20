@@ -2,9 +2,9 @@ package ru.itis.trip.services;
 
 import ru.itis.trip.entities.Trip;
 import ru.itis.trip.entities.User;
-import ru.itis.trip.entities.dto.RequestDto;
-import ru.itis.trip.entities.dto.TripDto;
-import ru.itis.trip.entities.forms.TripForm;
+import ru.itis.trip.dto.RequestDto;
+import ru.itis.trip.dto.TripDto;
+import ru.itis.trip.forms.TripForm;
 
 import java.util.List;
 import java.util.Map;

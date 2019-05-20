@@ -4,13 +4,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 import ru.itis.trip.entities.Trip;
 import ru.itis.trip.entities.TripComment;
 import ru.itis.trip.entities.User;
-import ru.itis.trip.entities.dto.TripDto;
-import ru.itis.trip.entities.forms.TripForm;
+import ru.itis.trip.dto.TripDto;
+import ru.itis.trip.forms.TripForm;
 import ru.itis.trip.services.CommentService;
 import ru.itis.trip.services.TripService;
 import ru.itis.trip.services.UserService;
@@ -97,8 +96,8 @@ public class TripsController {
     public String myTripsPage(ModelMap modelMap, HttpServletRequest request) {
         User user = userService.getCurrentUser(request);
         List<TripDto> trips = tripService.getTripsByUser(user);
-        modelMap.put("activeTrips", trips.stream().filter(trip -> trip.getDate().isAfter(LocalDateTime.now())).collect(Collectors.toList()));
-        modelMap.put("expiredTrips", trips.stream().filter(trip -> trip.getDate().isBefore(LocalDateTime.now())).collect(Collectors.toList()));
+        modelMap.put("activeTrips", trips.stream().filter(trip -> trip.getDate() > System.currentTimeMillis()).collect(Collectors.toList()));
+        modelMap.put("expiredTrips", trips.stream().filter(trip -> trip.getDate() < System.currentTimeMillis()).collect(Collectors.toList()));
         return "MyTrips";
     }
 

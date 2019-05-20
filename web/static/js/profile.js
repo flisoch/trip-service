@@ -59,7 +59,7 @@ const sendUserComment = (userId) => {
                     <div class="card-body text-secondary">
                         <h5 class="card-title">${data.text}</h5>
                         <p class="card-text">
-                            ${data.date}
+                             ${formatDate(new Date(data.dateTime))}
                         </p
                     </div>
                 </div>`

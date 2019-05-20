@@ -9,10 +9,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import ru.itis.trip.entities.User;
-import ru.itis.trip.entities.dto.UserCommentDto;
-import ru.itis.trip.entities.dto.UserDto;
-import ru.itis.trip.entities.forms.ProfileForm;
-import ru.itis.trip.entities.forms.UserCommentForm;
+import ru.itis.trip.dto.UserCommentDto;
+import ru.itis.trip.dto.UserDto;
+import ru.itis.trip.forms.ProfileForm;
+import ru.itis.trip.forms.UserCommentForm;
 import ru.itis.trip.services.UserCommentService;
 import ru.itis.trip.services.UserService;
 

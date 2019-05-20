@@ -5,11 +5,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
-import ru.itis.trip.entities.Request;
 import ru.itis.trip.entities.User;
-import ru.itis.trip.entities.dto.RequestDto;
-import ru.itis.trip.entities.dto.UserDto;
-import ru.itis.trip.entities.forms.RequestForm;
+import ru.itis.trip.dto.RequestDto;
+import ru.itis.trip.forms.RequestForm;
 import ru.itis.trip.services.TripService;
 import ru.itis.trip.services.UserService;
 

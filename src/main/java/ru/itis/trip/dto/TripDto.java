@@ -1,4 +1,4 @@
-package ru.itis.trip.entities.dto;
+package ru.itis.trip.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 import ru.itis.trip.entities.Trip;
 import ru.itis.trip.entities.TripStatus;
 
-import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.util.List;
 
 @Data
@@ -20,7 +20,7 @@ public class TripDto {
     private String departurePoint;
     private String arrivalPoint;
     private String info;
-    private LocalDateTime date;
+    private long date;
     private int freeSeats;
     private boolean expired;
     private TripStatus status;
@@ -29,13 +29,14 @@ public class TripDto {
     private List<TripCommentDto> comments;
 
     public static TripDto from(Trip trip) {
+        long epoch = trip.getDate().toInstant(ZoneOffset.UTC).toEpochMilli();
         return TripDto.builder()
                 .id(trip.getId())
                 .iniciator(UserDto.from(trip.getIniciator()))
                 .departurePoint(trip.getDeparturePoint())
                 .arrivalPoint(trip.getArrivalPoint())
                 .info(trip.getInfo())
-                .date(trip.getDate())
+                .date(epoch)
                 .freeSeats(trip.getFreeSeats())
                 .expired(trip.isExpired())
                 .build();

@@ -94,11 +94,12 @@ const sendComment = (tripId) => {
                     <div class="card-body text-secondary">
                         <h5 class="card-title">${data.text}</h5>
                         <p class="card-text">
-                            ${data.dateTime}
+                             ${formatDate(new Date(data.dateTime))}
                         </p
                     </div>
                 </div>`
             );
+            alert(data.dateTime);
             message.remove();
         },
 

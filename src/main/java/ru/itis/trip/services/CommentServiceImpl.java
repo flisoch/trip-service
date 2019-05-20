@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.itis.trip.entities.Trip;
 import ru.itis.trip.entities.TripComment;
-import ru.itis.trip.entities.dto.TripCommentDto;
+import ru.itis.trip.dto.TripCommentDto;
 import ru.itis.trip.repositories.comments.TripCommentJdbcRepository;
 
 import java.time.LocalDateTime;

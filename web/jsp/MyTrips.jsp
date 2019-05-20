@@ -45,8 +45,11 @@
                                                 </div>
                                                 <div class="col">
                                                     <p id="trip_${trip.id}_date">${trip.date}</p>
-
                                                 </div>
+                                                <script>
+                                                    document.getElementById('trip_${trip.id}_date').innerText
+                                                        = formatDate(new Date(${trip.date}));
+                                                </script>
 
                                             </div>
                                             <div class="row">
@@ -104,6 +107,10 @@
                                                 <div class="col">
                                                     <p id="trip_${trip.id}_date">${trip.date}</p>
                                                 </div>
+                                                <script>
+                                                    document.getElementById('trip_${trip.id}_date').innerText
+                                                        = formatDate(new Date(${trip.date}));
+                                                </script>
 
                                             </div>
                                             <div class="row">

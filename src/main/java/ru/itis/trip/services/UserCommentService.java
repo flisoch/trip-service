@@ -1,8 +1,8 @@
 package ru.itis.trip.services;
 
 import ru.itis.trip.entities.User;
-import ru.itis.trip.entities.dto.UserCommentDto;
-import ru.itis.trip.entities.forms.UserCommentForm;
+import ru.itis.trip.dto.UserCommentDto;
+import ru.itis.trip.forms.UserCommentForm;
 
 import java.util.List;
 

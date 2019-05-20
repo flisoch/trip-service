@@ -5,7 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import ru.itis.trip.entities.User;
-import ru.itis.trip.entities.forms.RegistrationForm;
+import ru.itis.trip.forms.RegistrationForm;
 import ru.itis.trip.services.UserService;
 
 import javax.servlet.http.HttpServletRequest;
