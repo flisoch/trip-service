@@ -1,38 +1,35 @@
 package ru.itis.trip.services;
 
-import ru.itis.trip.entities.Request;
 import ru.itis.trip.entities.Trip;
 import ru.itis.trip.entities.User;
+import ru.itis.trip.dto.RequestDto;
+import ru.itis.trip.dto.TripDto;
 import ru.itis.trip.forms.TripForm;
 
-import javax.servlet.http.HttpServletRequest;
-import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public interface TripService {
 
-    List<Trip> getAllTrips();
+    TripDto getById(Long id, User user);
 
-    Trip getById(Long id);
-    List<Trip> getTripsWithParameters(HttpServletRequest request);
+    List<TripDto> getTripsWithParameters(User user, Map<String, String> searchParameters);
 
-    void createTrip(Trip trip);
+    Trip createTrip(TripForm tripForm, User iniciator);
 
-    void updateTrip(HttpServletRequest request, TripForm tripForm);
+    void updateTrip(TripForm tripForm, Long tripId, User user);
 
     void sendApply(Long tripId, Long id);
 
-    HashMap<String, List<Request>> getRequsets(User user);
+    List<RequestDto> getRequsets(User user);
 
-    void rejectRequest(Long userId, Long tripId);
+    List<TripDto> getTripsByUser(User id);
 
-    void acceptRequest(Long userId, Long tripId);
-
-    HashMap<String, List<Trip>> getTripsByUser(User id);
-
-    List<Trip> getBookedByUser(User user);
-
-    void deleteRequestById(Long id);
+    List<TripDto> getBookedByUser(User user);
 
     void deleteTripById(Long id);
+
+    void acceptOrDenyRequest(Long requestId, boolean accepted);
+
+    void deleteRequestById(Long requestId);
 }

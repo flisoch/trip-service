@@ -1,15 +1,22 @@
 package ru.itis.trip.services;
 
-import ru.itis.trip.dao.TripCommentDao;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.itis.trip.entities.Trip;
 import ru.itis.trip.entities.TripComment;
+import ru.itis.trip.dto.TripCommentDto;
+import ru.itis.trip.repositories.comments.TripCommentJdbcRepository;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
+@Service
 public class CommentServiceImpl implements CommentService {
-    TripCommentDao tripCommentDao;
+    private TripCommentJdbcRepository tripCommentDao;
 
-    public CommentServiceImpl(TripCommentDao tripCommentDao) {
+    @Autowired
+    public CommentServiceImpl(TripCommentJdbcRepository tripCommentDao) {
         this.tripCommentDao = tripCommentDao;
     }
 
@@ -24,7 +31,9 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public void saveComment(TripComment tripComment) {
-        tripCommentDao.create(tripComment);
+    @Transactional
+    public TripCommentDto saveComment(TripComment tripComment) {
+        tripComment.setDate(LocalDateTime.now());
+        return TripCommentDto.from(tripCommentDao.create(tripComment));
     }
 }

@@ -1,22 +1,29 @@
 package ru.itis.trip.services;
 
 import ru.itis.trip.entities.User;
+import ru.itis.trip.dto.UserDto;
 import ru.itis.trip.forms.LoginForm;
 import ru.itis.trip.forms.ProfileForm;
+import ru.itis.trip.forms.RegistrationForm;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.Optional;
 
 public interface UserService {
-    User signUp(ProfileForm profileForm);
+    Optional<User> signUp(RegistrationForm registrationForm);
     User getCurrentUser(HttpServletRequest request);
-    User signIn(LoginForm loginForm);
+    Optional<User> signIn(LoginForm loginForm);
 
-    void authorize(User current_user, HttpServletRequest request, HttpServletResponse response);
+    void authorize(User current_user, HttpServletRequest request);
+
+    void remember(User current_user, HttpServletResponse response);
 
     void updateUser(User user, ProfileForm profileForm);
 
-    User getUserById(Long id);
+    Optional<UserDto> getUserById(Long id);
 
     User getUserByUsername(String username);
+
+    void deleteRememberMeCookie(HttpServletRequest request, HttpServletResponse response);
 }

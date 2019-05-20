@@ -1,4 +1,4 @@
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib prefix="t" tagdir="/WEB-INF/tags" %>
 <t:baseTemplate title="My Trips">
 
@@ -44,12 +44,12 @@
                                                     <p>From: ${trip.departurePoint}</p>
                                                 </div>
                                                 <div class="col">
-                                                    <p id="trip_${trip.id}_date"></p>
-                                                    <script>
-                                                        document.getElementById('trip_${trip.id}_date').innerText
-                                                            = "Date: " + formatDate(new Date(${trip.date}));
-                                                    </script>
+                                                    <p id="trip_${trip.id}_date">${trip.date}</p>
                                                 </div>
+                                                <script>
+                                                    document.getElementById('trip_${trip.id}_date').innerText
+                                                        = formatDate(new Date(${trip.date}));
+                                                </script>
 
                                             </div>
                                             <div class="row">
@@ -64,10 +64,12 @@
                                             <div class="row">
 
                                                 <div class="col">
-                                                    <span class="btn btn-xs btn-primary" onclick="location.href='/trips/${trip.id}/edit';event.stopPropagation();">
+                                                    <span class="btn btn-xs btn-primary"
+                                                          onclick="location.href='/trips/${trip.id}/edit';event.stopPropagation();">
                                                         Edit
                                                     </span>
-                                                    <span class="btn btn-xs btn-danger" onclick="deleteTrip(${trip.id});event.stopPropagation();">
+                                                    <span class="btn btn-xs btn-danger"
+                                                          onclick="deleteTrip(${trip.id});event.stopPropagation();">
                                                         Remove
                                                     </span>
                                                 </div>
@@ -79,7 +81,7 @@
                             </c:otherwise>
                         </c:choose>
 
-                        <%--<c:if test="${activeTrips}"></c:if>--%>
+                            <%--<c:if test="${activeTrips}"></c:if>--%>
                     </div>
 
                     <div id="expired" class="container tab-pane">
@@ -103,12 +105,12 @@
                                                     <p>From: ${trip.departurePoint}</p>
                                                 </div>
                                                 <div class="col">
-                                                    <p id="trip_${trip.id}_date"></p>
-                                                    <script>
-                                                        document.getElementById('trip_${trip.id}_date').innerText
-                                                            = "Date: " + formatDate(new Date(${trip.date}));
-                                                    </script>
+                                                    <p id="trip_${trip.id}_date">${trip.date}</p>
                                                 </div>
+                                                <script>
+                                                    document.getElementById('trip_${trip.id}_date').innerText
+                                                        = formatDate(new Date(${trip.date}));
+                                                </script>
 
                                             </div>
                                             <div class="row">
@@ -123,7 +125,8 @@
                                             <div class="row">
 
                                                 <div class="col">
-                                                    <span class="btn btn-xs btn-danger" onclick="deleteTrip(${trip.id});event.stopPropagation();">
+                                                    <span class="btn btn-xs btn-danger"
+                                                          onclick="deleteTrip(${trip.id});event.stopPropagation();">
                                                         Remove
                                                     </span>
                                                 </div>

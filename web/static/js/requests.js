@@ -1,18 +1,16 @@
-const accept = (tripId, userId, requestId) => {
+const accept = (requestId) => {
     let requestCard = $(`#request_${requestId}`);
-
+    let jsonString = JSON.stringify({accepted: true});
     $.ajax({
-        url: `/requests/accept`,
-        type: 'POST',
-        data: {
-            'trip_id': tripId,
-            'user_id': userId,
-        },
+        url: `/requests/${requestId}`,
+        contentType: 'application/json',
+        type: 'PUT',
+        data: jsonString,
 
         success: (data) => {
             requestCard.remove();
             let list = $(`#requests-to-me-container`);
-            if(list[0].childElementCount == 0){
+            if (list[0].childElementCount == 0) {
                 list.append(`
                     <div class="card mb-3" id="no_requests_from_me_card">
 
@@ -25,26 +23,25 @@ const accept = (tripId, userId, requestId) => {
                 `);
             }
         },
-        error:(data) => {
+        error: (data) => {
             alert("error, you already sent the request!");
         }
     });
 };
 
-const reject = (tripId, userId, requestId) => {
+const reject = (requestId) => {
     let requestCard = $(`#request_${requestId}`);
+    let jsonString = JSON.stringify({accepted: false});
     $.ajax({
-        url: `/requests/reject`,
-        type: 'POST',
-        data: {
-            'trip_id': tripId,
-            'user_id': userId,
-        },
+        url: `/requests/${requestId}`,
+        contentType: 'application/json',
+        type: 'PUT',
+        data: jsonString,
         success: (data) => {
             requestCard.remove();
 
             let list = $(`#requests-to-me-container`);
-            if(list[0].childElementCount == 0){
+            if (list[0].childElementCount == 0) {
                 list.append(`
                     <div class="card mb-3" id="no_requests_from_me_card">
 
@@ -63,15 +60,15 @@ const reject = (tripId, userId, requestId) => {
 const cancel = (requestId) => {
     let requestCard = $(`#request_${requestId}`);
     $.ajax({
-        url: `/profile/requests`,
-        type: 'POST',
+        url: `/requests/${requestId}`,
+        type: 'DELETE',
         data: {
             'request_id': requestId,
         },
         success: (data) => {
             requestCard.remove();
             let list = $(`#requests-container`);
-            if(list[0].childElementCount == 0){
+            if (list[0].childElementCount == 0) {
                 list.append(`
                     <div class="card mb-3" id="no_requests_from_me_card">
 

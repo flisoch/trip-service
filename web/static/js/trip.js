@@ -1,9 +1,71 @@
 const apply = (tripId) => {
     $.ajax({
-        url: `/trips/${tripId}/apply`,
+        url: `/trips/${tripId}/requests`,
         type: 'POST',
         success: (data) => {
-            alert('aplly sent!');
+            let tripStatusElement = $(`#trip-${tripId}-status`);
+            tripStatusElement.empty();
+            tripStatusElement.append(`
+                <div>Status: Request sent</div>
+                    <div class="btn btn-xs btn-danger" onclick="cancelRequest(${tripId});event.stopPropagation();">
+                        Cancel request
+                    </div>
+            `)
+        }
+    });
+};
+
+const cancelRequest = (tripId) => {
+    $.ajax({
+        url: `/trips/${tripId}`,
+        type: 'PUT',
+        contentType: "application/json",
+        data: JSON.stringify({action: "cancelRequest"}),
+        success: (data) => {
+            let tripStatusElement = $(`#trip-${tripId}-status`);
+            tripStatusElement.empty();
+            tripStatusElement.append(`
+             <div class="btn btn-xs btn-primary" onclick="apply(${tripId});event.stopPropagation();">
+                Apply
+             </div>
+            `)
+        }
+    });
+};
+const removeUserFromTrip = (tripId, userId) => {
+    $.ajax({
+        url: `/trips/${tripId}`,
+        type: 'PUT',
+        contentType: "application/json",
+        data: JSON.stringify({action: "kickUser", userId: userId}),
+        success: (data) => {
+            let passangerToRemove = $(`#passanger-${userId}`);
+            passangerToRemove.remove();
+            let passangersContainer = $(`#passangers-container`);
+            if(passangersContainer[0].childElementCount == 1){
+                passangersContainer.append(`
+                <div>No passangers yet</div>
+                `)
+            }
+
+        }
+    });
+};
+
+const leaveTrip = (tripId) => {
+    $.ajax({
+        url: `/trips/${tripId}`,
+        type: 'PUT',
+        contentType: "application/json",
+        data: JSON.stringify({action: "leaveTrip"}),
+        success: (data) => {
+            let tripStatusElement = $(`#trip-${tripId}-status`);
+            tripStatusElement.empty();
+            tripStatusElement.append(`
+             <div class="btn btn-xs btn-primary" onclick="apply(${tripId});event.stopPropagation();">
+                Apply
+             </div>
+            `)
         }
     });
 };
@@ -32,11 +94,12 @@ const sendComment = (tripId) => {
                     <div class="card-body text-secondary">
                         <h5 class="card-title">${data.text}</h5>
                         <p class="card-text">
-                            ${formatDate(new Date(data.date))}
+                             ${formatDate(new Date(data.dateTime))}
                         </p
                     </div>
                 </div>`
             );
+            alert(data.dateTime);
             message.remove();
         },
 
@@ -52,22 +115,23 @@ function submitTripChanges(id) {
     let destination = $("#destination").val();
     let seats = $("#seats").val();
     let date = $("#timeToInputField").val();
+    let jsonString = JSON.stringify({
+        info: info,
+        departure: departure,
+        destination: destination,
+        seats: seats,
+        date: date
+    });
 
     $.ajax({
-        url: `/trips/${id}/edit`,
-        type:"POST",
-        data: {
-            "info": info,
-            "departure": departure,
-            "destination": destination,
-            "seats":seats,
-            "date":date,
-        },
+        url: `/trips/${id}`,
+        type: "PUT",
+        contentType: "application/json",
+        data: jsonString,
         success: function (msg) {
-            alert("successfully updated");
+            disable();
         },
         error: function (msg) {
-            alert(2);
         }
     });
 }
@@ -77,7 +141,7 @@ const deleteTrip = (tripId) => {
 
     $.ajax({
         url: `/trips/${tripId}`,
-        type: 'POST',
+        type: 'DELETE',
         success: (data) => {
             trip.remove();
         },
@@ -90,17 +154,13 @@ const deleteTrip = (tripId) => {
 
 const deleteTripComment = (tripId, commentId) => {
     let comment = $(`#comment_${commentId}`);
-
     $.ajax({
-        url: `/trips/${tripId}/comments`,
+        url: `/trips/${tripId}/comments/${commentId}`,
         type: 'POST',
-        data: {
-            "comment_id": commentId,
-        },
         success: (data) => {
             comment.remove();
             let list = $(`#comments-container`);
-            if(list[0].childElementCount == 0){
+            if (list[0].childElementCount == 0) {
                 list.append(`
                     <div class="card mb-3" id="no_requests_from_me_card">
 

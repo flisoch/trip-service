@@ -1,4 +1,4 @@
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <!-- NAVBAR -->
 <div class="container fixed-top">
@@ -28,34 +28,35 @@
 
 
                 <ul class="navbar-nav ">
-                <c:choose>
+                    <c:choose>
 
-                    <c:when test="${empty user}">
-                        <li class="nav-item">
-                            <a class="nav-link" href="/auth">Sign in</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="/registration">Sign up</a>
-                        </li>
-                    </c:when>
+                        <c:when test="${empty user}">
+                            <li class="nav-item">
+                                <a class="nav-link" href="/auth">Sign in</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/registration">Sign up</a>
+                            </li>
+                        </c:when>
 
-                    <c:otherwise>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
-                               aria-haspopup="true" aria-expanded="false">
-                                ${user.username}
-                            </a>
-                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <a class="dropdown-item" href="/profile">Profile</a>
-                                <a class="dropdown-item" href="/profile/trips">My trips</a>
-                                <a class="dropdown-item" href="/profile/booked">Booked trips</a>
-                                <a class="dropdown-item" href="/profile/requests">Requests</a>
-                                <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="/logout">Log out</a>
-                            </div>
-                        </li>
-                    </c:otherwise>
-                </c:choose>
+                        <c:otherwise>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                                   data-toggle="dropdown"
+                                   aria-haspopup="true" aria-expanded="false">
+                                        ${user.username}
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    <a class="dropdown-item" href="/profile">Profile</a>
+                                    <a class="dropdown-item" href="/trips">My trips</a>
+                                    <a class="dropdown-item" href="/trips/booked">Booked trips</a>
+                                    <a class="dropdown-item" href="/requests">Requests</a>
+                                    <div class="dropdown-divider"></div>
+                                    <a class="dropdown-item" href="/logout">Log out</a>
+                                </div>
+                            </li>
+                        </c:otherwise>
+                    </c:choose>
 
                 </ul>
 

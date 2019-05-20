@@ -1,21 +1,17 @@
 package ru.itis.trip.forms;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.NotEmpty;
 
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
-@Builder
 public class TripForm {
-
-    String departurePoint;
-    String arrivalPoint;
-    String date;
-    String info;
-    int seatsNumber;
-
+    private String destination;
+    private String departure;
+    private String info;
+    private Integer seats;
+    @NotEmpty(message = "new trip must have LocalDateTime dateTime")
+    private String date;
+    private String action;
+    private Long userId;
 }

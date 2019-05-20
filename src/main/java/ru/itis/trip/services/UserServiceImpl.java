@@ -1,10 +1,14 @@
 package ru.itis.trip.services;
 
 
-import ru.itis.trip.dao.UserDao;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import ru.itis.trip.entities.User;
+import ru.itis.trip.dto.UserDto;
 import ru.itis.trip.forms.LoginForm;
 import ru.itis.trip.forms.ProfileForm;
+import ru.itis.trip.forms.RegistrationForm;
+import ru.itis.trip.repositories.user.UserDao;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -17,39 +21,43 @@ import java.security.NoSuchAlgorithmException;
 import java.util.Date;
 import java.util.Optional;
 
+@Service
 public class UserServiceImpl implements UserService {
 
+    private static final String DEFAULT_PHOTO = "/static/pictures/default.png";
     private UserDao userDao;
 
+    @Autowired
     public UserServiceImpl(UserDao userDao) {
         this.userDao = userDao;
     }
 
     @Override
-    public User signUp(ProfileForm profileForm) {
+    public Optional<User> signUp(RegistrationForm registrationForm) {
         User user = User.builder()
-                .email(profileForm.getEmail())
-                .hashedPassword(hash(profileForm.getPassword()))
-                .username(profileForm.getUsername())
+                .email(registrationForm.getEmail())
+                .hashedPassword(hash(registrationForm.getPassword()))
+                .username(registrationForm.getUsername())
+                .photo(DEFAULT_PHOTO)
                 .build();
-        if(userDao.create(user)){
-            return user;
-        }
-        return null;
+        User userCandidate = userDao.save(user);
+        return Optional.ofNullable(userCandidate);
     }
 
     @Override
     public User getCurrentUser(HttpServletRequest request) {
-        User user = (User)request.getSession().getAttribute("current_user");
-        if(user == null){
+        User user = (User) request.getSession().getAttribute("current_user");
+        if (user == null) {
             Cookie[] cookies = request.getCookies();
-            if(cookies != null){
-                for (Cookie cookie: cookies){
-                    if(cookie.getName().equals("remember_me")){
-                        Optional<User> userDb = userDao.getByToken(cookie.getValue());
-                        if(userDb.isPresent()){
+            if (cookies != null) {
+                for (Cookie cookie : cookies) {
+                    if (cookie.getName().equals("remember_me")) {
+                        Optional<User> userDb = userDao.findByRememberMeToken(cookie.getValue());
+                        if (userDb.isPresent()) {
                             user = userDb.get();
                             request.getSession().setAttribute("current_user", user);
+                        } else {
+                            return null;
                         }
                     }
                 }
@@ -60,31 +68,33 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User signIn(LoginForm loginForm) {
+    public Optional<User> signIn(LoginForm loginForm) {
 
-        User user = userDao.getByUsername(loginForm.getUsername()).orElse(null);
+        User user = userDao.findByUsername(loginForm.getUsername()).orElse(null);
 
         if (user != null && user.getHashedPassword().equals(hash(loginForm.getPassword()))) {
-            return user;
+            return Optional.of(user);
         }
 
-        return null;
+        return Optional.empty();
     }
 
     @Override
-    public void authorize(User current_user, HttpServletRequest request, HttpServletResponse response) {
+    public void authorize(User current_user, HttpServletRequest request) {
 
-        request.getSession().setAttribute("current_user",current_user);
+        request.getSession().setAttribute("current_user", current_user);
 
-        if(request.getParameter("remember_me") != null) {
-            addToken(current_user, response);
-        }
+    }
+
+    @Override
+    public void remember(User current_user, HttpServletResponse response) {
+        addToken(current_user, response);
     }
 
     @Override
     public void updateUser(User user, ProfileForm profileForm) {
         String password = profileForm.getPassword();
-        if(!password.equals("")){
+        if (!password.equals("")) {
             user.setHashedPassword(hash(password));
         }
         user.setAddress(profileForm.getAddress());
@@ -95,18 +105,18 @@ public class UserServiceImpl implements UserService {
         user.setJob(profileForm.getJob());
         user.setAdditionalInfo(profileForm.getAdditionalInfo());
         user.setName(profileForm.getName());
-        userDao.update(user);
+        userDao.save(user);
     }
 
     @Override
     public User getUserByUsername(String username) {
-        return userDao.getByUsername(username).orElse(null);
+        return userDao.findByUsername(username).orElse(null);
     }
 
     @Override
-    public User getUserById(Long id) {
-        Optional<User> user = userDao.read(id);
-        return user.orElse(null);
+    public Optional<UserDto> getUserById(Long id) {
+        Optional<User> user = userDao.findById(id);
+        return user.map(UserDto::from);
     }
 
     private String createToken(String username) {
@@ -128,7 +138,7 @@ public class UserServiceImpl implements UserService {
 
 //        return new String(hashedWord, StandardCharsets.US_ASCII).replaceAll("\u0000", "");
         try {
-            return URLEncoder.encode(new String(hashedWord,StandardCharsets.US_ASCII), "UTF-8");
+            return URLEncoder.encode(new String(hashedWord, StandardCharsets.US_ASCII), "UTF-8");
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
             return "";
@@ -138,8 +148,21 @@ public class UserServiceImpl implements UserService {
     private void addToken(User user, HttpServletResponse response) {
         String token = createToken(user.getUsername());
         Cookie cookie = new Cookie("remember_me", token);
-        cookie.setMaxAge(24*60*60);
+        cookie.setMaxAge(24 * 60 * 60);
         response.addCookie(cookie);
-        userDao.addToken(user, token);
+        user.setRememberMeToken(token);
+        userDao.save(user);
+    }
+
+    public void deleteRememberMeCookie(HttpServletRequest request, HttpServletResponse response) {
+
+        for (Cookie cookie : request.getCookies()) {
+
+            if (cookie.getName().equals("remember_me")) {
+
+                cookie.setMaxAge(0);
+                response.addCookie(cookie);
+            }
+        }
     }
 }

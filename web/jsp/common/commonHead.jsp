@@ -1,10 +1,3 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: flisoch
-  Date: 08.11.18
-  Time: 16:51
-  To change this template use File | Settings | File Templates.
---%>
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">

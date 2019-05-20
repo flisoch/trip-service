@@ -4,24 +4,22 @@ const enable = () => {
 const disable = () => {
     $('.disable').prop('disabled', true);
 }
-// $('.disable').prop('disabled', true);
-
 
 function submitChanges() {
 
     $.ajax({
         url: "/profile/edit",
-        type:'POST',
+        type: 'POST',
         data: {
-                "username": $("#username").val(),
-                "password": $("#password").val(),
-                "name": $("#firstname").val(),
-                "middlename": $("#middlename").val(),
-                "lastname": $("#lastname").val(),
-                "job": $("#working-place").val(),
-                "address": $("#inputAddress").val(),
-                "bio": $("#bio").val(),
-                "age": $("#age").val()
+            "username": $("#username").val(),
+            "password": $("#password").val(),
+            "name": $("#firstname").val(),
+            "middlename": $("#middlename").val(),
+            "lastname": $("#lastname").val(),
+            "job": $("#working-place").val(),
+            "address": $("#inputAddress").val(),
+            "bio": $("#info").val(),
+            "age": $("#age").val()
         },
         success: function (msg) {
             /*var lst = $("#found-list");
@@ -37,6 +35,7 @@ function submitChanges() {
     });
     disable();
 }
+
 const sendUserComment = (userId) => {
     let text = $("#comment-text").val();
 
@@ -60,7 +59,7 @@ const sendUserComment = (userId) => {
                     <div class="card-body text-secondary">
                         <h5 class="card-title">${data.text}</h5>
                         <p class="card-text">
-                            ${formatDate(new Date(data.date))}
+                             ${formatDate(new Date(data.dateTime))}
                         </p
                     </div>
                 </div>`
@@ -76,15 +75,12 @@ const deleteUserComment = (userId, commentId) => {
     let comment = $(`#comment_${commentId}`);
 
     $.ajax({
-        url: `/profile/${userId}/comments`,
+        url: `/profile/${userId}/comments/${commentId}`,
         type: 'POST',
-        data: {
-            "comment_id": commentId,
-        },
         success: (data) => {
             comment.remove();
             let list = $(`#comments-container`);
-            if(list[0].childElementCount == 0){
+            if (list[0].childElementCount == 0) {
                 list.append(`
                     <div id="no_comments_card">
                         <div class="card mb-3" id="no_requests_from_me_card">
