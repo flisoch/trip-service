@@ -12,7 +12,7 @@
         <java.version>1.8</java.version>
         <spring.version>5.1.5.RELEASE</spring.version>
         <freemarker.version>2.3.23</freemarker.version>
-        <hibernate.version>5.4.1.Final</hibernate.version>
+        <hibernate.version>5.4.24.Final</hibernate.version>
     </properties>
 
 
